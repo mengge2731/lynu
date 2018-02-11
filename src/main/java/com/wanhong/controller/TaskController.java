@@ -31,10 +31,10 @@ public class TaskController {
     @ResponseBody
     public ResultJson<Page<List<UserInfo>>> getPageData(String body, Long userId){
         UserInfo userInfo = new UserInfo();
-        userInfo.setMsgCode("我是msgCode");
+        userInfo.setMsg("我是msgCode");
         userInfo.setNickName("jhahha");
         userInfo.setUserId(234738495345L);
-        userInfo.setCreateDate(new Date());
+        userInfo.setCreateTime(new Date());
         UserInfo userInfo1 = new UserInfo();
         UserInfo userInfo2 = new UserInfo();
         UserInfo userInfo3 = new UserInfo();

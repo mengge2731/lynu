@@ -1,8 +1,12 @@
 package com.wanhong.service.impl;
 
 import com.wanhong.dao.UserInfoDao;
+import com.wanhong.domain.UserInfo;
+import com.wanhong.domain.common.Page;
 import com.wanhong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @author wangmeng247
@@ -11,4 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserServiceImpl implements UserService{
     @Autowired
     UserInfoDao userInfoDao;
+
+    @Override
+    public List<UserInfo> getUserInfoList() {
+        return null;
+    }
+
+    @Override
+    public Page<List<UserInfo>> getUserInfoByPage(Integer index) {
+        return null;
+    }
 }
