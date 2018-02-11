@@ -1,6 +1,3 @@
-# Compiled class file
-*.class
-
 # Log file
 *.log
 
@@ -20,7 +17,9 @@
 
 *.iml
 .idea/
-*/target
+target/
+*/target/
+target/*
 .project
 .metadata/
 *.class

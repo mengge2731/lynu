@@ -26,6 +26,10 @@
     <bean id="springContextUtil" class="com.wanhong.common.spring.SpringContextUtil" lazy-init="false"></bean>
 
 
+    <import resource="spring-config-datasource.xml" />
+    <import resource="spring-config-dao.xml" />
     <import resource="spring-mvc.xml" />
+
+    <import resource="spring-service.xml" />
 
 </beans>

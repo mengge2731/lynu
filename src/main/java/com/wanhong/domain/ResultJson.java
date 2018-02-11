@@ -15,12 +15,12 @@ public class ResultJson<T> {
 
     public ResultJson(BusinessCode businessCode) {
         this.code = businessCode.getStringCode();
-        this.msg = businessCode.getMsg();
+        this.msg = businessCode.getDescription();
     }
 
     public ResultJson(BusinessCode businessCode,T data) {
         this.code = businessCode.getStringCode();
-        this.msg = businessCode.getMsg();
+        this.msg = businessCode.getDescription();
         this.data = data;
     }
 

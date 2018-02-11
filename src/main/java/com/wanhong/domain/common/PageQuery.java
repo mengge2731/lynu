@@ -2,9 +2,9 @@ package com.wanhong.domain.common;
 
 /**
  * @author wangmeng247
- * @date 2018-02-09 16:25
+ * @date 2018-02-11 14:07
  */
-public class Page<T>{
+public class PageQuery extends Query {
     public static final int DEFAULT_PAGESIZE = 10;
     private int pageSize;
     private int index;
@@ -12,9 +12,8 @@ public class Page<T>{
     private int totalPage;
     private int startRow;
     private int endRow;
-    private T data;
-    public Page(T data) {
-        this.data = data;
+
+    public PageQuery() {
     }
 
     public boolean isFirstPage() {
@@ -47,10 +46,6 @@ public class Page<T>{
 
     public int getPageSize() {
         return this.pageSize;
-    }
-
-    public T getData(){
-        return this.data;
     }
 
     public void setPageSize(int pageSize) {
@@ -113,4 +108,5 @@ public class Page<T>{
         }
 
     }
+
 }
