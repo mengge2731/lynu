@@ -20,7 +20,7 @@
 
 *.iml
 .idea/
-*/target
+target/
 .project
 .metadata/
 *.class
