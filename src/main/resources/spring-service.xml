@@ -5,6 +5,6 @@
 
 
 
-
+<bean id="userService" class="com.wanhong.service.impl.UserServiceImpl" />
 
 </beans>

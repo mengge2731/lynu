@@ -4,7 +4,7 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-autowire="byName">
 
-	<bean id="popPatientDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" >
+	<bean id="lynuDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" >
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="${lynu.mysql.url}" />
 		<property name="username" value="${lynu.mysql.user}" />

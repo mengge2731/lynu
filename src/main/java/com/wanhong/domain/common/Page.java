@@ -49,6 +49,10 @@ public class Page<T>{
         return this.pageSize;
     }
 
+    public T getData(){
+        return this.data;
+    }
+
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
         this.repaginate();

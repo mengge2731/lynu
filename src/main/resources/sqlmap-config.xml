@@ -11,6 +11,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.wanhong.domain.UserInfo" alias="userInfo"/>
+		<typeAlias type="com.wanhong.domain.common.UserQuery" alias="userQuery"/>
 	</typeAliases>
 
 	<!--<mappers>

@@ -5,7 +5,7 @@
 
     <!-- mybatis settings -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="popPatientDataSource"></property>
+		<property name="dataSource" ref="lynuDataSource"></property>
 		<property name="configLocation" value="classpath:sqlmap-config.xml"></property>
         <property name="mapperLocations" value="classpath:sqlmap/*.xml" />
 	</bean>

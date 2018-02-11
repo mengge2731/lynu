@@ -18,6 +18,8 @@
 *.iml
 .idea/
 target/
+*/target/
+target/*
 .project
 .metadata/
 *.class

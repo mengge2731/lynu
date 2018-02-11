@@ -25,7 +25,7 @@
 			,password AS password
 		]]>
 	</sql>
-	<sql id="QUERY_ORDER_LIMIT_CONDTION">
+	<sql id="QUERY_LIMIT_CONDTION">
 		<if test="startRow != null and startRow &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startRow},#{pageSize}]]></if>
 	</sql>
 
@@ -40,7 +40,7 @@
 			user_id = #{userId}
 		AND
 		    status = 0
-		ORDER BY t.createTime ASC
+		ORDER BY u.create_time ASC
 	</select>
 
 	<!--根据userpin查询患者-->
@@ -51,24 +51,25 @@
 			user_info u
 		WHERE
 			status = 0
-		ORDER BY t.createTime ASC
+		ORDER BY u.create_time ASC
+		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
 
 <!--更新患者信息-->
-	<update id="updateUserInfo" parameterType="userInfo">
-		UPDATE
-			user_info
-		SET
-			update_time=NOW()
-		<if test="userName!=null" >, user_name=#{userName}</if>
-		<if test="phone!=null " >, phone=#{phone}</if>
-		<if test="introduction!=null" >, introduction=#{introduction}</if>
-		WHERE
-			user_id=#{userId}
-		AND
-			status = 0
-	</update>
+	<!--<update id="updateUserInfo" parameterType="userInfo">-->
+		<!--UPDATE-->
+			<!--user_info-->
+		<!--SET-->
+			<!--update_time=NOW()-->
+		<!--<if test="userName!=null" >, user_name=#{userName}</if>-->
+		<!--<if test="phone!=null " >, phone=#{phone}</if>-->
+		<!--<if test="introduction!=null" >, introduction=#{introduction}</if>-->
+		<!--WHERE-->
+			<!--user_id=#{userId}-->
+		<!--AND-->
+			<!--status = 0-->
+	<!--</update>-->
 
 
 	<!--查询患者信息-->
@@ -84,7 +85,7 @@
 	</select>
 
 
-	<select id="getUserCount" parameterType="userInfo" resultType="java.lang.Integer">
+	<select id="getUserCount" parameterType="userQuery" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM user_info WHERE  status=0
 	</select>
 
