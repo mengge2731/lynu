@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanhong.dao.UserInfoDao">
+
+	<!-- user_info 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[
+			user_id AS userId
+			,user_name AS userName
+			,phone AS phone
+			,introduction AS introduction
+			,user_type AS user_type
+			,status AS status
+			,create_time AS createTime
+			,update_time AS updateTime
+		]]>
+	</sql>
+
+	<!-- user_info 列 -->
+	<sql id="QUERY_SIMPLE_COLUMN_LIST">
+		<![CDATA[
+			user_id AS userId
+			,user_name AS userName
+			,password AS password
+		]]>
+	</sql>
+	<sql id="QUERY_LIMIT_CONDTION">
+		<if test="startRow != null and startRow &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startRow},#{pageSize}]]></if>
+	</sql>
+
+
+	<!--根据userpin查询患者-->
+	<select id="getUserInfoList" parameterType="java.lang.String" resultType="userInfo">
+		SELECT
+			<include refid="QUERY_COLUMN_LIST"/>
+        FROM
+			user_info u
+		WHERE
+			user_id = #{userId}
+		AND
+		    status = 0
+		ORDER BY u.create_time ASC
+	</select>
+
+	<!--根据userpin查询患者-->
+	<select id="getUserByPage" parameterType="userQuery" resultType="userInfo">
+		SELECT
+			<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+			user_info u
+		WHERE
+			status = 0
+		ORDER BY u.create_time ASC
+		<include refid="QUERY_LIMIT_CONDTION"/>
+	</select>
+
+
+<!--更新患者信息-->
+	<!--<update id="updateUserInfo" parameterType="userInfo">-->
+		<!--UPDATE-->
+			<!--user_info-->
+		<!--SET-->
+			<!--update_time=NOW()-->
+		<!--<if test="userName!=null" >, user_name=#{userName}</if>-->
+		<!--<if test="phone!=null " >, phone=#{phone}</if>-->
+		<!--<if test="introduction!=null" >, introduction=#{introduction}</if>-->
+		<!--WHERE-->
+			<!--user_id=#{userId}-->
+		<!--AND-->
+			<!--status = 0-->
+	<!--</update>-->
+
+
+	<!--查询患者信息-->
+	<select id="getUserInfoById" parameterType="userInfo" resultType="userInfo">
+		SELECT
+			<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+			user_info
+		WHERE
+			user_id = #{userId}
+		AND
+			status =0
+	</select>
+
+
+	<select id="getUserCount" parameterType="userQuery" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM user_info WHERE  status=0
+	</select>
+
+</mapper>

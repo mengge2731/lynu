@@ -4,7 +4,7 @@ package com.wanhong.common.errorcode;
  * @author wangmeng247
  * @date 2018-02-08 17:02
  */
-public enum BusinessCode {
+public enum BusinessCode implements ErrorCode{
     SUCCESS("0000", "请求成功."),
     NOT_LOG_IN("0001", "未登录，请先登录"),
     IS_LOG_IN("0002", "已登录"),
@@ -12,18 +12,31 @@ public enum BusinessCode {
     UNKNOWN_ERROR("0004", "未知异常."),
     ;
     private final String code;
-    private final String msg;
+    private final String description;
 
-    BusinessCode(String code,String msg){
+    BusinessCode(String code,String description){
         this.code = code;
-        this.msg = msg;
+        this.description = description;
     }
 
     public String getStringCode() {
         return this.code;
     }
-    public String getMsg() {
-        return this.msg;
+
+    @Override
+    public String getCode() {
+        return this.code;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("Code:[%s], Description:[%s]. ", this.code, this.description);
     }
 
 }
