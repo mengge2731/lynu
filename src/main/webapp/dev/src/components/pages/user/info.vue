@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h3>个人中心的--个人信息</h3>  
-    <p>左侧是tab ，右侧是切换区域</p>
+    
+    <el-tabs :tab-position="tabPosition" style="height: 100%;">
+      <el-tab-pane label="个人信息">个人信息</el-tab-pane>
+      <el-tab-pane label="已共享数据">已共享数据</el-tab-pane>
+      <el-tab-pane label="已申请数据">已申请数据</el-tab-pane>
+      <el-tab-pane label="密码修改">密码修改</el-tab-pane>
+    </el-tabs>
   </div>
 
 </template>
@@ -10,7 +15,7 @@
 export default {
   data(){
     return {
-
+      tabPosition: 'left',  // 左侧tab切换 
     }
   }
 }

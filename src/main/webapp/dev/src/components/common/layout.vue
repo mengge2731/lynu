@@ -4,16 +4,16 @@
         <div class="nav-list">
           <ul>
             <li>
-              <a href="javascript:viod(0);">首页</a>
+              <router-link :to="{ name:'index',path:'/'}">首页</router-link>
             </li>
             <li>
-              <a href="javascript:viod(0);">数据市场</a>
+              <router-link :to="{ name:'market', path:'/market'}">数据市场</router-link>
             </li>
             <li>
-              <a href="javascript:viod(0);">数据共享</a>
+              <router-link :to="{ name:'share',path:'/share'}">数据共享</router-link>
             </li>
             <li>
-              <a href="javascript:viod(0);">个人中心</a>
+              <router-link :to="{name:'info',path:'/user/name'}">个人中心</router-link>
             </li>
           </ul>
         </div>

@@ -108,11 +108,17 @@
   }
 </style>
 
-
 <template>
-  <div class="content">
+ <div style="width:100%">
+   <div >全部 旅游相关 文化相关 意大利相关</div>
+
+   <div class="content">
+       
      <!-- 这是要做成 路由的区域 -->
       <div class="info-left">
+
+        
+
         <ul class="info-list">
           <li class="info-list-item clearfix">
             <div class="info-content">
@@ -169,23 +175,19 @@
       </div>
       <!-- 这是要做成 路由的区域 end -->
   </div>
-    
+ </div>
+  
+  
 </template>
 
 <script>
 export default {
-  data() {
+  data(){
     return {
-      dataList:[],
-    };
-  },
-  created(){
-    this.$axios.post('/lynu/getPageData')
-    .then( res => {
-      console.log(res.data)
-    })
-    .catch( err => console.log(err));
+
+    }
   }
-};
+}
 </script>
+
 
