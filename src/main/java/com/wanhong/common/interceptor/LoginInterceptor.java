@@ -32,7 +32,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     private String loginUrl = "http://localhost:8080";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-            if (isExclude(request)){
+        if (isExclude(request)){
             return true;
         }else{
 

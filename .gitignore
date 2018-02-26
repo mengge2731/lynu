@@ -20,6 +20,10 @@
 target/
 */target/
 target/*
+*/dist/
+dist/*
+node_modules/*
+*/node_modules/
 .project
 .metadata/
 *.class
