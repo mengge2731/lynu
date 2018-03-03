@@ -22,6 +22,7 @@ public class DataInfo {
     private String pubUser;
     //发布人简介
     private String pubDesc;
+    private boolean isHaveApply;
     //0--正常  1--删除
     private String status;
     private Date createTime;
@@ -97,6 +98,14 @@ public class DataInfo {
 
     public void setPubDesc(String pubDesc) {
         this.pubDesc = pubDesc;
+    }
+
+    public boolean isHaveApply() {
+        return isHaveApply;
+    }
+
+    public void setHaveApply(boolean haveApply) {
+        isHaveApply = haveApply;
     }
 
     public String getStatus() {

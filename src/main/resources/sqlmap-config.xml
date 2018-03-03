@@ -14,13 +14,10 @@
 		<typeAlias type="com.wanhong.domain.common.UserQuery" alias="userQuery"/>
 
 		<typeAlias type="com.wanhong.domain.DataInfo" alias="dataInfo"/>
-		<typeAlias type="com.wanhong.domain.common.DataQuery" alias="userQuery"/>
+		<typeAlias type="com.wanhong.domain.common.DataQuery" alias="dataQuery"/>
 
-		<typeAlias type="com.wanhong.domain.UserInfo" alias="userInfo"/>
-		<typeAlias type="com.wanhong.domain.common.UserQuery" alias="userQuery"/>
+		<typeAlias type="com.wanhong.domain.ApplyInfo" alias="applyInfo"/>
+		<typeAlias type="com.wanhong.domain.common.ApplyQuery" alias="applyQuery"/>
 	</typeAliases>
 
-	<!--<mappers>
-		<mapper resource="sqlmap/RxSku.xml" />
-	</mappers>-->
 </configuration>

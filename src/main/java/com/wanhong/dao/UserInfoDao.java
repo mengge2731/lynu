@@ -20,5 +20,6 @@ public interface UserInfoDao {
     List<UserInfo> getUserByPage(UserQuery userQuery);
     Integer delUserInfoById(UserInfo userInfo);
     Integer updateUserInfo(UserInfo userInfo);
+    Integer saveUserInfo(UserInfo userInfo);
 
 }

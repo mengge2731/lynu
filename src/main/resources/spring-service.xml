@@ -5,6 +5,8 @@
 
 
 
-<bean id="userService" class="com.wanhong.service.impl.UserServiceImpl" />
+    <bean id="userService" class="com.wanhong.service.impl.UserServiceImpl" />
+    <bean id="dataService" class="com.wanhong.service.impl.DataServiceImpl" />
+    <bean id="applyService" class="com.wanhong.service.impl.ApplyServiceImpl" />
 
 </beans>

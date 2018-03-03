@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanhong.dao.DataInfoDao">
+
+	<!-- user_info 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[
+			data_id AS dataId
+			,user_id AS userId
+			,file_id AS fileId
+			,data_title AS dataTitle
+			,data_num AS dataNum
+			,data_desc AS dataDesc
+			,data_type AS dataType
+			,pub_user AS pubUser
+			,pub_desc AS pubDesc
+			,status AS status
+			,create_time AS createTime
+			,update_time AS updateTime
+		]]>
+	</sql>
+
+	<sql id="QUERY_LIMIT_CONDTION">
+		<if test="startRow != null and startRow &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startRow},#{pageSize}]]></if>
+	</sql>
+
+	<!--分页查询用户-->
+	<select id="getDataByPage" parameterType="dataQuery" resultType="dataInfo">
+		SELECT
+			<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+			data_info u
+		WHERE
+			status = 0
+		ORDER BY u.create_time ASC
+		<include refid="QUERY_LIMIT_CONDTION"/>
+	</select>
+
+	<select id="getDataInfoCount" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM data_info WHERE  status=0
+	</select>
+	<insert id="saveDataInfo" parameterType="dataInfo" useGeneratedKeys="true" keyProperty="data_id">
+		INSERT IGNORE INTO user_info
+		(
+		user_id
+		,file_id
+		,data_title
+		,data_num
+		,data_desc
+		,data_type
+		,pub_user
+		,pub_desc
+		,status
+		,create_time
+		,update_time
+		)
+		VALUES
+		(
+		#{userId}
+		,#{fileId}
+		,#{dataTitle}
+		,#{dataNum}
+		,#{dataDesc}
+		,#{dataType}
+		,#{pubUser}
+		,#{pubDesc}
+		,0
+		,now()
+		,now()
+		)
+	</insert>
+
+	<select id="getDataInfoById" parameterType="dataInfo" resultType="dataInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		data_info
+		WHERE
+		data_id = #{dataId}
+		AND
+		status = 0
+	</select>
+
+
+
+	<select id="findMyData" parameterType="dataQuery" resultType="dataInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		data_info u
+		WHERE
+		status = 0
+		ORDER BY u.create_time ASC
+		<include refid="QUERY_LIMIT_CONDTION"/>
+	</select>
+
+	<!-- status=0 正常   Status=1 被删除-->
+	<update id="delDataInfoById" parameterType="dataInfo">
+		UPDATE
+		data_info
+		SET
+		update_time=NOW(),
+		status = 1
+		WHERE
+		data_id=#{dataId}
+		AND
+		status = 0
+	</update>
+
+</mapper>
