@@ -9,9 +9,12 @@ import java.util.Date;
 public class DataInfo {
     private Long dataId;
     private Long userId;
+    private Long fileId;
     private String dataTitle;
     private String dataDesc;
     private String dataType;
+    //0--正常  1--删除
+    private String status;
     private Date createTime;
     private Date updateTime;
 }

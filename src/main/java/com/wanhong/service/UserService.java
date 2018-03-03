@@ -2,6 +2,7 @@ package com.wanhong.service;
 
 import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.Page;
+import com.wanhong.domain.param.UserParam;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ import java.util.List;
  */
 public interface UserService {
     List<UserInfo> getUserInfoList();
-    Page<List<UserInfo>> getUserInfoByPage(Integer index);
+    Page<List<UserInfo>> getUserInfoByPage(UserParam userParam);
 }

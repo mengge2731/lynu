@@ -4,6 +4,7 @@ import com.wanhong.dao.UserInfoDao;
 import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.common.UserQuery;
+import com.wanhong.domain.param.UserParam;
 import com.wanhong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,14 +25,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Page<List<UserInfo>> getUserInfoByPage(Integer index) {
+    public Page<List<UserInfo>> getUserInfoByPage(UserParam userParam) {
         UserQuery userQuery = new UserQuery();
-        userQuery.setIndex(index);
+        userQuery.setIndex(userParam.getPageIndex());
+        userQuery.setPageSize(userParam.getPageSize());
         List<UserInfo> userInfoList = userInfoDao.getUserByPage(userQuery);
         Integer totalCount = userInfoDao.getUserCount();
         Page page = new Page<>(userInfoList);
         page.setTotalItem(totalCount);
-        page.setIndex(index);
+        page.setIndex(userParam.getPageIndex());
+        page.setPageSize(userParam.getPageSize());
         return page;
     }
 }
