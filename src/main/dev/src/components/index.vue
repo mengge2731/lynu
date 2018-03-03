@@ -108,7 +108,6 @@
   }
 </style>
 
-
 <template>
   <div class="content">
      <!-- 这是要做成 路由的区域 -->
@@ -138,7 +137,7 @@
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
+            :current-page="currentPage"
             :page-sizes="[100, 200, 300, 400]"
             :page-size="100"
             layout="total, sizes, prev, pager, next, jumper"
@@ -160,7 +159,7 @@
         <div class="info-right-bot">
           <h3>数据共享</h3>
           <ul>
-            <li>登录</li>
+            <li @click="login">登录</li>
             <li>描述</li>
             <li>发布</li>
             <li>等待获取申请</li>
@@ -176,7 +175,10 @@
 export default {
   data() {
     return {
-      dataList:[],
+      dataList:[], 
+      currentPage: 4,
+      cover: false, // 遮罩层是否开启
+
     };
   },
   created(){
@@ -185,6 +187,18 @@ export default {
       console.log(res.data)
     })
     .catch( err => console.log(err));
+  },
+  methods:{
+    handleSizeChange(){
+
+    },
+    handleCurrentChange(){
+
+    },
+    login(){
+      console.log('登录操作')
+      this.cover = true;
+    }
   }
 };
 </script>

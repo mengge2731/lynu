@@ -13,7 +13,7 @@
               <router-link :to="{ name:'share',path:'/share'}">数据共享</router-link>
             </li>
             <li>
-              <router-link :to="{name:'info',path:'/user/name'}">个人中心</router-link>
+              <router-link :to="{name:'info',path:'/user/info'}">个人中心</router-link>
             </li>
           </ul>
         </div>
@@ -25,21 +25,35 @@
     <div class="content-wrap">
       <router-view></router-view>
     </div>
-    
-
+  
     <div class="footer">
       <p>copyright @2018 洛阳师范学院</p>
     </div>
     
+    <!-- 遮罩层 -->
+    <div class="cover-box" v-if="cover">
+      <div class="login-box">登录框
+        <button @click="login">登录</button>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
 export default {
   name: "Layout",
   data() {
-    return {};
+    return {
+      cover: false, // 遮罩层是否开启
+
+    };
   },
   created() {},
+  methods:{
+    login(){
+      this.cover = false;
+    }
+  },
   components: {}
 };
 </script>
@@ -102,6 +116,22 @@ export default {
     }
   }
   
+  .cover-box{
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+
+    .login-box{
+      width: 400px;
+      height: 300px;
+      background-color: #fff;
+      margin: 0 auto;
+      transform: translateY(50%);
+    }
+  }
 }
 
 .content-wrap {
