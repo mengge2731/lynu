@@ -1,12 +1,12 @@
-package com.wanhong.domain;
+package com.wanhong.domain.common;
 
 import java.util.Date;
 
 /**
  * @author wangmeng247
- * @date 2018-02-24 11:38
+ * @date 2018-02-11 14:09
  */
-public class DataInfo {
+public class DataQuery extends PageQuery {
     private Long dataId;
     private Long userId;
     private Long fileId;

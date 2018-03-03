@@ -27,14 +27,29 @@ public class UserServiceImpl implements UserService{
     @Override
     public Page<List<UserInfo>> getUserInfoByPage(UserParam userParam) {
         UserQuery userQuery = new UserQuery();
-        userQuery.setIndex(userParam.getPageIndex());
+        userQuery.setIndex(userParam.getIndex());
         userQuery.setPageSize(userParam.getPageSize());
         List<UserInfo> userInfoList = userInfoDao.getUserByPage(userQuery);
         Integer totalCount = userInfoDao.getUserCount();
         Page page = new Page<>(userInfoList);
         page.setTotalItem(totalCount);
-        page.setIndex(userParam.getPageIndex());
+        page.setIndex(userParam.getIndex());
         page.setPageSize(userParam.getPageSize());
         return page;
+    }
+
+    @Override
+    public Integer delUserByUserId(Long userId) {
+        return null;
+    }
+
+    @Override
+    public Integer updateUserInfo(UserInfo userInfo) {
+        return null;
+    }
+
+    @Override
+    public Integer updateUserPassword(UserInfo userInfo) {
+        return null;
     }
 }

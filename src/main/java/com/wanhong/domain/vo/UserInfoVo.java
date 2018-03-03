@@ -1,4 +1,4 @@
-package com.wanhong.vo;
+package com.wanhong.domain.vo;
 
 import java.util.Date;
 

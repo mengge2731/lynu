@@ -34,6 +34,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @RequestMapping("/getPageData")
     @ResponseBody
     public ResultJson<Page<List<UserInfo>>> getPageData(String body){
@@ -42,7 +43,7 @@ public class UserController {
         //返回一个index.jsp这个视图
 //        ResultJson<Page<List<UserInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,userInfoPage);
         Page<List<UserInfo>> userInfoPage =userService.getUserInfoByPage(userParam);
-        userInfoPage.setIndex(userParam.getPageIndex());
+        userInfoPage.setIndex(userParam.getIndex());
         userInfoPage.setPageSize(userParam.getPageSize());
         ResultJson<Page<List<UserInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,userInfoPage);
         logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));

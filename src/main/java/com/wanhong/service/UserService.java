@@ -13,4 +13,7 @@ import java.util.List;
 public interface UserService {
     List<UserInfo> getUserInfoList();
     Page<List<UserInfo>> getUserInfoByPage(UserParam userParam);
+    Integer delUserByUserId(Long userId);
+    Integer updateUserInfo(UserInfo userInfo);
+    Integer updateUserPassword(UserInfo userInfo);
 }

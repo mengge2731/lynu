@@ -1,7 +1,8 @@
 package com.wanhong.service;
 
-import com.wanhong.domain.UserInfo;
+import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.common.Page;
+import com.wanhong.domain.param.DataParam;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
  * @date 2018-02-24 11:37
  */
 public interface DataService {
-    List<UserInfo> getUserInfoList();
-    Page<List<UserInfo>> getUserInfoByPage(Integer index);
+    Page<List<DataInfo>> getDataInfoByPage(DataParam dataParam);
+    Integer delDataInfoByDataId(DataInfo dataInfo);
+    Integer updateDataInfo(DataInfo dataInfo);
+    DataInfo findDataInfoByDataId(DataInfo dataInfo);
 }

@@ -10,8 +10,15 @@ import java.util.List;
  * @date 2018-02-11 12:59
  */
 public interface UserInfoDao {
-    List<UserInfo> getUserInfoList();
     UserInfo getUserInfoById(UserInfo userInfo);
+    UserInfo getUserImportantInfoById(UserInfo userInfo);
+    //登录校验账号密码
+    UserInfo getUserByPhoneAndPassword(UserInfo userInfo);
+    //注册的时候用于检查是否存在该用户
+    UserInfo getUserInfoByPhone(UserInfo userInfo);
     Integer getUserCount();
     List<UserInfo> getUserByPage(UserQuery userQuery);
+    Integer delUserInfoById(UserInfo userInfo);
+    Integer updateUserInfo(UserInfo userInfo);
+
 }

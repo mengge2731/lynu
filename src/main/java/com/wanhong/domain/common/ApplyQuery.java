@@ -1,31 +1,20 @@
-package com.wanhong.domain;
-
-import com.wanhong.domain.common.Page;
+package com.wanhong.domain.common;
 
 import java.util.Date;
 
 /**
  * @author wangmeng247
- * @date 2018-02-09 11:39
+ * @date 2018-02-11 14:09
  */
-public class UserInfo{
+public class ApplyQuery extends PageQuery {
     private Long userId;
     private String userName;
-    private String nickName;
     private String password;
     private String phone;
-    /**
-     * 1--普通用户;2--管理员;
-     */
     private String userType;
     private String msg;
-    /**
-     * 0--正常状态; 1--被删除;
-     */
     private String status;
     private Date msgExpired;
-    //简介
-    private String desc;
     private Date createTime;
     private Date updateTime;
 
@@ -43,14 +32,6 @@ public class UserInfo{
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
     }
 
     public String getPassword() {

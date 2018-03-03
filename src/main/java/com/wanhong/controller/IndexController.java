@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author wangmeng247
- * @date 2018-02-24 11:37
+ * @date 2018-03-03 15:41
  */
 @Controller
-@RequestMapping("/function/data")
-public class DataController {
-    private static final Logger logger = LoggerFactory.getLogger(DataController.class);
+public class IndexController {
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
+    @RequestMapping("/index")
+    public String  indexCore(){
+        return "index";
+    }
 }
