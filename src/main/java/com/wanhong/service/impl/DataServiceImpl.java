@@ -36,6 +36,21 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    public Page<List<DataInfo>> getDataByDataTypeAndPage(DataParam dataParam) {
+        DataQuery dataQuery = new DataQuery();
+        dataQuery.setIndex(dataParam.getIndex());
+        dataQuery.setPageSize(dataParam.getPageSize());
+        dataQuery.setDataType(dataParam.getDataType());
+        List<DataInfo> dataInfoList = dataInfoDao.findDataByDataTypeAndPage(dataQuery);
+        Integer totalCount = dataInfoDao.getDataInfoTypeCount(dataQuery);
+        Page page = new Page<>(dataInfoList);
+        page.setTotalItem(totalCount);
+        page.setIndex(dataParam.getIndex());
+        page.setPageSize(dataParam.getPageSize());
+        return page;
+    }
+
+    @Override
     public Integer delDataInfoByDataId(DataInfo dataInfo) {
         return dataInfoDao.delDataInfoById(dataInfo);
     }

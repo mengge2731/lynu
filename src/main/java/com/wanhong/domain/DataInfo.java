@@ -16,7 +16,7 @@ public class DataInfo {
     private String dataNum;
     //数据描述
     private String dataDesc;
-    //数据类型
+    //数据类型  1-旅游相关 2-文化相关  3-意大利相关
     private String dataType;
     //发布人
     private String pubUser;

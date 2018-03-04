@@ -43,4 +43,16 @@ public class DataController {
         return resultJson;
     }
 
+    @RequestMapping("/getDataByDataTypeAndPage")
+    @ResponseBody
+    public ResultJson<Page<List<DataInfo>>> getDataByDataTypeAndPage(String body){
+        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+        Page<List<DataInfo>> dataInfoPage =dataService.getDataByDataTypeAndPage(dataParam);
+        dataInfoPage.setIndex(dataParam.getIndex());
+        dataInfoPage.setPageSize(dataParam.getPageSize());
+        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
+        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
 }

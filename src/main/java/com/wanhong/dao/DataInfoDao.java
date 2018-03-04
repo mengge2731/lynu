@@ -14,6 +14,8 @@ public interface DataInfoDao {
     Integer delDataInfoById(DataInfo dataInfo);
     List<DataInfo> findMyData(DataQuery dataQuery);
     List<DataInfo> findDataByPage(DataQuery dataQuery);
+    List<DataInfo> findDataByDataTypeAndPage(DataQuery dataQuery);
     Integer saveDataInfo(DataInfo dataInfo);
     Integer getDataInfoCount();
+    Integer getDataInfoTypeCount(DataQuery dataQuery);
 }

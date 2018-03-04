@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface DataService {
     Page<List<DataInfo>> getDataInfoByPage(DataParam dataParam);
+    Page<List<DataInfo>> getDataByDataTypeAndPage(DataParam dataParam);
     Integer delDataInfoByDataId(DataInfo dataInfo);
     Integer updateDataInfo(DataInfo dataInfo);
     DataInfo findDataInfoByDataId(DataInfo dataInfo);

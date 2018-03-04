@@ -6,142 +6,73 @@
 	<!-- user_info 所有查询列 -->
 	<sql id="QUERY_COLUMN_LIST">
 		<![CDATA[
-			user_id AS userId
-			,user_name AS userName
-			,phone AS phone
-			,introduction AS introduction
-			,user_type AS userType
-			,user_desc AS userDesc
-
+			apply_id AS applyId
+			,data_id AS dataId
+			,apply_user_id AS applyUserId
+			,pub_data_user_id AS pubDataUserId
+			,apply_user_name AS applyUserName
+			,apply_user_phone AS applyUserPhone
+			,apply_desc AS applyDesc
+			,apply_time AS applyTime
+			,reply_time AS replyTime
 			,status AS status
 			,create_time AS createTime
 			,update_time AS updateTime
 		]]>
 	</sql>
 
-	<!-- user_info 列 -->
-	<sql id="QUERY_SIMPLE_COLUMN_LIST">
-		<![CDATA[
-			user_id AS userId
-			,user_name AS userName
-			,password AS password
-			,msg AS msg
-			,msg_expired AS msgExpired
-		]]>
-	</sql>
 	<sql id="QUERY_LIMIT_CONDTION">
 		<if test="startRow != null and startRow &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startRow},#{pageSize}]]></if>
 	</sql>
 
 	<!--分页查询用户-->
-	<select id="getUserByPage" parameterType="userQuery" resultType="userInfo">
+	<select id="findMyData" parameterType="applyQuery" resultType="applyInfo">
 		SELECT
 			<include refid="QUERY_COLUMN_LIST"/>
 		FROM
-			user_info u
+			apply_info u
 		WHERE
 			status = 0
 		ORDER BY u.create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
-	<select id="getUserImportantInfoById" parameterType="userInfo" resultType="userInfo">
-		SELECT
-		<include refid="getUserImportantInfoById"/>
-		FROM
-		user_info u
-		WHERE
-		status = 0
-		AND
-		user_id = #{userId}
-	</select>
-
-<!--更新患者信息-->
-	<update id="updateUserInfo" parameterType="userInfo">
-		UPDATE
-			user_info
-		SET
-			update_time=NOW()
-		<if test="userName!=null" >, user_name=#{userName}</if>
-		<if test="userDesc!=null" >, user_desc=#{userDesc}</if>
-		WHERE
-			user_id=#{userId}
-		AND
-			status = 0
-	</update>
-
-	<!-- status=0 正常   Status=1 被删除-->
-	<update id="delUserInfoById" parameterType="userInfo">
-		UPDATE
-		user_info
-		SET
-		update_time=NOW(),
-		status = 1
-		WHERE
-		user_id=#{userId}
-		AND
-		status = 0
-	</update>
-
-
-	<!--查询患者信息-->
-	<select id="getUserInfoById" parameterType="userInfo" resultType="userInfo">
-		SELECT
-			<include refid="QUERY_COLUMN_LIST"/>
-		FROM
-			user_info
-		WHERE
-			user_id = #{userId}
-		AND
-			status =0
-	</select>
-
-	<!--查询患者信息-->
-	<select id="getUserByPhoneAndPassword" parameterType="userInfo" resultType="userInfo">
+	<select id="findDataByPage" parameterType="applyQuery" resultType="applyInfo">
 		SELECT
 		<include refid="QUERY_COLUMN_LIST"/>
 		FROM
-		user_info
+		apply_info
 		WHERE
-		phone = #{phone}
-		AND
-		password = #{password}
-		AND
-		status =0
+		status = 0
+		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
-	<!--查询患者信息-->
-	<select id="getUserInfoByPhone" parameterType="userInfo" resultType="userInfo">
-		SELECT
-		<include refid="QUERY_COLUMN_LIST"/>
-		FROM
-		user_info
-		WHERE
-		phone = #{phone}
-		AND
-		status =0
-	</select>
 
-	<select id="getUserCount" parameterType="userQuery" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM user_info WHERE  status=0
-	</select>
 
 	
-	<insert id="saveUserInfo" parameterType="userInfo" useGeneratedKeys="true" keyProperty="user_id">
-		INSERT IGNORE INTO user_info
+	<insert id="saveApplyInfo" parameterType="applyInfo" useGeneratedKeys="true" keyProperty="apply_id">
+		INSERT IGNORE INTO apply_info
 		(
-		password
-		,phone
-		,user_type
+		data_id
+		,apply_user_id
+		,pub_data_user_id
+		,apply_user_name
+		,apply_user_phone
+		,apply_desc
+		,apply_time
 		,status
 		,create_time
 		,update_time
 		)
 		VALUES
 		(
-		#{password}
-		,#{phone}
-		,0
+		#{dataId}
+		,#{applyUserId}
+		,#{pubDataUserId}
+		,#{applyUserName}
+		,#{applyUserPhone}
+		,#{applyDesc}
+		,now()
 		,0
 		,now()
 		,now()

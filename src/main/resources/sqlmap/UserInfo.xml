@@ -47,7 +47,7 @@
 
 	<select id="getUserImportantInfoById" parameterType="userInfo" resultType="userInfo">
 		SELECT
-		<include refid="getUserImportantInfoById"/>
+		<include refid="QUERY_SIMPLE_COLUMN_LIST"/>
 		FROM
 		user_info u
 		WHERE

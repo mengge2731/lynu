@@ -18,6 +18,8 @@
 
 		<typeAlias type="com.wanhong.domain.ApplyInfo" alias="applyInfo"/>
 		<typeAlias type="com.wanhong.domain.common.ApplyQuery" alias="applyQuery"/>
+
+		<typeAlias type="com.wanhong.domain.MessageInfo" alias="messageInfo"/>
 	</typeAliases>
 
 </configuration>

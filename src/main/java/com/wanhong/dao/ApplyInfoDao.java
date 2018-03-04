@@ -1,7 +1,8 @@
 package com.wanhong.dao;
 
+import com.wanhong.domain.ApplyInfo;
 import com.wanhong.domain.DataInfo;
-import com.wanhong.domain.common.DataQuery;
+import com.wanhong.domain.common.ApplyQuery;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface ApplyInfoDao {
 //    ApplyInfo getApplyInfoById(ApplyInfo dataInfo);
-    List<DataInfo> findMyData(DataQuery dataQuery);
-    List<DataInfo> findDataByPage(DataQuery dataQuery);
-    Integer saveDataInfo(DataInfo dataInfo);
+    List<DataInfo> findMyData(ApplyQuery applyQuery);
+    List<DataInfo> findDataByPage(ApplyQuery applyQuery);
+    Integer saveApplyInfo(ApplyInfo applyInfo);
 }

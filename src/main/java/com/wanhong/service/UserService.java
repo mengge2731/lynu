@@ -16,4 +16,5 @@ public interface UserService {
     Integer delUserByUserId(Long userId);
     Integer updateUserInfo(UserInfo userInfo);
     Integer updateUserPassword(UserInfo userInfo);
+    UserInfo getUserInfoByPhone(UserInfo userInfo);
 }

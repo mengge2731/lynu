@@ -40,16 +40,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Integer delUserByUserId(Long userId) {
-        return null;
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        return userInfoDao.delUserInfoById(userInfo);
     }
 
     @Override
     public Integer updateUserInfo(UserInfo userInfo) {
-        return null;
+        return userInfoDao.updateUserInfo(userInfo);
     }
 
     @Override
     public Integer updateUserPassword(UserInfo userInfo) {
         return null;
+    }
+
+    @Override
+    public UserInfo getUserInfoByPhone(UserInfo userInfo) {
+        return userInfoDao.getUserInfoByPhone(userInfo);
     }
 }
