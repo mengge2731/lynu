@@ -24,7 +24,7 @@ public class ApplyInfo {
     private Date applyTime;
     //回复时间
     private Date replyTime;
-    //0--正常  1--回复   2--拒绝
+    //0--正常  1--回复   2--拒绝  3--删除
     private String status;
     private Date createTime;
     private Date updateTime;

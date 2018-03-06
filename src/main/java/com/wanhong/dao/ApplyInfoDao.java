@@ -1,7 +1,6 @@
 package com.wanhong.dao;
 
 import com.wanhong.domain.ApplyInfo;
-import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.common.ApplyQuery;
 
 import java.util.List;
@@ -12,7 +11,35 @@ import java.util.List;
  */
 public interface ApplyInfoDao {
 //    ApplyInfo getApplyInfoById(ApplyInfo dataInfo);
-    List<DataInfo> findMyData(ApplyQuery applyQuery);
-    List<DataInfo> findDataByPage(ApplyQuery applyQuery);
     Integer saveApplyInfo(ApplyInfo applyInfo);
+    /**
+     * 分页获取我的申请信息。
+     * @param applyQuery
+     * @return
+     */
+    List<ApplyInfo> getMyApplyInfoByPage(ApplyQuery applyQuery);
+    List<ApplyInfo> getThireApplyInfoByPage(ApplyQuery applyQuery);
+    Integer getMyApplyInfoCount(ApplyQuery applyQuery);
+    Integer getThireApplyInfoCount(ApplyQuery applyQuery);
+
+    /**
+     * 删除申请信息
+     * @param applyInfo
+     * @return
+     */
+    Integer delMyApplyInfoById(ApplyInfo applyInfo);
+
+    /**
+     * 同意申请
+     * @param applyInfo
+     * @return
+     */
+    Integer agreeApply(ApplyInfo applyInfo);
+
+    /**
+     * 拒绝申请
+     * @param applyInfo
+     * @return
+     */
+    Integer refuseApply(ApplyInfo applyInfo);
 }

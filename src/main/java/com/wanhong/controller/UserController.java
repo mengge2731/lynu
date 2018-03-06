@@ -39,9 +39,6 @@ public class UserController {
     @ResponseBody
     public ResultJson<Page<List<UserInfo>>> getPageData(String body){
         UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body,UserParam.class);
-//        userInfoPage.setTotalItem(35);
-        //返回一个index.jsp这个视图
-//        ResultJson<Page<List<UserInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,userInfoPage);
         Page<List<UserInfo>> userInfoPage =userService.getUserInfoByPage(userParam);
         userInfoPage.setIndex(userParam.getIndex());
         userInfoPage.setPageSize(userParam.getPageSize());

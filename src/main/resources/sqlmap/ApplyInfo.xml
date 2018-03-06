@@ -25,29 +25,76 @@
 		<if test="startRow != null and startRow &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startRow},#{pageSize}]]></if>
 	</sql>
 
-	<!--分页查询用户-->
-	<select id="findMyData" parameterType="applyQuery" resultType="applyInfo">
+	<!--分页查询我申请的信息-->
+	<select id="getMyApplyInfoByPage" parameterType="applyQuery" resultType="applyInfo">
 		SELECT
 			<include refid="QUERY_COLUMN_LIST"/>
 		FROM
-			apply_info u
+			apply_info
 		WHERE
 			status = 0
-		ORDER BY u.create_time ASC
+		AND
+			apply_user_id = #{applyUserId}
+		ORDER BY create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
-	<select id="findDataByPage" parameterType="applyQuery" resultType="applyInfo">
+	<select id="getMyApplyInfoCount" parameterType="applyInfo" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND apply_user_id = #{applyUserId}
+	</select>
+
+	<select id="getThireApplyInfoByPage" parameterType="applyQuery" resultType="applyInfo">
 		SELECT
-		<include refid="QUERY_COLUMN_LIST"/>
+			<include refid="QUERY_COLUMN_LIST"/>
 		FROM
-		apply_info
+			apply_info
 		WHERE
-		status = 0
+			status = 0
+		AND
+			pub_data_user_id = #{pubDataUserId}
+		ORDER BY create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
+	<select id="getThireApplyInfoCount" parameterType="applyInfo" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND pub_data_user_id = #{pubDataUserId}
+	</select>
 
+	<update id="delMyApplyInfoById" parameterType="applyInfo">
+		UPDATE
+		apply_info
+		SET
+		update_time=NOW(),
+		status = 3
+		WHERE
+		apply_id=#{applyId}
+		AND
+		pub_data_user_id = #{pubDataUserId}
+	</update>
+
+	<update id="agreeApply" parameterType="applyInfo">
+		UPDATE
+		apply_info
+		SET
+		update_time=NOW(),
+		status = 1
+		WHERE
+		apply_id=#{applyId}
+		AND
+		pub_data_user_id = #{pubDataUserId}
+	</update>
+
+	<update id="refuseApply" parameterType="applyInfo">
+		UPDATE
+		apply_info
+		SET
+		update_time=NOW(),
+		status = 2
+		WHERE
+		apply_id=#{applyId}
+		AND
+		pub_data_user_id = #{pubDataUserId}
+	</update>
 
 	
 	<insert id="saveApplyInfo" parameterType="applyInfo" useGeneratedKeys="true" keyProperty="apply_id">
