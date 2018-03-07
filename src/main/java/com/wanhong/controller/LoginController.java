@@ -68,6 +68,15 @@ public class LoginController {
         return new ResultJson<>(BusinessCode.SUCCESS,userInfoVo);
     }
 
+    @RequestMapping("/logout")
+    @ResponseBody
+    public ResultJson<Boolean> logout(String body){
+        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = ((ServletRequestAttributes)ra).getRequest();
+        request.getSession().removeAttribute("userInfo");
+        return new ResultJson<>(BusinessCode.SUCCESS,true);
+    }
+
     @RequestMapping("/getVerifyCode")
     public void getVerifyCode(HttpServletRequest request,HttpServletResponse response){
         response.setHeader("Pragma","No-cache");

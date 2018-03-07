@@ -3,6 +3,7 @@ package com.wanhong.service;
 import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.UserParam;
+import com.wanhong.domain.vo.UserInfoVo;
 
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
  */
 public interface UserService {
     List<UserInfo> getUserInfoList();
-    Page<List<UserInfo>> getUserInfoByPage(UserParam userParam);
+    Page<List<UserInfoVo>> getUserInfoByPage(UserParam userParam);
     Integer delUserByUserId(Long userId);
     Integer updateUserInfo(UserInfo userInfo);
     Integer updateUserPassword(UserInfo userInfo);
     UserInfo getUserInfoByPhone(UserInfo userInfo);
+    UserInfo getUserInfoById(UserInfo userInfo);
 }

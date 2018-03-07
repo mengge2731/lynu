@@ -20,7 +20,7 @@ public class UserInfo{
     private String userType;
     private String msg;
     /**
-     * 0--正常状态; 1--被删除;
+     * 0--正常状态; 1--被删除; 2-- 停用
      */
     private String status;
     private Date msgExpired;

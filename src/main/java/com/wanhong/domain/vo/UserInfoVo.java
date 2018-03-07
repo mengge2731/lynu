@@ -11,6 +11,9 @@ public class UserInfoVo {
     private String userName;
     private String nickName;
     private String phone;
+    private String userType;
+    private String status;
+    private String desc;
     private Date createTime;
     private Date updateTime;
 
@@ -44,6 +47,30 @@ public class UserInfoVo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public Date getCreateTime() {
