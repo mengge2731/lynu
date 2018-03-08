@@ -1,6 +1,9 @@
 package com.wanhong.controller;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import com.wanhong.domain.UserInfo;
+import com.wanhong.domain.vo.UserInfoVo;
+import com.wanhong.util.BeanUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -16,7 +19,9 @@ public class BaseController {
     UserInfo getMyInfo(){
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes)ra).getRequest();
-        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        UserInfoVo userInfoVo = (UserInfoVo) request.getSession().getAttribute("userInfo");
+        UserInfo userInfo = new UserInfo();
+        BeanUtil.copyProperties(userInfoVo,userInfo);
         return userInfo;
     }
 }

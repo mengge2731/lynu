@@ -12,6 +12,7 @@ import com.wanhong.service.UserService;
 import com.wanhong.util.BeanUtil;
 import com.wanhong.util.BusinessBodyConvertUtil;
 import com.wanhong.util.FastjsonUtil;
+import com.wanhong.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,23 @@ public class UserController extends BaseController {
         UserInfo userInfo = userService.getUserInfoByPhone(this.getMyInfo());
         BeanUtil.copyProperties(userInfo,userInfoVo);
         ResultJson<UserInfoVo> resultJson = new ResultJson<>(BusinessCode.SUCCESS, userInfoVo);
+        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
+    @RequestMapping("/updateUserInfo")
+    @ResponseBody
+    public ResultJson<Boolean> updateUserInfo(String body){
+        UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body,UserParam.class);
+        UserInfo userInfo = new UserInfo();
+        BeanUtil.copyProperties(userParam,userInfo);
+        if (StringUtil.hasBlank(userInfo.getUserName(),userInfo.getDesc())){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR,false);
+        }
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.UPDATE_ERROR, false);
+        if (userService.updateUserInfo(userInfo)>0){
+            resultJson =  new ResultJson<>(BusinessCode.SUCCESS,true);
+        }
         logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }

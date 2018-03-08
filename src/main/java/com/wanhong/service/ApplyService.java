@@ -47,5 +47,11 @@ public interface ApplyService {
      * @return
      */
     Integer refuseApply(ApplyInfo applyInfo);
+    /**
+     * 保存申请信息
+     * @param applyInfo
+     * @return
+     */
+    Integer saveApplyInfo(ApplyInfo applyInfo);
 
 }

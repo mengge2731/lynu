@@ -18,6 +18,8 @@ public enum BusinessCode implements ErrorCode{
     MESSAGE_FREQUENTLY_ERROR("33","超过频率，同一个手机号每30秒只能发送一条"),
     MESSAGE_WRONG("0008", "消息错误."),
     MESSAGE_OVER_TIME("0009", "消息超时."),
+    APPLY_OWN_DATA("0010", "不能申请自己发布的数据."),
+    UPDATE_ERROR("0011", "更新失败."),
     ;
     private final String code;
     private final String description;

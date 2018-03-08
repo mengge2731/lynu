@@ -1,7 +1,9 @@
 package com.wanhong.service.impl;
 
 import com.wanhong.dao.ApplyInfoDao;
+import com.wanhong.dao.DataInfoDao;
 import com.wanhong.domain.ApplyInfo;
+import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.common.ApplyQuery;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
@@ -18,6 +20,8 @@ public class ApplyServiceImpl implements ApplyService {
 
     @Autowired
     ApplyInfoDao applyInfoDao;
+    @Autowired
+    DataInfoDao dataInfoDao;
     @Override
     public Page<List<ApplyInfo>> getMyApplyInfoByPage(ApplyParam applyParam) {
         ApplyQuery applyQuery = new ApplyQuery();
@@ -59,5 +63,10 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public Integer refuseApply(ApplyInfo applyInfo) {
         return applyInfoDao.refuseApply(applyInfo);
+    }
+
+    @Override
+    public Integer saveApplyInfo(ApplyInfo applyInfo) {
+        return applyInfoDao.saveApplyInfo(applyInfo);
     }
 }

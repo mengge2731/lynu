@@ -42,4 +42,11 @@ public interface ApplyInfoDao {
      * @return
      */
     Integer refuseApply(ApplyInfo applyInfo);
+
+    /**
+     * 拒绝申请
+     * @param applyInfo
+     * @return
+     */
+    ApplyInfo getApplyInfoByUserIdAndDataId(ApplyInfo applyInfo);
 }
