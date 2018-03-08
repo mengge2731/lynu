@@ -8,8 +8,19 @@
 import Layout from "./components/common/layout.vue";
 export default {
   name: "App",
+  data(){
+    return {
+    }
+  },
   components: {
     Layout
+  },
+  methods:{
+    
+  }
+  ,
+  mounted(){
+    
   }
 };
 </script>

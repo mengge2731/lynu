@@ -5,12 +5,36 @@
   display: flex;
   .nav-left{
     width: 140px;
-    border: 2px solid red;
+    // border: 2px solid red;
+    ul {
+      margin-top: 10px;
+      li{
+        a{
+          display: block;
+          width: 100%;
+          text-align: center;
+          font-size: 14px;
+          height: 30px;
+          line-height: 30px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+         a:hover{
+           display:block;
+           height: 30px;
+           background-color: red;
+           color: #fff;
+           border: 1px solid red;
+         }
+      }
+    }
   }
 
   .right-content{
     flex: 1;
-    border: 2px solid red;
+    // border: 2px solid red;
   }
 
 }
@@ -29,16 +53,22 @@
           <router-link :to="{name:'share' }">已共享数据</router-link>
         </li>
         <li>
-          <router-link :to="{name:'apply'}">已申请数据</router-link>
+          <router-link :to="{name:'userApply'}">已申请数据</router-link>
         </li>
         <li>
           <router-link :to="{name:'password'}">密码修改</router-link>
+        </li>
+
+        <li v-show="admin">
+          <router-link :to="{name:'infoManage'}">发布信息管理</router-link>
+        </li>
+        <li v-show="admin">
+          <router-link :to="{name:'manage'}">用户管理</router-link>
         </li>
       </ul>
     </div>
 
     <div class="right-content">
-      右侧子路由区域
       <router-view></router-view>
     </div>
 
@@ -51,6 +81,7 @@
 export default {
   data(){
     return {
+      admin: true,
     }
   }
 }
