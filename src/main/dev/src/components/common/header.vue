@@ -92,54 +92,42 @@ export default {
   },
   methods: {
     change(index){
-       this.$axios.post('/login/isLogin')
-      .then( res => {
-        console.log(res.data.code)
-
-        if(res.data.code == "0000"){
-          if(index == 1){
-            this.currentPage = 1;
+      if(index == 1){
+        this.currentPage = 1;
+        this.$router.push({
+          path:'/'
+        })
+      }else {
+         this.$axios.post('/login/isLogin')
+        .then( res => {
+          console.log(res.data.code)
+          
+          if(res.data.code == "0002"){
+            if(index == 2){
+              this.currentPage = 2;
+              this.$router.push({
+                path:'/market'
+              })
+            }else if(index == 3){
+              this.currentPage = 3;
+              this.$router.push({
+                path:'/center'
+              })
+            }else if(index == 4){
+              this.currentPage = 4;
+              this.$router.push({
+                path:'/user/info'
+              })
+            }
+          }else {
             this.$router.push({
-              path:'/'
-            })
-          }else if(index == 2){
-            this.currentPage = 2;
-            this.$router.push({
-              path:'/market'
-            })
-          }else if(index == 3){
-            this.currentPage = 3;
-            this.$router.push({
-              path:'/center'
-            })
-          }else if(index == 4){
-            this.currentPage = 4;
-            this.$router.push({
-              path:'/user/info'
+                path:'/login'
             })
           }
-        }else {
-           this.$router.push({
-              path:'/login'
-          })
-        }
-      })
-
-    },
-    toMarket(){
-      this.$axios.post('/login/isLogin')
-      .then( res => {
-        console.log(res.data.data)
-
-        // if(res.data.data){
-
-        // }else {
-        //   this.$router.push({
-        //     path:'/login'
-        //   })
-        // }
-      })
+        })
+      }
     }
+    
   }
 };
 </script>
