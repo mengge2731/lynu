@@ -102,7 +102,7 @@ public class LoginController {
     @RequestMapping("/isLogin")
     @ResponseBody
     public ResultJson<Boolean> isLogin(HttpServletRequest request){
-        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        UserInfoVo userInfo = (UserInfoVo) request.getSession().getAttribute("userInfo");
         if (userInfo == null){
             return new ResultJson<>(BusinessCode.NOT_LOG_IN);
         }
