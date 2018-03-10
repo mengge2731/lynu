@@ -3,7 +3,7 @@
 
   .data-list{
     padding: 20px 0 20px 10px;
-    
+    width: 100%;
     .data-list-item{
 
       &:first-child{
@@ -17,7 +17,7 @@
 
         .item-left{
           float: left;
-          width: 644px;
+          width: 764px;
 
           .info-content-left {
             .info-img {
@@ -31,7 +31,7 @@
             .info-text {
               padding: 8px 14px;
               float: left;
-              width: 360px;
+              width: 480px;
               
 
               h3 {
@@ -44,7 +44,7 @@
                 font-size: 14px;
                 color: rgb(151, 151, 151);
                 // 省略号
-                width: 360px;
+                width: 480px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
@@ -105,8 +105,7 @@
           </div>
 
           <div class="item-right">
-            <el-button type="primary" plain size="small"  @click="toDetail">新申请待审批</el-button>
-            <el-button type="danger" plain size="small" @click="del()">删除</el-button>
+            <el-button type="danger" plain size="small"  @click="del()">删除</el-button>
           </div>
         </div>
       </li>
@@ -126,10 +125,6 @@ export default {
 
   },
   methods:{
-    toDetail(){
-      console.log('跳转到 -------------- 已共享详情页面')
-      this.$router.push({name:'agree'});
-    },
     del(fileId){
       let that = this;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -155,6 +150,7 @@ export default {
           });          
         });
     }
+     
   }
 }
 </script>

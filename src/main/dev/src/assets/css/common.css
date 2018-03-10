@@ -76,9 +76,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  color: #006d3b;
-}
 
 h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
@@ -113,5 +110,14 @@ s, i, em {
 
 .hide {
   display: none;
+}
+
+.el-input__inner{
+  padding-right: 10px !important;
+  padding: 0 8px !important;
+}
+
+.el-input__icon{
+  width: 14px !important;
 }
 

@@ -3,7 +3,6 @@
     width: 100%;
     display: flex;
     flex: 1;
-    
     min-height: 500px;
     overflow: auto;
     overflow-y: auto;
@@ -106,10 +105,8 @@
      <!-- 这是要做成 路由的区域 -->
       <div class="info-left">
         <ul class="info-list">
-          <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
-
-            <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }">
-            <div class="info-content" @click="">
+          <li class="info-list-item clearfix" v-for="(item,index) in dataList">
+            <div class="info-content">
               <div class="info-content-left">
                 <div class="info-img" >
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
@@ -124,8 +121,6 @@
                 <p>时间: {{item.createTime}}</p>
               </div>
             </div>
-
-            </router-link>
           </li>
           
         </ul>
@@ -137,12 +132,11 @@
             :current-page="currentPage"
             :page-sizes="pageSize"
             :page-size="pageData.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
             
             :total="totalPage">
           </el-pagination>
         </div>
-        
+        <!-- layout="total, sizes, prev, pager, next, jumper" -->
       </div>
       <!-- 右侧组件  遮罩层在右侧组件中-->
       <info-right></info-right>
@@ -152,7 +146,7 @@
 </template>
 
 <script>
-import infoRight from './common/infoRight'
+import infoRight from './infoRight'
 export default {
   data() {
     return {
@@ -161,7 +155,7 @@ export default {
       pageData: {},
       pageSize:[10, 20, 50],
       currentPage: 1,
-      totalPage:Number, // 总条数 = 总页数 * 每页数据
+      totalPage:'', // 总条数 = 总页数 * 每页数据
       
     };
   },
@@ -169,11 +163,9 @@ export default {
     infoRight,
   },
   created(){
-    
     // 默认请求首页数据
-    this.$axios.post('/login/getFirstPageData')
+    this.$axios.post('/function/login/getFirstPageData')
     .then( res => {
-      console.log(res.data.code, res.data.msg)
       // 整体数据，包括分页数据
       console.log(res.data.data)
       let pageInfo = res.data.data
@@ -189,9 +181,6 @@ export default {
     .catch( err => console.log(err));
   },
   methods:{
-    goDetail(fileId){
-      // this.$router.push({path:'/market/apply',params:{fileId: fileId}})
-    },
     handleSizeChange(){
 
       this.$axios.post('/function/login/isLogin')
@@ -212,19 +201,6 @@ export default {
     },
     handleCurrentChange(){
 
-      
-      this.$axios.post('/function/login/isLogin')
-      .then( res => {
-        console.log(res.data.data)
-
-        if(res.data.data){
-
-        }else {
-          this.$router.push({
-            path:'/login'
-          })
-        }
-      })
     },
     
   },

@@ -38,10 +38,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../../webapp/index.html'),
+    index: path.resolve(__dirname, '../../webapp/html/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../../webapp'),
+    assetsRoot: path.resolve(__dirname, '../../webapp/html'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',  // 绝对路径和相对路径
 

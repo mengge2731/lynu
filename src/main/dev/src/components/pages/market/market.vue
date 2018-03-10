@@ -71,40 +71,7 @@
         float: right;
       }
     }
-    .info-right {
-      flex: 1;
-      // background-color: rgb(185, 185, 185);
-      padding-top: 10px;
-      padding-left: 10px;
-      .info-right-top,
-      .info-right-bot {
-        height: 228px;
-        border: 1px solid #ccc;
-        text-align: center;
-
-        h3{
-          font-size: 16px;
-          font-weight: 700;
-          height: 50px;
-          line-height: 50px;
-        }
-        ul{
-          li{
-            font-size: 14px;
-            height: 40px;
-            line-height: 40px;
-          }
-        }
-
-      }
-      .info-right-top {
-        
-      }
-      .info-right-bot {
-        margin-top: 10px;
-       
-      }
-    }
+    
   }
 </style>
 
@@ -121,6 +88,9 @@
 
         <ul class="info-list">
           <li class="info-list-item clearfix">
+
+            <router-link :to="{name:'marketApply'}">
+
             <div class="info-content">
               <div class="info-content-left">
                 <div class="info-img" >
@@ -136,6 +106,8 @@
                 <p>时间: 2018年1月29日</p>
               </div>
             </div>
+
+            </router-link>
           </li>
           
         </ul>
@@ -147,33 +119,15 @@
             :current-page="currentPage"
             :page-sizes="[100, 200, 300, 400]"
             :page-size="100"
-            layout="total, sizes, prev, pager, next, jumper"
+           
             :total="400">
           </el-pagination>
         </div>
-        
+         <!-- layout="total, sizes, prev, pager, next, jumper" -->
       </div>
-      <div class="info-right">
-        <div class="info-right-top">
-          <h3>数据获取</h3>
-          <ul>
-            <li>注册</li>
-            <li>申请</li>
-            <li>批准</li>
-            <li>获取</li>
-          </ul>
-        </div>
-        <div class="info-right-bot">
-          <h3>数据共享</h3>
-          <ul>
-            <li>登录</li>
-            <li>描述</li>
-            <li>发布</li>
-            <li>等待获取申请</li>
-          </ul>
-        </div>
-      </div>
-      <!-- 这是要做成 路由的区域 end -->
+      
+      <!-- 右侧组件  遮罩层在右侧组件中-->
+      <info-right></info-right>
   </div>
  </div>
   
@@ -181,11 +135,15 @@
 </template>
 
 <script>
+import infoRight from '../../common/infoRight'
 export default {
   data(){
     return {
       currentPage: 1,
     }
+  },
+  components:{
+    infoRight,
   },
   created(){
 
