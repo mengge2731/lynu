@@ -126,9 +126,31 @@ export default {
   },
   methods:{
     del(fileId){
-      console.log('删除操作，弹框提示');
-      
+      let that = this;
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 发送删除请求操作
+          console.log('删除文件操作'+ fileId )
+
+          setTimeout( function(){
+            that.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          },3000)
+
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     }
+     
   }
 }
 </script>

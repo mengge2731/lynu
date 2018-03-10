@@ -112,3 +112,12 @@ s, i, em {
   display: none;
 }
 
+.el-input__inner{
+  padding-right: 10px !important;
+  padding: 0 8px !important;
+}
+
+.el-input__icon{
+  width: 14px !important;
+}
+

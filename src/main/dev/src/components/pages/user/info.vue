@@ -2,12 +2,12 @@
 <style lang="less" scoped>
 
 .data-con{
-
+  // padding: 20px 60px;
 
   .user-info-form{
-    width: 100%;
+    width: 500px;
     font-size: 14px;
-    padding-left: 20px;
+    padding: 60px 0 0 200px;
 
     .user-account-number{
      margin-top: 10px;
@@ -23,7 +23,7 @@
       }
       .el-input{
         float: left;
-        width: 600px;
+        width: 400px;
       }
     }
 
@@ -38,7 +38,7 @@
       }
       .el-textarea{
         float: left;
-        width: 600px;
+        width: 400px;
 
         textarea{
           min-height: 200px !important;
@@ -49,7 +49,7 @@
 
     .user-info-submit{
       margin-top: 30px;
-      width: 664px;
+      width: 464px;
 
       .submit-button{
         float: right;

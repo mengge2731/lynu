@@ -169,9 +169,11 @@ export default {
     infoRight,
   },
   created(){
+    
     // 默认请求首页数据
-    this.$axios.post('/function/login/getFirstPageData')
+    this.$axios.post('/login/getFirstPageData')
     .then( res => {
+      console.log(res.data.code, res.data.msg)
       // 整体数据，包括分页数据
       console.log(res.data.data)
       let pageInfo = res.data.data
@@ -209,6 +211,8 @@ export default {
 
     },
     handleCurrentChange(){
+
+      
       this.$axios.post('/function/login/isLogin')
       .then( res => {
         console.log(res.data.data)

@@ -1,7 +1,7 @@
 <style lang="less" scoped>
 .pw-con{
   font-size: 14px;
-  padding-left: 20px;
+  padding: 60px 200px;
   .user-phone,
   .old-pw,
   .new-pw,
@@ -23,7 +23,7 @@
   .new-pw-text,
   .new-pw-repeat-text,
   {
-    width: 144px;
+    width: 100px;
     text-align: right;
     margin-right: 10px;
 
@@ -44,10 +44,9 @@
   
   .goSubmit{
     margin-top: 30px;
-    width: 454px;
-    .el-button{
+    width: 200px;
+    
       float:right;
-    }
   }
 
   // 修改 element 样式
@@ -76,20 +75,21 @@
 
     <div class="new-pw clearfix">
       <div class="new-pw-text">
-        新的登录密码:
+        新密码:
       </div>
        <el-input type="password" v-model="newPw" ></el-input>
     </div>
 
     <div class="new-pw-repeat clearfix">
       <div class="new-pw-repeat-text">
-        再次输入新的登录密码: 
+        再次输入: 
       </div>
       <el-input type="password" v-model="newPwRepeat" @blur="check" ></el-input>
     </div>
 
     <div class="goSubmit clearfix">
-      <el-button type="primary" class="submit-button" @click="saveChange">保存</el-button>
+      <el-button type="primary"  @click="saveChange" size="medium">保存</el-button>
+      <el-button plain  @click="goBack" size="medium">返回</el-button>
     </div>
 
   </div>
@@ -130,6 +130,9 @@ export default {
       }else{
         console.log('2次密码相同')
       }
+    },
+    goBack(){
+      this.$router.go(-1);
     }
   }
 }

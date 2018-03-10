@@ -36,12 +36,20 @@
 
 // 登录框样式
   #cover-box{
-    background-color: rgba(0,0,0,.5);
+    
     position: absolute;
     left: 0;
     top:0;
     width: 100%;
     height: 100%;
+
+    .box-cover{
+      background-color: rgba(0,0,0,.5);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      
+    }
 
     .login-box{
       padding: 30px;
@@ -114,6 +122,14 @@
   }
 
 
+.reg-code{
+
+  .code-input{
+    width: 84px !important;
+  }
+}
+
+
 </style>
 
 <template>
@@ -132,16 +148,18 @@
 
       <!-- 遮罩层 -->
     <div id="cover-box" v-show="$route.path == '/login'" >
+
+      <div class="box-cover" @click.stop="closeCover"></div>
       <!-- 登录框 -->
       <div class="login-box" v-if="loginOrRegister">
 
         <div class="login-title">登录</div>
         <div class="login-phone">
-          手机号: <input type="phone" maxlength="11" placeholder="请输入手机号">
+          手机号: <input type="phone" maxlength="11" placeholder="请输入手机号" v-model="phoneNum">
         </div>
 
         <div class="login-pw">
-          登录密码: <input type="password" placeholder="请输入登录密码">
+          登录密码: <input type="password" placeholder="请输入登录密码" v-model="password">
         </div>
 
         <div class="login-check">
@@ -160,12 +178,23 @@
       </div>
 
       <!-- 注册框 -->
-      <div class="login-box" v-else>注册框
-        <button @click="submitRegister">注册</button>
-
-        <el-button @click="closeCover">关闭</el-button>
-
+      <div class="login-box" v-else>
+        <div class="login-title">注册</div>
+        <div class="login-phone">
+          手机号: <input type="phone" maxlength="11" v-model="codePhone" >
+        </div>
+        <div class="login-phone reg-code">
+          短信验证码:           
+          <input type="phone" maxlength="11" class="code-input" v-model="msg">
+          <el-button @click="phoneCode">获取验证码</el-button>
+        </div>
+        <div class="login-pw">
+          登录密码: <input type="password" v-model="password">
+        </div>
         <div @click="toggleRegister">已有账号，直接登录</div>
+        <div class="login-submit" >
+          <el-button type="danger" @click="submitRegister">注册</el-button>
+        </div>
       </div>
     </div>
 
@@ -180,17 +209,30 @@ export default {
     return {
       cover: false, // 遮罩层是否开启
       loginOrRegister: true,  // 显示登录框  还是注册框
-      checked: 0
+      checked: 0,
+      codePhone:'',
+      msg:'',
+      password:'',
+      phoneNum:'',
+
     };
   },
   created() {},
-  methods:{
-    
-  },
   components: {
     navHeader,
   },
   methods:{
+    phoneCode(){
+      let data = {phone: this.codePhone};
+      let todata = JSON.stringify(data)
+
+      var dataParam = 'body='+ todata;
+      this.$axios.post('/login/sendMsg',dataParam)
+      .then(res => {
+        console.log(res.data);
+      })
+
+    },
     login(){
       console.log('登录操作')
       this.cover = true;
@@ -204,12 +246,58 @@ export default {
     }, //提交登录和注册
     submitLogin(){
       console.log('提交登录')
-      this.$router.push({
-        path:'/'
+      let data = {phone: this.phoneNum, password: this.password };
+      let todata = JSON.stringify(data)
+
+      var dataParam = 'body='+ todata;
+      this.$axios.post('/login/submit',dataParam)
+      .then(res => {
+        console.log(res.data);
+
+        if(res.data.code == '0000'){
+          sessionStorage.isLogin = true;
+
+          this.$router.push({
+            path:'/'
+          })
+        }
+        
       })
+      
     },
     submitRegister(){
       console.log('提交注册')
+
+      let that =this;
+
+      let data = {phone: this.codePhone,message: this.msg, password: this.password };
+      let todata = JSON.stringify(data)
+
+      var dataParam = 'body='+ todata;
+      this.$axios.post('/login/register',dataParam)
+      .then(res => {
+        console.log(res.data);
+
+        if(res.data.code == '0000'){
+
+          that.$message({
+            message: '恭喜你，注册成功!',
+            type: 'success'
+          });
+
+          setTimeout(function(){
+            that.loginOrRegister = true;
+          },500)
+          
+        }else if(res.data.code == '0013'){
+          that.$message({
+            message: '手机号已注册，请直接登录',
+            type: 'info'
+          });
+        }
+
+      })
+
     },// 关闭遮罩层
     closeCover(){
       this.$router.push({

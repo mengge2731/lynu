@@ -106,7 +106,7 @@
 
           <div class="item-right">
             <el-button type="primary" plain size="small"  @click="toDetail">新申请待审批</el-button>
-            <el-button type="danger" plain size="small">删除</el-button>
+            <el-button type="danger" plain size="small" @click="del()">删除</el-button>
           </div>
         </div>
       </li>
@@ -128,7 +128,32 @@ export default {
   methods:{
     toDetail(){
       console.log('跳转到 -------------- 已共享详情页面')
-      this.$router.push({name:'detail'});
+      this.$router.push({name:'agree'});
+    },
+    del(fileId){
+      let that = this;
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 发送删除请求操作
+          console.log('删除文件操作'+ fileId )
+
+          setTimeout( function(){
+            that.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          },3000)
+
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     }
   }
 }

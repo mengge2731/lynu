@@ -1,61 +1,81 @@
 <style lang="less" scoped>
   .data-share-con{
-    width: 100%;
+    width: 600px;
 
     font-size: 14px;
-    padding-left: 20px;
-    .user-phone,
-    .old-pw,
-    .new-pw,
+    padding: 20px 0 0 200px;
+    .data-pub,
+    .data-name,
+    .data-info,
     .new-pw-repeat,
     {
       margin-top: 10px;
     }
-    .user-phone,
-    .old-pw,
-    .new-pw,
-    .new-pw-repeat,
-    {
-      height: 40px;
-      line-height: 40px;
-      
-    }
-    .user-phone-text,
-    .old-pw-text,
-    .new-pw-text,
-    .new-pw-repeat-text,
-    {
-      width: 144px;
-      text-align: right;
-      margin-right: 10px;
 
-      // 两端对齐
-      // text-align:justify;  
-      // text-align-last:justify;  
-      
-    }
-
-    .user-phone div,
-    .old-pw div,
-    .new-pw div,
-    .new-pw-repeat div{
-        float:left;
-    }
-
-    // 单独样式
     
-    .goSubmit{
-      margin-top: 30px;
-      width: 454px;
-      .el-button{
-        float:right;
+    // 单独样式
+    .data-pub{
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .data-name{
+      display: flex;
+      .name-title{
+        width: 70px;
+        height: 40px;
+        line-height: 40px;
+      }
+
+      .name-input{
+        flex:1;
       }
     }
+    .data-info{
+      display: flex;
+      .data-info-num{
+        display: flex;
+        width: 280px;
+        .info-title{
+          width: 70px;
+          height: 40px;
+          line-height: 40px;
+        }
 
-    // 修改 element 样式
-    .el-input{
-        width: 300px;
+        .info-input{
+          flex:1;
+        }
+      }
+
+      .data-info-type{
+        display: flex;
+        width: 280px;
+        margin-left: 80px;
+        .type-title{
+          width: 70px;
+          height: 40px;
+          line-height: 40px;
+        }
+
+        .type-input{
+          flex:1;
+        }
+      }
+      
     }
+    .user-present{
+
+    }
+    
+    .user-info-submit{
+
+    }
+  
+  }
+
+  .el-select{
+    width: 100%;
   }
 </style>
 
@@ -64,39 +84,56 @@
    
 
     <div class="data-pub">数据发布:</div>
-    <div class="">
-      数据名称:
-      <el-input v-model="dataName" placeholder="请输入内容"></el-input>
+    <div class="data-name">
+      <div class="name-title">
+        数据名称:
+      </div>
+      <div class="name-input">
+         <el-input v-model="dataName" placeholder="请输入内容"></el-input>
+      </div>
     </div>
 
-    <div class="">
-      <div class="">
-        数据量:
-        <el-input v-model="dataSize" placeholder="请输入内容"></el-input>
+    <div class="data-info">
+      <div class="data-info-num">
+        <div class="info-title">
+          数据量:
+        </div>
+        <div class="info-input">
+          <el-input v-model="dataSize" placeholder="请输入内容"></el-input>
+        </div>
+        
       </div>
 
-      <div class="">
-        数据分类:
-        <el-select v-model="dataType" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+      <div class="data-info-type">
+        <div class="type-title">
+          数据分类:
+        </div>
+        <div class="type-input">
+          <el-select v-model="dataType" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+       
       </div>
   </div>
     
     <div class="user-present clearfix">
       <div class="present-text">数据介绍:</div>
       
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="请输入内容"
-        v-model="dataDesc">
-      </el-input>
+      <div>
+        <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="dataDesc">
+        </el-input>
+      </div>
+      
     </div>
 
     <div class="user-info-submit clearfix">
@@ -145,10 +182,10 @@ export default {
     },
     goBack(){
       // 默认返回首页，或者历史记录 返回
-      this.$router.push({
-        path:'/'
-      })
-      // this.$router.go(-1);
+      // this.$router.push({
+      //   path:'/'
+      // })
+      this.$router.go(-1);
     }
   }
 }
