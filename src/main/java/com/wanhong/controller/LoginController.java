@@ -54,7 +54,7 @@ public class LoginController {
     @ResponseBody
     public ResultJson<UserInfoVo> submit(String body){
         UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body, UserParam.class);
-        if (StringUtil.hasBlank(userParam.getPassword(),userParam.getPhone())){
+        if (StringUtil.hasBlank(userParam.getPassword(),userParam.getPhone()) || !ValidateUtil.validateParaPhone(userParam.getPhone())){
             return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
         }
         UserInfo userInfoQuery = new UserInfo();
@@ -113,7 +113,7 @@ public class LoginController {
     @ResponseBody
     public ResultJson<MessageResultVo> sendMsg(String body){
         UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body, UserParam.class);
-        if (StringUtil.hasBlank(userParam.getPhone())){
+        if (StringUtil.hasBlank(userParam.getPhone()) || !ValidateUtil.validateParaPhone(userParam.getPhone())){
             return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
         }else{
             return messageService.sendMessage(userParam.getPhone());
@@ -123,37 +123,44 @@ public class LoginController {
     @RequestMapping("/register")
     @ResponseBody
     public ResultJson<Boolean> register(String body){
-        ResultJson resultJson;
+        ResultJson resultJson = new ResultJson(BusinessCode.REGISTER_ERROR);
         UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body, UserParam.class);
-        if (StringUtil.hasBlank(userParam.getPhone(),userParam.getPassword(),userParam.getMessage())){
-            resultJson = new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
-        }else{
+        if (StringUtil.hasBlank(userParam.getPhone(),userParam.getPassword(),userParam.getMessage())
+                || !ValidateUtil.validateParaPhone(userParam.getPhone())){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+        }
+        try {
             MessageInfo messageInfo = new MessageInfo();
             messageInfo.setPhone(userParam.getPhone());
             MessageInfo messageInfoResult = messageService.getMessageInfoByPhone(messageInfo);
-            if (messageInfoResult != null){
-                if (userParam.getMessage().equals(messageInfoResult.getMessage())){
-                    Date expireTime = messageInfoResult.getExpireTime();
-                    Date now = new Date();
-                    if (now.after(expireTime) || now.equals(expireTime)){
+            if (messageInfoResult != null) {
+                if (userParam.getMessage().equals(messageInfoResult.getMessage())) {
+                    if (messageInfoResult.getExpireTime().compareTo(new Date()) > 0) {
                         UserInfo userInfoQuery = new UserInfo();
-                        BeanUtil.copyProperties(userParam,userInfoQuery);
-                        UserInfo  userInfo = userService.getUserInfoByPhone(userInfoQuery);
-                        UserInfoVo userInfoVo = new UserInfoVo();
-                        BeanUtil.copyProperties(userInfo,userInfoVo);
-                        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-                        HttpServletRequest request = ((ServletRequestAttributes)ra).getRequest();
-                        request.getSession().setAttribute("userInfo",userInfoVo);
-                        resultJson = new ResultJson<>(BusinessCode.SUCCESS,true);
-                    }else{
+                        BeanUtil.copyProperties(userParam, userInfoQuery);
+                        UserInfo userInfo = userService.getUserInfoByPhone(userInfoQuery);
+                        if (userInfo == null){//从未注册过
+                            UserInfo userInfoResult = userService.saveUserInfo(userInfoQuery);
+                            if (userInfoResult != null){
+                                resultJson = new ResultJson<>(BusinessCode.SUCCESS, true);
+                            }else{
+                                resultJson = new ResultJson<>(BusinessCode.REGISTER_ERROR);
+                            }
+                        }else{
+                            resultJson = new ResultJson<>(BusinessCode.REGISTER_AGINE);
+                        }
+
+                    } else {
                         resultJson = new ResultJson<>(BusinessCode.MESSAGE_OVER_TIME);
                     }
-                }else{
+                } else {
                     resultJson = new ResultJson<>(BusinessCode.MESSAGE_WRONG);
                 }
-            }else{
+            } else {
                 resultJson = new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         return resultJson;

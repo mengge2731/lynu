@@ -76,4 +76,14 @@ public class UserServiceImpl implements UserService{
     public UserInfo getUserInfoByPhone(UserInfo userInfo) {
         return userInfoDao.getUserInfoByPhone(userInfo);
     }
+
+    @Override
+    public UserInfo saveUserInfo(UserInfo userInfo) {
+        Integer res =  userInfoDao.saveUserInfo(userInfo);
+        if (res>0){
+            return userInfo;
+        }else{
+            return null;
+        }
+    }
 }

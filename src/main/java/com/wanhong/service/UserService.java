@@ -19,4 +19,5 @@ public interface UserService {
     Integer updateUserPassword(UserInfo userInfo);
     UserInfo getUserInfoByPhone(UserInfo userInfo);
     UserInfo getUserInfoById(UserInfo userInfo);
+    UserInfo saveUserInfo(UserInfo userInfo);
 }

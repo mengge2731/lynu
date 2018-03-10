@@ -20,6 +20,8 @@ public enum BusinessCode implements ErrorCode{
     MESSAGE_OVER_TIME("0009", "消息超时."),
     APPLY_OWN_DATA("0010", "不能申请自己发布的数据."),
     UPDATE_ERROR("0011", "更新失败."),
+    REGISTER_ERROR("0012", "注册失败."),
+    REGISTER_AGINE("0013", "已经注册过，请直接登录."),
     ;
     private final String code;
     private final String description;
