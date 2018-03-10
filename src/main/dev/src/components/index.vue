@@ -175,14 +175,12 @@ export default {
     .then( res => {
       console.log(res.data.code, res.data.msg)
       // 整体数据，包括分页数据
-      console.log(res.data.data)
       let pageInfo = res.data.data
       this.pageData = pageInfo;
 
       // 数据总条数  总条数 = 总页数 * 每页数据
       this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
       // 数据列表
-      console.log(res.data.data.data)
       this.dataList = res.data.data.data;
 
     })
@@ -209,12 +207,9 @@ export default {
 
       this.$axios.post('/login/isLogin')
       .then( res => {
-        console.log(res.data.data)
 
-        if(res.data.data == "0002"){
-          this.$router.push({
-            path:'/'
-          })
+        if(res.data.code == "0002"){
+          
         }else {
           this.$router.push({
             path:'/login'
@@ -230,12 +225,9 @@ export default {
       
       this.$axios.post('/login/isLogin')
       .then( res => {
-        console.log(res.data.data)
 
-        if(res.data.data == "0002"){
-          this.$router.push({
-            path:'/'
-          })
+        if(res.data.code == "0002"){
+          
         }else {
           this.$router.push({
             path:'/login'
