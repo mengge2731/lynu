@@ -167,6 +167,7 @@ public class LoginController {
     }
 
 
+    
     @RequestMapping("/getFirstPageData")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getFirstPageData(){

@@ -77,5 +77,12 @@
         <location>/html/error.html</location>
     </error-page>
 
-
+    <!--<filter>-->
+        <!--<filter-name>TestFilter</filter-name>-->
+        <!--<filter-class>com.wanhong.common.filter.TestFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>&lt;!&ndash; 此filter对所有的请求都有过滤效果 &ndash;&gt;-->
+        <!--<filter-name>TestFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 </web-app>
