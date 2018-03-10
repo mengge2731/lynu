@@ -56,16 +56,17 @@
 
           <ul class="clearfix">
             <li @click="change(1)">
-              <router-link :to="{ name:'index',path:'/'}" :class="{active: currentPage == 1 }">首页</router-link>
+              <router-link :to="{ }" :class="{active: currentPage == 1 }">首页</router-link>
             </li>
             <li @click="change(2)">
-              <router-link :to="{ name:'market', path:'/market'  }" :class="{active: currentPage == 2}">数据市场</router-link>
+              <router-link :to="{  }" :class="{active: currentPage == 2}">数据市场</router-link>
+              
             </li>
             <li @click="change(3)">
-              <router-link :to="{ name:'center',path:'/center' }" :class="{active: currentPage == 3}">数据共享</router-link>
+              <router-link :to="{  }" :class="{active: currentPage == 3}">数据共享</router-link>
             </li>
             <li @click="change(4)">
-              <router-link :to="{name:'info',path:'/user/info' }" :class="{active: currentPage == 4}">个人中心</router-link>
+              <router-link :to="{ }" :class="{active: currentPage == 4}">个人中心</router-link>
             </li>
           </ul>
         </div>
@@ -91,15 +92,53 @@ export default {
   },
   methods: {
     change(index){
-      if(index == 1){
-        this.currentPage = 1;
-      }else if(index == 2){
-        this.currentPage = 2;
-      }else if(index == 3){
-        this.currentPage = 3;
-      }else if(index == 4){
-        this.currentPage = 4;
-      }
+       this.$axios.post('/login/isLogin')
+      .then( res => {
+        console.log(res.data.code)
+
+        if(res.data.code == "0000"){
+          if(index == 1){
+            this.currentPage = 1;
+            this.$router.push({
+              path:'/'
+            })
+          }else if(index == 2){
+            this.currentPage = 2;
+            this.$router.push({
+              path:'/market'
+            })
+          }else if(index == 3){
+            this.currentPage = 3;
+            this.$router.push({
+              path:'/center'
+            })
+          }else if(index == 4){
+            this.currentPage = 4;
+            this.$router.push({
+              path:'/user/info'
+            })
+          }
+        }else {
+           this.$router.push({
+              path:'/login'
+          })
+        }
+      })
+
+    },
+    toMarket(){
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        console.log(res.data.data)
+
+        // if(res.data.data){
+
+        // }else {
+        //   this.$router.push({
+        //     path:'/login'
+        //   })
+        // }
+      })
     }
   }
 };

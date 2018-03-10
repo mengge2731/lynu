@@ -108,8 +108,8 @@
         <ul class="info-list">
           <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
 
-            <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }">
-            <div class="info-content" @click="">
+            <!-- <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }"> -->
+            <div class="info-content" @click="goDetail(item.fileId)">
               <div class="info-content-left">
                 <div class="info-img" >
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
@@ -125,7 +125,7 @@
               </div>
             </div>
 
-            </router-link>
+            <!-- </router-link> -->
           </li>
           
         </ul>
@@ -190,7 +190,20 @@ export default {
   },
   methods:{
     goDetail(fileId){
-      // this.$router.push({path:'/market/apply',params:{fileId: fileId}})
+       this.$axios.post('/login/isLogin')
+      .then( res => {
+        console.log(res.data.code)
+
+        if(res.data.code == "0000"){
+          this.$router.push({path:'/market/apply?fileId=' + fileId })
+        }else {
+           this.$router.push({
+              path:'/login'
+          })
+        }
+
+      })
+      
     },
     handleSizeChange(){
 
@@ -213,7 +226,7 @@ export default {
     handleCurrentChange(){
 
       
-      this.$axios.post('/function/login/isLogin')
+      this.$axios.post('/login/isLogin')
       .then( res => {
         console.log(res.data.data)
 
@@ -225,6 +238,8 @@ export default {
           })
         }
       })
+
+
     },
     
   },
