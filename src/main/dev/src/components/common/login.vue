@@ -164,7 +164,7 @@ export default {
   },
   created(){
     // 默认请求首页数据
-    this.$axios.post('/function/login/getFirstPageData')
+    this.$axios.post('/login/getFirstPageData')
     .then( res => {
       // 整体数据，包括分页数据
       console.log(res.data.data)
@@ -183,7 +183,7 @@ export default {
   methods:{
     handleSizeChange(){
 
-      this.$axios.post('/function/login/isLogin')
+      this.$axios.post('/login/isLogin')
       .then( res => {
         console.log(res.data.data)
 
