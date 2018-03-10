@@ -194,7 +194,7 @@ export default {
       .then( res => {
         console.log(res.data.code)
 
-        if(res.data.code == "0000"){
+        if(res.data.code == "0002"){
           this.$router.push({path:'/market/apply?fileId=' + fileId })
         }else {
            this.$router.push({
@@ -207,12 +207,14 @@ export default {
     },
     handleSizeChange(){
 
-      this.$axios.post('/function/login/isLogin')
+      this.$axios.post('/login/isLogin')
       .then( res => {
         console.log(res.data.data)
 
-        if(res.data.data){
-
+        if(res.data.data == "0002"){
+          this.$router.push({
+            path:'/'
+          })
         }else {
           this.$router.push({
             path:'/login'
@@ -230,8 +232,10 @@ export default {
       .then( res => {
         console.log(res.data.data)
 
-        if(res.data.data){
-
+        if(res.data.data == "0002"){
+          this.$router.push({
+            path:'/'
+          })
         }else {
           this.$router.push({
             path:'/login'
