@@ -7,6 +7,8 @@ import com.wanhong.domain.ResultJson;
 import com.wanhong.domain.vo.MessageResultVo;
 import com.wanhong.service.MessageService;
 import com.wanhong.util.SendMessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -17,32 +19,65 @@ import java.util.Map;
  * @date 2018-03-04 15:32
  */
 public class MessageServiceImpl implements MessageService {
-
+    private static Logger logger = LoggerFactory.getLogger(SendMessageUtil.class);
     @Autowired
     MessageInfoDao messageInfoDao;
     @Override
     public ResultJson sendMessage(String phone) {
+        MessageInfo messageInfoQuery = new MessageInfo();
+        messageInfoQuery.setPhone(phone);
+        MessageInfo messageInfo = this.getMessageInfoByPhone(messageInfoQuery);
+        //如果之前发过一条短信
+        if (messageInfo != null ){
+            // 如果之前发过一条短信 并且短信已经过期则：
+            if (messageInfo.getExpireTime().getTime()>=new Date().getTime()) {
+                return this.sendAndUpdate(phone);
+            }else{//如果之前发过，并且短信没有过期，则返回发送成功。
+                return new ResultJson(BusinessCode.SEND_MESSAGE_SUCCESS);
+            }
+        }else {//如果之前没法送过短信。则重新发送，并记录这条数据。
+            return this.sendAndSave(phone);
+        }
+    }
+
+    private ResultJson sendAndUpdate(String phone){
+        MessageInfo messageInfoQuery = new MessageInfo();
+        messageInfoQuery.setPhone(phone);
         SendMessageUtil sendMessageUtil = new SendMessageUtil();
         ResultJson result = sendMessageUtil.sendMessage(phone);
-        if (BusinessCode.SUCCESS.getCode().equals(result.getCode())){
-            Map<String,Object> mapResult = (Map<String,Object>)result.getData();
-            String message = (String)mapResult.get("message");
-            MessageResultVo messageResultVo = (MessageResultVo)mapResult.get("messageResultVo");
-            MessageInfo messageInfoQuery = new MessageInfo();
-            messageInfoQuery.setPhone(phone);
+        if (BusinessCode.SUCCESS.getCode().equals(result.getCode())) {
+            Map<String, Object> mapResult = (Map<String, Object>) result.getData();
+            String message = (String) mapResult.get("message");
+            MessageResultVo messageResultVo = (MessageResultVo) mapResult.get("messageResultVo");
+            result.setData(messageResultVo);
             messageInfoQuery.setMessage(message);
             Date expireTime = new Date();
             expireTime.setMinutes(expireTime.getMinutes() + 20);
             messageInfoQuery.setExpireTime(expireTime);
-            MessageInfo messageInfo = this.getMessageInfoByPhone(messageInfoQuery);
-            if (messageInfo != null){
-                this.updateMessageInfoByPhone(messageInfoQuery);
-            }else {
-                this.saveMessageInfo(messageInfoQuery);
-            }
+            this.updateMessageInfoByPhone(messageInfoQuery);
+            logger.info("MessageServiceImpl--sendAndUpdate--result:{}",result);
         }
         return result;
+    }
 
+    private ResultJson sendAndSave(String phone){
+        MessageInfo messageInfoQuery = new MessageInfo();
+        messageInfoQuery.setPhone(phone);
+        SendMessageUtil sendMessageUtil = new SendMessageUtil();
+        ResultJson result = sendMessageUtil.sendMessage(phone);
+        if (BusinessCode.SUCCESS.getCode().equals(result.getCode())) {
+            Map<String, Object> mapResult = (Map<String, Object>) result.getData();
+            String message = (String) mapResult.get("message");
+            MessageResultVo messageResultVo = (MessageResultVo) mapResult.get("messageResultVo");
+            result.setData(messageResultVo);
+            messageInfoQuery.setMessage(message);
+            Date expireTime = new Date();
+            expireTime.setMinutes(expireTime.getMinutes() + 20);
+            messageInfoQuery.setExpireTime(expireTime);
+            this.saveMessageInfo(messageInfoQuery);
+            logger.info("MessageServiceImpl--sendAndSave--result:{}",result);
+        }
+        return result;
     }
 
 

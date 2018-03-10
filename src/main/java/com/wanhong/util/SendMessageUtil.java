@@ -48,8 +48,8 @@ public class SendMessageUtil {
     public ResultJson sendMessage(String mobile){
         ResultJson resultJson;
         //修改为您的apikey.apikey可在官网（http://www.yuanpian.com)登录后用户中心首页看到
-//       String apikey = "3bf6adecf98710a21230d60d2d1e77f1";
-        String apikey = "9b5ba79f7c44e0814b85456a7a1dcffb";
+       String apikey = "3bf6adecf98710a21230d60d2d1e77f1";
+//        String apikey = "9b5ba79f7c44e0814b85456a7a1dcffb";
         String code="";
         /**************** 使用通用接口发短信(推荐) *****************/
         //设置您要发送的内容(内容必须和某个模板匹配。以下例子匹配的是系统提供的1号模板）
@@ -58,8 +58,8 @@ public class SendMessageUtil {
         for(int i=0;i<6;i++){
             code+=random.nextInt(9)+1;
         }
-        String text = "【中标麒麟】验证码："+code+"，您正在使用中标麒麟license管理平台，该验证码20分钟内有效。";
-
+//        String text = "【万宏科技】您的验证码是："+code+"，该验证码20分钟内有效。";
+        String text = "【万宏科技】您的验证码是："+code;
         String result="";
         try {
             result = this.sendSms(apikey, text, mobile);
@@ -67,7 +67,7 @@ public class SendMessageUtil {
             logger.error("发送短信出错 出错信息：{}",e);
             return new ResultJson(BusinessCode.SEND_MESSAGE_ERROR);
         }
-        logger.info("云片返回结果：{}"+result);
+        logger.info("云片返回结果：{}",result);
         MessageResultVo resultVo = JSON.parseObject(result,MessageResultVo.class);
         String susscessmsg = resultVo.getMsg();
 
