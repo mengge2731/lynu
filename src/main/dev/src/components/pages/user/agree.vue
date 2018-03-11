@@ -38,7 +38,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+            @click="check(scope.row.id)">查看</el-button>
           
         </template>
       </el-table-column>
@@ -54,21 +54,25 @@ export default {
   data(){
     return {
       tableData: [{
+        id:1,
             date: '2016-05-02',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
             tel:'13512348888',
           }, {
+            id:2,
             date: '2016-05-04',
             name: '王小虎王小虎王小虎王小虎王小虎',
             address: '上海市普陀区金沙江路 1517 弄',
             tel:'13512348888',
           }, {
+            id:3,
             date: '2016-05-01',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1519 弄',
             tel:'13512348888',
           }, {
+            id:4,
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1516 弄',
@@ -83,6 +87,10 @@ export default {
   methods:{
     goBack(){
       this.$router.go(-1)
+    },
+    check(id){
+      console.log(id);
+      // 跳转审核页面
     }
   }
 }

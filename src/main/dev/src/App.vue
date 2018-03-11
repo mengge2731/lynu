@@ -16,7 +16,6 @@ export default {
     Layout
   },
   methods:{
-    
   }
   ,
   mounted(){

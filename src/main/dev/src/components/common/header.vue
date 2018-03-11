@@ -49,46 +49,60 @@
     background-color: red;
   }
 </style>
-
 <template>
   <div class="header">
         <div class="nav-list">
+          
+          <el-radio-group v-model="type" size="medium" @change="check">
+            <el-radio-button label="1" >首页</el-radio-button>
+            <el-radio-button label="2">数据市场</el-radio-button>
+            <el-radio-button label="3">数据共享</el-radio-button>
+            <el-radio-button label="4">个人中心</el-radio-button>
+          </el-radio-group>
 
-          <ul class="clearfix">
-            <li @click="change(1)">
-              <router-link :to="{ }" :class="{active: currentPage == 1 }">首页</router-link>
-            </li>
-            <li @click="change(2)">
-              <router-link :to="{  }" :class="{active: currentPage == 2}">数据市场</router-link>
-              
-            </li>
-            <li @click="change(3)">
-              <router-link :to="{  }" :class="{active: currentPage == 3}">数据共享</router-link>
-            </li>
-            <li @click="change(4)">
-              <router-link :to="{ }" :class="{active: currentPage == 4}">个人中心</router-link>
-            </li>
-          </ul>
         </div>
-
         <div class="banner"> 
           <img src="../../assets/img/banner.jpg" alt="">
         </div>
+
+        <login-box :loginbox="loginbox" ></login-box>
     </div>
-
-
 </template>
 
 <script>
+import loginBox from './loginBox';
 export default {
   name: "nav-header",
   data() {
     return {
+      type:1,
       currentPage: 1, // 1首页  2数据市场 3数据共享  4 个人中心  [要变成 全局的变量]
+      loginbox: {
+        cover: false, // 遮罩层是否开启
+        loginOrRegister: true,  // 显示登录框  还是注册框
+      },
     };
   },
+  components:{
+    loginBox,
+  },
   created(){
-
+    console.log(this.$route.path)
+    
+    switch (this.$route.path) {
+      case '/' :
+        this.type = 1;
+        break;
+      case  '/market':
+        this.type = 2;
+        break;
+      case '/center':
+        this.type = 3;
+        break;
+      default:
+        this.type = 4;
+        break;
+    }
   },
   methods: {
     change(index){
@@ -100,8 +114,6 @@ export default {
       }else {
          this.$axios.post('/login/isLogin')
         .then( res => {
-          console.log(res.data.code)
-          
           if(res.data.code == "0002"){
             if(index == 2){
               this.currentPage = 2;
@@ -120,15 +132,55 @@ export default {
               })
             }
           }else {
-            this.$router.push({
-                path:'/login'
-            })
+            // 弹出登录框
+            // 传入登录还是注册
+            this.loginbox.cover = true; // 遮罩层是否开启
+            this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+          }
+        })
+      }
+    },
+    check(){
+      // 跳转路由
+      console.log(this.type)
+      if(this.type == 1){
+        this.currentPage = 1;
+        this.$router.push({
+          path:'/'
+        })
+      }else {
+         this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == "0002"){
+            if(this.type == 2){
+              this.currentPage = 2;
+              this.$router.push({
+                path:'/market'
+              })
+            }else if(this.type == 3){
+              this.currentPage = 3;
+              this.$router.push({
+                path:'/center'
+              })
+            }else if(this.type == 4){
+              this.currentPage = 4;
+              this.$router.push({
+                path:'/user/info'
+              })
+            }
+          }else {
+            this.type = 1;
+            // 弹出登录框
+            // 传入登录还是注册
+            this.loginbox.cover = true; // 遮罩层是否开启
+            this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
           }
         })
       }
     }
     
-  }
+  },
+  
 };
 </script>
 

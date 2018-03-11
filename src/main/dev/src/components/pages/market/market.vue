@@ -10,6 +10,18 @@
       flex: 4;
       // background-color: red;
 
+      .info-nav{
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+
+
+
+      }
+
+
+
       .info-list {
         padding: 10px 0px;
         .info-list-item {
@@ -77,14 +89,17 @@
 
 <template>
  <div style="width:100%">
-   <div >全部 旅游相关 文化相关 意大利相关</div>
-
    <div class="content">
-       
      <!-- 这是要做成 路由的区域 -->
       <div class="info-left">
-
-        
+        <div class="info-nav">
+          <el-radio-group v-model="type" size="small" @change="check">
+            <el-radio-button label="0" >全部</el-radio-button>
+            <el-radio-button label="1">旅游相关</el-radio-button>
+            <el-radio-button label="2">文化相关</el-radio-button>
+            <el-radio-button label="3">意大利相关</el-radio-button>
+          </el-radio-group>
+        </div>
 
         <ul class="info-list">
           <li class="info-list-item clearfix">
@@ -139,7 +154,8 @@ import infoRight from '../../common/infoRight'
 export default {
   data(){
     return {
-      currentPage: 1,
+      currentPage: 1, //当前页
+      type: 0
     }
   },
   components:{
@@ -155,6 +171,11 @@ export default {
     handleCurrentChange(){
 
     },
+    check(){
+      // 切换分类
+      console.log(this.type)
+
+    }
 
   }
 }

@@ -82,7 +82,6 @@
 
 <template>
   <div class="data-con">
-    
    <ul class="data-list">
       <li class="data-list-item clearfix">
         <div class="item-container">
@@ -110,11 +109,8 @@
         </div>
       </li>
     </ul>
-
   </div>
-
 </template>
-
 <script>
 export default {
   data(){
