@@ -90,8 +90,7 @@
       <div class="info-left">
         <ul class="info-list">
           <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
-            <!-- <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }"> -->
-            <div class="info-content" @click="goDetail(item.fileId)">
+            <div class="info-content" @click="goDetail(item.dataId)">
               <div class="info-content-left">
                 <div class="info-img" >
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
@@ -106,7 +105,6 @@
                 <p>时间: {{item.createTime}}</p>
               </div>
             </div>
-            <!-- </router-link> -->
           </li>
         </ul>
         <!-- 分页组件 -->
@@ -171,11 +169,11 @@ export default {
     .catch( err => console.log(err));
   },
   methods:{
-    goDetail(fileId){
+    goDetail(id){
        this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == "0002"){
-          this.$router.push({path:'/apply?fileId=' + fileId })
+          this.$router.push({path:'/apply?dataId=' + id })
         }else {
            // 显示登录框
           this.loginbox.cover = true; // 遮罩层是否开启
