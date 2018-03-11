@@ -181,12 +181,18 @@ export default {
   created(){
     // 页面加载时获取，数据的id，然后查询渲染页面
     
-    let dataId = this.$route.query.dataId
+    // let dataId = this.$route.query.dataId
+
+    let data = {
+      dataId: this.$route.query.dataId,
+    }
+    let params = 'body=' + JSON.stringify(data);
+
     this.$axios.post('/login/isLogin')
     .then( res => {
 
       if(res.data.code == '0002'){
-        this.$axios.post('/data/getDataInfo')
+        this.$axios.post('/data/getDataInfo',params)
         .then( res => {
           if(res.data.code == '0000'){
             this.dataInfo = res.data.data;
