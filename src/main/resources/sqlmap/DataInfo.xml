@@ -48,13 +48,13 @@
 		data_info u
 		WHERE
 		status = 0
-		AND
-		data_type=#{dataType}
+		<if test="dataType!=null and dataType != ''" >AND data_type=#{dataType}</if>
+
 		ORDER BY u.create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 	<select id="getDataInfoTypeCount" parameterType="dataQuery" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM data_info WHERE  status=0 AND data_type=#{dataType}
+		SELECT COUNT(1) FROM data_info WHERE  status=0 <if test="dataType!=null and dataType != ''" >AND data_type=#{dataType}</if>
 	</select>
 
 	<insert id="saveDataInfo" parameterType="dataInfo" useGeneratedKeys="true" keyProperty="data_id">
