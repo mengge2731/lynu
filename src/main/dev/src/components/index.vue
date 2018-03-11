@@ -82,23 +82,6 @@
     
   }
 
-// 登录框样式
-  #cover-box{
-    background-color: rgba(0,0,0,.5);
-    position: absolute;
-    left: 0;
-    top:0;
-    width: 100%;
-    height: 100%;
-
-    .login-box{
-      width: 380px;
-      height: 350px;
-      background-color: #fff;
-      margin: 0 auto;
-      transform: translateY(50%);
-    }
-  }
 </style>
 
 <template>
@@ -107,7 +90,6 @@
       <div class="info-left">
         <ul class="info-list">
           <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
-
             <!-- <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }"> -->
             <div class="info-content" @click="goDetail(item.fileId)">
               <div class="info-content-left">
@@ -124,10 +106,8 @@
                 <p>时间: {{item.createTime}}</p>
               </div>
             </div>
-
             <!-- </router-link> -->
           </li>
-          
         </ul>
         <!-- 分页组件 -->
         <div class="page-component">
@@ -144,6 +124,7 @@
         </div>
         
       </div>
+      <login-box :loginbox="loginbox" ></login-box>
       <!-- 右侧组件  遮罩层在右侧组件中-->
       <info-right></info-right>
 
@@ -152,6 +133,7 @@
 </template>
 
 <script>
+import loginBox from './common/loginBox'
 import infoRight from './common/infoRight'
 export default {
   data() {
@@ -161,28 +143,28 @@ export default {
       pageData: {},
       pageSize:[10, 20, 50],
       currentPage: 1,
-      totalPage:Number, // 总条数 = 总页数 * 每页数据
-      
+      totalPage:0, // 总条数 = 总页数 * 每页数据
+      loginbox: {
+        cover: false, // 遮罩层是否开启
+        loginOrRegister: true,  // 显示登录框  还是注册框
+      },
     };
   },
   components:{
     infoRight,
+    loginBox,
   },
   created(){
-    
     // 默认请求首页数据
     this.$axios.post('/login/getFirstPageData')
     .then( res => {
-      console.log(res.data.code, res.data.msg)
       // 整体数据，包括分页数据
       let pageInfo = res.data.data
       this.pageData = pageInfo;
-
       // 数据总条数  总条数 = 总页数 * 每页数据
       this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
       // 数据列表
       this.dataList = res.data.data.data;
-
     })
     .catch( err => console.log(err));
   },
@@ -190,18 +172,14 @@ export default {
     goDetail(fileId){
        this.$axios.post('/login/isLogin')
       .then( res => {
-        console.log(res.data.code)
-
         if(res.data.code == "0002"){
           this.$router.push({path:'/market/apply?fileId=' + fileId })
         }else {
-           this.$router.push({
-              path:'/login'
-          })
+           // 显示登录框
+          this.loginbox.cover = true; // 遮罩层是否开启
+          this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
         }
-
       })
-      
     },
     handleSizeChange(){
 
@@ -211,36 +189,26 @@ export default {
         if(res.data.code == "0002"){
           
         }else {
-          this.$router.push({
-            path:'/login'
-          })
+          // 显示登录框
+          this.loginbox.cover = true; // 遮罩层是否开启
+          this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
         }
       })
-
-
-
     },
     handleCurrentChange(){
-
-      
       this.$axios.post('/login/isLogin')
       .then( res => {
-
         if(res.data.code == "0002"){
           
         }else {
-          this.$router.push({
-            path:'/login'
-          })
+          // 显示登录框
+          this.loginbox.cover = true; // 遮罩层是否开启
+          this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
         }
       })
-
-
     },
-    
   },
   mounted(){
-    
   }
 };
 </script>

@@ -120,4 +120,6 @@ s, i, em {
 .el-input__icon{
   width: 14px !important;
 }
+/* 隐藏滚动条 火狐无效 chrome 360浏览器支持 */
+::-webkit-scrollbar {display:none}
 

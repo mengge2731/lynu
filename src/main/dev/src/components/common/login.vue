@@ -155,7 +155,7 @@ export default {
       pageData: {},
       pageSize:[10, 20, 50],
       currentPage: 1,
-      totalPage:'', // 总条数 = 总页数 * 每页数据
+      totalPage:0, // 总条数 = 总页数 * 每页数据
       
     };
   },
@@ -185,7 +185,7 @@ export default {
       .then( res => {
 
         if(res.data.code == "0002"){
-          
+
         }else {
           this.$router.push({
             path:'/login'

@@ -24,7 +24,10 @@ import martetApply from '@/components/pages/market/apply'
 import Center from '@/components/pages/share/share'
 
 // 登录页面
-import Login from '@/components/common/login'
+// import Login from '@/components/common/login'
+
+// 忘记密码
+import findPassword from '@/components/findPassword'
 
 Vue.use(Router)
 
@@ -34,6 +37,7 @@ export default new Router({
       path: '/',
       name: 'index',
       component: Index,
+      // redirect: '/home'   //重定向
       // meta: { requiresAuth: true }
     },
     {
@@ -44,7 +48,7 @@ export default new Router({
         { name:'info', path: 'info',component: Info ,meta: { requiresAuth: true } },
         { name:'share', path: 'share',component: Share ,meta: { requiresAuth: true } },
         { name:'userApply', path: 'apply',component: Apply ,meta: { requiresAuth: true } },
-        { name:'password', path: 'password',component: Password  },
+        { name:'password', path: 'password',component: Password ,meta: { requiresAuth: true } },
         { name:'detail', path: 'detail',component: Detail ,meta: { requiresAuth: true } },
         {name:'manage', path: 'manage',component: Manage ,meta: { requiresAuth: true } },
         {name:'infoManage', path: 'infoManage',component: infoManage ,meta: { requiresAuth: true } },
@@ -66,12 +70,16 @@ export default new Router({
       name: 'center',
       component: Center,
       meta: { requiresAuth: true }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login,
-      // meta: { requiresAuth: true }
+    },{
+      path:'/find',
+      name:'find',
+      component:findPassword
     }
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: Login,
+    //   // meta: { requiresAuth: true }
+    // },
   ]
 })
