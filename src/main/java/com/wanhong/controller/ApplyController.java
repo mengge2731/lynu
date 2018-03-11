@@ -121,6 +121,7 @@ public class ApplyController extends BaseController {
         }
         Boolean res = false;
         UserInfo userInfo = getMyInfo();
+
         applyInfo.setApplyUserId(userInfo.getUserId());
         applyInfo.setApplyUserPhone(userInfo.getPhone());
         applyInfo.setApplyUserName(userInfo.getUserName());
@@ -130,6 +131,7 @@ public class ApplyController extends BaseController {
         if (dataInfo.getUserId().equals(userInfo.getUserId())){
             return new ResultJson<>(BusinessCode.APPLY_OWN_DATA);
         }
+        applyInfo.setPubDataUserId(dataInfo.getUserId());
         if (applyService.isMyApplyInfo(applyInfo)){
             return new ResultJson<>(BusinessCode.APPLY_AGINE_ERROR);
         }
