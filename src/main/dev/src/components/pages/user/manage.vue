@@ -85,7 +85,7 @@
                   "nickName": "",
                   "password": "",
                   "phone": "13199998887",
-                  "status": "0",
+                  "status": "1",
                   "updateTime": "2018-02-11 16:24:41",
                   "userId": 1,
                   "userName": "李明亮",
@@ -99,7 +99,7 @@
                   "nickName": "",
                   "password": "",
                   "phone": "13199998887",
-                  "status": "1",
+                  "status": "2",
                   "updateTime": "2018-02-11 16:24:41",
                   "userId": 25,
                   "userName": "赵大宝",
@@ -122,10 +122,10 @@
         },
         typeOptions: [{
           value: 1,
-          label: '管理员'
+          label: '普通用户'
         }, {
           value: 2,
-          label: '普通用户'
+          label: '管理员'
         }],
         statusOptions:[{
           value: '0',
@@ -139,6 +139,21 @@
         
         
       }
+    },
+    created(){
+      let that = this;
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        console.log(res.data)
+        if(res.data.code == "0001"){
+          this.$message({
+              message: '未登录',
+              type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
+        }
+      })
     },
     methods: {
       handleEdit(index,row) {

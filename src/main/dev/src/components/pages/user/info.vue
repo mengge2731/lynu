@@ -105,6 +105,22 @@ export default {
       textarea:'中国大数据中心数据专家，主要从事旅游大数据模型设计。'
     }
   },
+  created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      console.log(res.data)
+      if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+        this.$router.push({ path: '/'});
+      }
+    })
+
+    
+  },
   methods:{
     saveInfo(){
       console.log('提交保存修改')

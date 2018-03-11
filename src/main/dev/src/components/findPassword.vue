@@ -4,7 +4,7 @@
 
 <template>
   <div class="find-con">
-    找回密码 页面
+    找回密码
   </div>
 </template>
 

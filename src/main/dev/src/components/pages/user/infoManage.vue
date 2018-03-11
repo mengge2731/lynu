@@ -122,7 +122,19 @@ export default {
     }
   },
   created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      console.log(res.data)
+      if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
 
+        this.$router.push({ path: '/'});
+      }
+    })
   },
   methods:{
     del(fileId){

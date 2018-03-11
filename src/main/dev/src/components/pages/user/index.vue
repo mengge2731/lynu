@@ -83,6 +83,31 @@ export default {
     return {
       admin: true,
     }
+  },
+  created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      // 如果成功就去获取 用户权限 0000
+      if(res.data.code == "0000"){
+
+        this.$axios.post('/getUserInfo')
+        .then( res => {
+          if(res.data.status == '1'){
+            this.admin = false;
+          }else {
+            this.admin = true;
+          }
+        })
+
+      }else if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+        this.$router.push({ path: '/'});
+      }
+    })
   }
 }
 </script>

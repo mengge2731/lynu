@@ -98,63 +98,51 @@
 
     .apply-button{
       margin-top: 20px;
-
       float: right;
-
     }
-
   }
-
-
 }
 </style>
 
 <template>
   <div class="apply-con">
-    
     <div class="apply-info">
       <h3>申请获取数据：</h3>
     </div>
-
-    <div class="apply-info-top">
+    <div class="apply-info-top" :key="dataInfo.dataId">
       <div class="apply-title">
-        申请内容：意大利2017年经济情况报告-全部数据-(意大利2017年金融、工业、旅游等主要经济类型在意大利各地的分布情况，其中包括银行、保险、酒店、机票、造车、造船等行业的政府发布数据，以及部分数据分析结论。数据为英文版。此类数据仅公开给高校或研究所背景的单位，有需要的单位可申请。)
+        申请内容：{{dataInfo.dataTitle}}
       </div>
       <div class="apply-pro clearfix"> 
-        <div class="apply-num">数据量：200GB </div>
-
-        <div class="apply-time">发布时间：2018-1-29</div>
+        <div class="apply-num">数据量：{{dataInfo.dataNum}} </div>
+        <div class="apply-time">发布时间：{{dataInfo.createTime}}</div>
       </div>
-      
-
       <div class="apply-data-con clearfix">
         <div class="apply-data-title">
           数据介绍：
         </div>
         <div class="apply-data-info">
-          意大利2017年金融、工业、旅游等主要经济类型在意大利各地的分布情况，其中包括银行、保险、酒店、机票、造车、造船等行业的政府发布数据，以及部分数据分析结论。数据为英文版。此类数据仅公开给高校或研究所背景的单位，有需要的单位可申请。
+          {{dataInfo.dataDesc}}
 
         </div>
       </div>
 
       <div class="apply-name">
-        数据发布人：韩冷
+        数据发布人：{{dataInfo.pubUser}}
       </div>
 
       <div class="apply-user-pre">
         <div class="pre-title">发布人简介：</div>
-        <div class="pre-info">洛阳师范学院意大利研究中心老师.意大利2017年金融、工业、旅游等主要经济类型在意大利各地的分布情况，其中包括银行、保险、酒店、机票、造车、造船等行业的政府发布数据，以及部分数据分析结论。数据为英文版。此类数据仅公开给高校或研究所背景的单位，有需要的单位可申请。</div>
+        <div class="pre-info">{{dataInfo.pubDesc}}</div>
         
       </div>
     </div>
 
     <div class="apply-info-bot">
       <div class="apply-user">
-        申请人：王磊  
+        申请人：{{userInfo.userName}}  
       </div>
-
-      <div class="apply-tel">注册电话：13512348888</div>
-
+      <div class="apply-tel">注册电话：{{userInfo.phone}}</div>
       <div class="apply-info-other">
         <div  class="info-other-title">
           附言：
@@ -172,7 +160,7 @@
       </div>
 
       <div class="apply-button">
-        <el-button type="primary" size="medium">申请</el-button>
+        <el-button type="primary" size="medium" @click="toApply">申请</el-button>
         <el-button size="medium" @click="goBack">返回</el-button>
         
       </div>
@@ -185,16 +173,80 @@
 export default {
   data(){
     return {
+      dataInfo:{},  // 数据信息
+      userInfo:{}, // 申请人数据
       otherInfo:"", // 附言
     }
   },
   created(){
     // 页面加载时获取，数据的id，然后查询渲染页面
-    // console.log(this.$route.params.id)
+    
+    let dataId = this.$route.query.dataId
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+
+      if(res.data.code == '0002'){
+        this.$axios.post('/getDataInfo')
+        .then( res => {
+          if(res.data.code == '0000'){
+            this.dataInfo = res.data.data;
+          }
+        })
+        .catch( err => console.log(err ));
+
+        // 获取用户数据
+        this.$axios.post('/getUserInfo')
+        .then( res => {
+          if(res.data.code == '0000'){
+            this.userInfo = res.data.data;
+          }else {
+            
+          }
+        })
+        .catch( err => console.log(err ));
+
+      }else if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+        this.$router.push({ path: '/'});
+      }
+    })
   },
   methods:{
     goBack(){
       this.$router.go(-1)
+    },
+    toApply(){
+      // 申请这条数据
+      let data = {
+        dataId: this.$route.query.dataId,
+        applyDesc: this.otherInfo, 
+      }
+      let params = 'body=' + JSON.stringify(data);
+
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        if(res.data.code == '0002'){
+          this.$axios.post('/apply/saveApplyInfo',params)
+          .then( res => {
+            if(res.data.code == '0000'){
+              this.otherInfo = '';
+              // 返回市场
+              this.$router.push({path:'/market'});
+            }
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == "0001"){
+          this.$message({
+            message: '未登录',
+            type: 'info'
+          });
+          this.$router.push({ path: '/'});
+        }
+      });
     }
   }
 }
