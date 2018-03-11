@@ -22,6 +22,8 @@ public enum BusinessCode implements ErrorCode{
     UPDATE_ERROR("0011", "更新失败."),
     REGISTER_ERROR("0012", "注册失败."),
     REGISTER_AGINE("0013", "已经注册过，请直接登录."),
+    LOGIN_ERROR("0014", "账号或密码错误."),
+    APPLY_AGINE_ERROR("0015", "已经申请过该数据."),
     ;
     private final String code;
     private final String description;

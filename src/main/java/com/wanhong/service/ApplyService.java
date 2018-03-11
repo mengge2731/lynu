@@ -54,4 +54,11 @@ public interface ApplyService {
      */
     Integer saveApplyInfo(ApplyInfo applyInfo);
 
+    /**
+     * 保存申请信息
+     * @param applyInfo
+     * @return
+     */
+    Boolean isMyApplyInfo(ApplyInfo applyInfo);
+
 }

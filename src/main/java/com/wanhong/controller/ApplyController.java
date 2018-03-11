@@ -80,7 +80,7 @@ public class ApplyController extends BaseController {
         ApplyInfo applyInfo = new ApplyInfo();
         BeanUtil.copyProperties(applyParam,applyInfo);
         Boolean res = false;
-        UserInfo userInfo = (UserInfo)getMyInfo();
+        UserInfo userInfo = getMyInfo();
         applyInfo.setPubDataUserId(userInfo.getUserId());
         if (applyService.agreeApply(applyInfo)>0){
             res = true;
@@ -97,7 +97,7 @@ public class ApplyController extends BaseController {
         ApplyInfo applyInfo = new ApplyInfo();
         BeanUtil.copyProperties(applyParam,applyInfo);
         Boolean res = false;
-        UserInfo userInfo = (UserInfo)getMyInfo();
+        UserInfo userInfo = getMyInfo();
         applyInfo.setPubDataUserId(userInfo.getUserId());
         if (applyService.refuseApply(applyInfo)>0){
             res = true;
@@ -120,7 +120,7 @@ public class ApplyController extends BaseController {
             return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
         }
         Boolean res = false;
-        UserInfo userInfo = (UserInfo)getMyInfo();
+        UserInfo userInfo = getMyInfo();
         applyInfo.setApplyUserId(userInfo.getUserId());
         applyInfo.setApplyUserPhone(userInfo.getPhone());
         applyInfo.setApplyUserName(userInfo.getUserName());
@@ -130,7 +130,10 @@ public class ApplyController extends BaseController {
         if (dataInfo.getUserId().equals(userInfo.getUserId())){
             return new ResultJson<>(BusinessCode.APPLY_OWN_DATA);
         }
-        applyInfo.setPubDataUserId(dataInfo.getUserId());
+        if (applyService.isMyApplyInfo(applyInfo)){
+            return new ResultJson<>(BusinessCode.APPLY_AGINE_ERROR);
+        }
+
         if (applyService.saveApplyInfo(applyInfo)>0){
             res = true;
         }

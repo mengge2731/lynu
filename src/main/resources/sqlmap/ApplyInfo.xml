@@ -126,4 +126,17 @@
 		)
 	</insert>
 
+	<select id="getApplyInfoByUserIdAndDataId" parameterType="applyInfo" resultType="applyInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		apply_info
+		WHERE
+		status = 0
+		AND
+		apply_user_id = #{applyUserId}
+		AND
+		data_id = #{dataId}
+	</select>
+
 </mapper>

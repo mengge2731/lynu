@@ -69,4 +69,14 @@ public class ApplyServiceImpl implements ApplyService {
     public Integer saveApplyInfo(ApplyInfo applyInfo) {
         return applyInfoDao.saveApplyInfo(applyInfo);
     }
+
+    @Override
+    public Boolean isMyApplyInfo(ApplyInfo applyInfo) {
+        ApplyInfo applyInfoResult = applyInfoDao.getApplyInfoByUserIdAndDataId(applyInfo);
+        if (applyInfoResult==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

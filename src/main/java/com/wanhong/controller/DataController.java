@@ -9,6 +9,7 @@ import com.wanhong.domain.param.DataParam;
 import com.wanhong.domain.param.UserParam;
 import com.wanhong.service.DataService;
 import com.wanhong.service.UserService;
+import com.wanhong.util.BeanUtil;
 import com.wanhong.util.BusinessBodyConvertUtil;
 import com.wanhong.util.FastjsonUtil;
 import org.slf4j.Logger;
@@ -63,6 +64,19 @@ public class DataController {
         dataInfoPage.setIndex(dataParam.getIndex());
         dataInfoPage.setPageSize(dataParam.getPageSize());
         ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
+        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
+    @RequestMapping("/getDataInfo")
+    @ResponseBody
+    public ResultJson<DataInfo> getDataInfo(String body){
+        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+        DataInfo dataInfo = new DataInfo();
+        BeanUtil.copyProperties(dataParam,dataInfo);
+        dataInfo.setDataId(dataParam.getDataId());
+        DataInfo dataInfoResult =dataService.findDataInfoByDataId(dataInfo);
+        ResultJson<DataInfo> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoResult);
         logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
