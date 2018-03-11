@@ -25,6 +25,7 @@ import Center from '@/components/pages/share/share'
 
 // 登录页面
 // import Login from '@/components/common/login'
+import err from '@/components/common/err'
 
 // 忘记密码
 import findPassword from '@/components/findPassword'
@@ -74,6 +75,15 @@ export default new Router({
       path:'/find',
       name:'find',
       component:findPassword
+    },
+    {
+      path:'/err',
+      name:'err',
+      component:err
+    },
+    {
+      path: "*",
+      redirect: "/err"
     }
     // {
     //   path: '/login',

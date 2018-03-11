@@ -87,8 +87,6 @@ export default {
     loginBox,
   },
   created(){
-    console.log(this.$route.path)
-    
     switch (this.$route.path) {
       case '/' :
         this.type = 1;
@@ -142,7 +140,6 @@ export default {
     },
     check(){
       // 跳转路由
-      console.log(this.type)
       if(this.type == 1){
         this.currentPage = 1;
         this.$router.push({

@@ -171,6 +171,19 @@ export default {
         value:''
     }
   },
+  created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+        this.$router.push({ path: '/'});
+      }
+    })
+  },
   methods:{
     saveInfo(){
       console.log(this.dataName ,

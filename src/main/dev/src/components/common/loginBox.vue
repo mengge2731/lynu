@@ -175,7 +175,7 @@ export default {
   name:'login-box',
   data(){
     return {
-      checked: 0,
+      checked: 0, //记住密码
       codePhone:'',
       msg:'',
       password:'',
@@ -191,6 +191,12 @@ export default {
   created(){
   },
   methods:{
+    clearInput(){
+      this.codePhone ='';
+      this.msg ='';
+      this.password ='';
+      this.phoneNum ='';
+    },
     phoneCode(){
       this.disabled = true;
 
@@ -203,9 +209,12 @@ export default {
       var dataParam = 'body='+ todata;
       this.$axios.post('/login/sendMsg',dataParam)
       .then(res => {
-        
-        if(res.data.code == '0000'){
-          
+        if(res.data.code == '0000' || res.data.code == '0006'){
+            that.$message({
+              message: '手机号已注册，请直接登录',
+              type: 'success'
+            });
+
             for(let  i=0; i<=60; i++){
               setTimeout(function(){
                   if (sec != 0) {
@@ -218,9 +227,7 @@ export default {
                 }
               }, i * 1000)
             }
-
         }else if(res.data.code == '0013'){
-          
           that.$message({
             message: '手机号已注册，请直接登录',
             type: 'info'
@@ -233,6 +240,7 @@ export default {
       let data = {phone: this.phoneNum, password: this.password };
       let todata = JSON.stringify(data)
       var dataParam = 'body='+ todata;
+
       this.$axios.post('/login/submit',dataParam)
       .then(res => {
         if(res.data.code == '0000'){
@@ -240,10 +248,20 @@ export default {
             message: '登录成功',
             type: 'success'
           });
+
           // 关闭弹窗
           that.loginbox.cover = false;
           that.loginbox.loginOrRegister = true;
+          if(this.checked == 1){
+
+          }else {
+            this.clearInput();
+          }
+          
+        }else if(res.data.code == '0003' || res.data.code == '0014'){
+          that.$message.error('手机号或密码错误')
         }
+
       })
     },
     submitRegister(){
@@ -251,6 +269,7 @@ export default {
       let data = {phone: this.codePhone,message: this.msg, password: this.password };
       let todata = JSON.stringify(data)
       var dataParam = 'body='+ todata;
+
       this.$axios.post('/login/register',dataParam)
       .then(res => {
         if(res.data.code == '0000'){
@@ -258,6 +277,8 @@ export default {
             message: '恭喜你，注册成功!',
             type: 'success'
           });
+
+          this.clearInput();
           setTimeout(function(){
             that.loginbox.loginOrRegister = true;
           },500)
@@ -287,7 +308,8 @@ export default {
       }
       
     }
-  }
+  },
+  
 }
 </script>
 

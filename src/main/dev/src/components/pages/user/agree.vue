@@ -81,6 +81,19 @@ export default {
     }
   },
   created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+
+        this.$router.push({ path: '/'});
+        
+      }
+    })
     // 获得当前数据id  获取该数据的申请状态信息
 
   },

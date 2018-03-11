@@ -5,6 +5,8 @@
     flex: 1;
     
     min-height: 500px;
+    overflow: auto;
+    overflow-y: auto;
 
     .info-left {
       flex: 4;
@@ -81,6 +83,7 @@
 
       .page-component {
         float: right;
+        margin-bottom: 20px;
       }
     }
     
@@ -88,7 +91,7 @@
 </style>
 
 <template>
- <div style="width:100%">
+ 
    <div class="content">
      <!-- 这是要做成 路由的区域 -->
       <div class="info-left">
@@ -102,29 +105,25 @@
         </div>
 
         <ul class="info-list">
-          <li class="info-list-item clearfix">
-
-            <router-link :to="{name:'marketApply'}">
-
-            <div class="info-content">
+          <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
+            <!-- <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }"> -->
+            <div class="info-content" @click="goDetail(item.dataId)">
               <div class="info-content-left">
                 <div class="info-img" >
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
                 </div> 
                 <div class="info-text">
-                  <h3>意大利2017年经济情况报告-全部数据</h3>
-                  <p>意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地</p>
+                  <h3>{{item.dataTitle}}</h3>
+                  <p>{{item.dataDesc}}</p>
                 </div> 
               </div>
               <div class="info-content-right">
-                <p>数据量: 200GB</p>
-                <p>时间: 2018年1月29日</p>
+                <p>数据量: {{item.dataNum}}</p>
+                <p>时间: {{item.createTime}}</p>
               </div>
             </div>
-
-            </router-link>
+            <!-- </router-link> -->
           </li>
-          
         </ul>
         <!-- 分页组件 -->
         <div class="page-component">
@@ -132,10 +131,11 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
-           
-            :total="400">
+            :page-sizes="pageSize"
+            :page-size="pageData.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            
+            :total="totalPage">
           </el-pagination>
         </div>
          <!-- layout="total, sizes, prev, pager, next, jumper" -->
@@ -144,8 +144,6 @@
       <!-- 右侧组件  遮罩层在右侧组件中-->
       <info-right></info-right>
   </div>
- </div>
-  
   
 </template>
 
@@ -154,26 +152,152 @@ import infoRight from '../../common/infoRight'
 export default {
   data(){
     return {
-      currentPage: 1, //当前页
-      type: 0
+      type: 0,
+      dataList:[], // 列表数据
+      // 分页数据
+      pageData: {},
+      pageSize:[10, 20, 50],
+      currentPage: 1,
+      totalPage:0, // 总条数 = 总页数 * 每页数据
+      size:10,
+      index:1,
     }
   },
   components:{
     infoRight,
   },
   created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
 
+      if(res.data.code == '0002'){
+        // 默认请求首页数据
+        this.$axios.post('/login/getFirstPageData')
+        .then( res => {
+          // 整体数据，包括分页数据
+          let pageInfo = res.data.data
+          this.pageData = pageInfo;
+          // 数据总条数  总条数 = 总页数 * 每页数据
+          this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+          // 数据列表
+          this.dataList = res.data.data.data;
+        })
+        .catch( err => console.log(err));
+      }else if(res.data.code == "0001"){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+
+        this.$router.push({ path: '/'});
+      }
+    })
   },
   methods:{
-    handleSizeChange(){
-
+    goDetail(id){
+          this.$router.push({path:'/apply?dataId=' + id })
     },
-    handleCurrentChange(){
+     handleSizeChange(val){
+      this.size = val;
+      let data = {
+        pageSize:this.size,
+        pageIndex:this.index, 
+      }
+      let params = 'body=' + JSON.stringify(data);
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        if(res.data.code == "0002"){
+          this.$axios.post('/data/getDataByPage',params)
+          .then( res => {
+              // 整体数据，包括分页数据
+              let pageInfo = res.data.data
+              this.pageData = pageInfo;
+              // 数据总条数  总条数 = 总页数 * 每页数据
+              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+              // 数据列表
+              this.dataList = res.data.data.data;
+          })
+          .catch( err => console.log(err));
 
+        }else if(res.data.code == "0001"){
+          this.$message({
+            message: '未登录',
+            type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
+        }
+      })
     },
-    check(){
+    handleCurrentChange(val){
+      this.index = val;
+      let data = {
+        pageSize:this.size,
+        pageIndex:this.index, 
+      }
+      let params = 'body=' + JSON.stringify(data);
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        if(res.data.code == "0002"){
+           this.$axios.post('/data/getDataByPage',params)
+          .then( res => {
+            if(res.data.code == "0000"){
+              // 整体数据，包括分页数据
+              let pageInfo = res.data.data
+              this.pageData = pageInfo;
+              // 数据总条数  总条数 = 总页数 * 每页数据
+              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+              // 数据列表
+              this.dataList = res.data.data.data;
+            }else {
+              //网络异常请重试
+            }
+              
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == "0001"){
+          // 显示登录框
+          // this.loginbox.cover = true; // 遮罩层是否开启
+          // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+        }
+      })
+    },
+    check(val){
+      let data = {
+        pageSize:this.size,
+        pageIndex:this.index, 
+        tyep: this.type
+      }
       // 切换分类
-      console.log(this.type)
+      let params = 'body=' + JSON.stringify(data);
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        if(res.data.code == "0002"){
+           this.$axios.post('/data/getDataByPage',params)
+          .then( res => {
+            if(res.data.code == "0000"){
+              // 整体数据，包括分页数据
+              let pageInfo = res.data.data
+              this.pageData = pageInfo;
+              // 数据总条数  总条数 = 总页数 * 每页数据
+              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+              // 数据列表
+              this.dataList = res.data.data.data;
+            }else {
+              //网络异常请重试
+            }
+              
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == "0001"){
+          // 显示登录框
+          // this.loginbox.cover = true; // 遮罩层是否开启
+          // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+        }
+      })
 
     }
 
