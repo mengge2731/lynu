@@ -202,7 +202,7 @@ export default {
       this.size = val;
       let data = {
         pageSize:this.size,
-        pageIndex:this.index, 
+        index:this.index, 
       }
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
@@ -234,7 +234,7 @@ export default {
       this.index = val;
       let data = {
         pageSize:this.size,
-        pageIndex:this.index, 
+        index:this.index, 
       }
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
@@ -267,15 +267,15 @@ export default {
     check(val){
       let data = {
         pageSize:this.size,
-        pageIndex:this.index, 
-        tyep: this.type
+        index:this.index, 
+        dataType: this.type
       }
       // 切换分类
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == "0002"){
-           this.$axios.post('/data/getDataByPage',params)
+           this.$axios.post('/data/getDataByDataTypeAndPage',params)
           .then( res => {
             if(res.data.code == "0000"){
               // 整体数据，包括分页数据

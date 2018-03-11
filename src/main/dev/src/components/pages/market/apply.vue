@@ -186,7 +186,7 @@ export default {
     .then( res => {
 
       if(res.data.code == '0002'){
-        this.$axios.post('/getDataInfo')
+        this.$axios.post('/data/getDataInfo')
         .then( res => {
           if(res.data.code == '0000'){
             this.dataInfo = res.data.data;
@@ -195,7 +195,7 @@ export default {
         .catch( err => console.log(err ));
 
         // 获取用户数据
-        this.$axios.post('/getUserInfo')
+        this.$axios.post('/user/getUserInfo')
         .then( res => {
           if(res.data.code == '0000'){
             this.userInfo = res.data.data;

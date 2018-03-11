@@ -187,7 +187,7 @@ export default {
       this.size = val;
       let data = {
         pageSize:this.size,
-        pageIndex:this.index, 
+        index:this.index, 
       }
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
@@ -216,7 +216,7 @@ export default {
       this.index = val;
       let data = {
         pageSize:this.size,
-        pageIndex:this.index, 
+        index:this.index, 
       }
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
