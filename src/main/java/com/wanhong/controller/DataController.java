@@ -35,24 +35,39 @@ public class DataController {
     @RequestMapping("/getDataByPage")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getDataByPage(String body){
-        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        Page<List<DataInfo>> dataInfoPage =dataService.getDataInfoByPage(dataParam);
-        dataInfoPage.setIndex(dataParam.getIndex());
-        dataInfoPage.setPageSize(dataParam.getPageSize());
-        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<Page<List<DataInfo>>> resultJson = null;
+        try{
+            DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+            Page<List<DataInfo>> dataInfoPage =dataService.getDataInfoByPage(dataParam);
+            dataInfoPage.setIndex(dataParam.getIndex());
+            dataInfoPage.setPageSize(dataParam.getPageSize());
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
+            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 
     @RequestMapping("/getDataByDataTypeAndPage")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getDataByDataTypeAndPage(String body){
-        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        Page<List<DataInfo>> dataInfoPage =dataService.getDataByDataTypeAndPage(dataParam);
-        dataInfoPage.setIndex(dataParam.getIndex());
-        dataInfoPage.setPageSize(dataParam.getPageSize());
-        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<Page<List<DataInfo>>> resultJson =null;
+        try{
+            DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+            if ("0".equals(dataParam.getDataType())){
+                dataParam.setDataType(null);
+            }
+            Page<List<DataInfo>> dataInfoPage =dataService.getDataByDataTypeAndPage(dataParam);
+            dataInfoPage.setIndex(dataParam.getIndex());
+            dataInfoPage.setPageSize(dataParam.getPageSize());
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
+            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 

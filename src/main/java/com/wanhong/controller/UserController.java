@@ -52,10 +52,16 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResultJson<UserInfoVo> getUserInfo(){
         UserInfoVo userInfoVo = new UserInfoVo();
-        UserInfo userInfo = userService.getUserInfoByPhone(this.getMyInfo());
-        BeanUtil.copyProperties(userInfo,userInfoVo);
-        ResultJson<UserInfoVo> resultJson = new ResultJson<>(BusinessCode.SUCCESS, userInfoVo);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<UserInfoVo> resultJson = null;
+        try{
+            UserInfo userInfo = userService.getUserInfoByPhone(this.getMyInfo());
+            BeanUtil.copyProperties(userInfo,userInfoVo);
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS, userInfoVo);
+            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 
