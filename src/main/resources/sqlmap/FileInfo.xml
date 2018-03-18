@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanhong.dao.FileInfoDao">
+
+	<!-- file_info 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[
+			file_id AS fileId
+			,file_name AS fileName
+			,file_path AS filePath
+			,file_size AS fileSize
+			,file_real_name AS fileRealName
+			,file_type AS fileType
+			,create_time AS createTime
+			,update_time AS updateTime
+		]]>
+	</sql>
+
+	<insert id="saveFileInfo" parameterType="fileInfo" useGeneratedKeys="true" keyProperty="file_id">
+		INSERT IGNORE INTO file_info
+		(
+		file_name
+		,file_path
+		,file_size
+		,file_real_name
+		,file_type
+		,create_time
+		,update_time
+		)
+		VALUES
+		(
+		#{fileName}
+		,#{filePath}
+		,#{fileSize}
+		,#{fileRealName}
+		,#{fileType}
+		,now()
+		,now()
+		)
+	</insert>
+
+	<select id="getFileInfoById" parameterType="fileInfo" resultType="fileInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		file_info
+		WHERE
+		file_id = #{fileId}
+	</select>
+
+</mapper>

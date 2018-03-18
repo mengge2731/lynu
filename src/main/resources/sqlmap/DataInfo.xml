@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wanhong.dao.DataInfoDao">
 
-	<!-- user_info 所有查询列 -->
+	<!-- data_info 所有查询列 -->
 	<sql id="QUERY_COLUMN_LIST">
 		<![CDATA[
 			data_id AS dataId
@@ -58,7 +58,7 @@
 	</select>
 
 	<insert id="saveDataInfo" parameterType="dataInfo" useGeneratedKeys="true" keyProperty="data_id">
-		INSERT IGNORE INTO user_info
+		INSERT IGNORE INTO data_info
 		(
 		user_id
 		,file_id

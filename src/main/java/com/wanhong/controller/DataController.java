@@ -101,19 +101,25 @@ public class DataController extends BaseController{
     @RequestMapping("/saveDataInfo")
     @ResponseBody
     public ResultJson<Boolean> saveDataInfo(String body){
-        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        DataInfo dataInfo = new DataInfo();
-        BeanUtil.copyProperties(dataParam,dataInfo);
-        UserInfo userInfo = this.getMyInfo();
-        dataInfo.setPubDesc(userInfo.getDesc());
-        dataInfo.setPubUser(userInfo.getUserName());
-        dataInfo.setUserId(userInfo.getUserId());
-        Integer res =dataService.saveDataInfo(dataInfo);
-        boolean flag = false;
-        if (res>0){
-            flag = true;
+        ResultJson<Boolean> resultJson = null;
+        try{
+            DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+            DataInfo dataInfo = new DataInfo();
+            BeanUtil.copyProperties(dataParam,dataInfo);
+            UserInfo userInfo = this.getMyInfo();
+            dataInfo.setPubDesc(userInfo.getDesc());
+            dataInfo.setPubUser(userInfo.getUserName());
+            dataInfo.setUserId(userInfo.getUserId());
+            Integer res =dataService.saveDataInfo(dataInfo);
+            boolean flag = false;
+            if (res>0){
+                flag = true;
+            }
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,flag);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,flag);
+
         logger.info("DataController--saveDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
