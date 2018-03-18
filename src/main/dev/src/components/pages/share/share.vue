@@ -222,6 +222,7 @@ export default {
       dataSize:'',
       dataType:'',
       dataDesc:'',
+      fileId:0,
       label:'',
       options: [{
           value: '1',
@@ -283,7 +284,8 @@ export default {
           dataDesc: this.dataDesc,
           dataNum: this.dataSize,
           dataTitle: this.dataName,
-          dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string	
+          dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string
+          fileId: this.fileId,	
         }
 
         let params = 'body=' + JSON.stringify(data);
