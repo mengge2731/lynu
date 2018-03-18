@@ -284,10 +284,6 @@ export default {
           dataNum: this.dataSize,
           dataTitle: this.dataName,
           dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string	
-          fileId: '',
-          pubDesc: '',
-          pubUser: '',
-          userId: '',
         }
 
         let params = 'body=' + JSON.stringify(data);
