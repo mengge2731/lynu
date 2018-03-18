@@ -22,9 +22,10 @@
             .info-img {
               width: 60px;
               float: left;
-              img {
-                width: 100%;
-              }
+              // img {
+              //   width: 100%;
+              //   height: 100%;
+              // }
             }
 
             .info-text {
@@ -131,6 +132,7 @@
 </template>
 
 <script>
+import { code } from '../util/util'
 import loginBox from './common/loginBox'
 import infoRight from './common/infoRight'
 export default {
@@ -155,6 +157,8 @@ export default {
     loginBox,
   },
   created(){
+    console.log(code.Login)
+
     // 默认请求首页数据
     this.$axios.post('/login/getFirstPageData')
     .then( res => {
@@ -166,13 +170,13 @@ export default {
       // 数据列表
       this.dataList = res.data.data.data;
     })
-    .catch( err => console.log(err));
+    .catch( err => console.log(err + '获取首页数据失败'));
   },
   methods:{
     goDetail(id){
        this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
           this.$router.push({path:'/apply?dataId=' + id })
         }else {
            // 显示登录框
@@ -190,7 +194,7 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
            this.$axios.post('/data/getDataByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
@@ -202,7 +206,7 @@ export default {
               this.dataList = res.data.data.data;
           })
           .catch( err => console.log(err));
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
 
           // 显示登录框
           this.loginbox.cover = true; // 遮罩层是否开启
@@ -219,7 +223,7 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
            this.$axios.post('/data/getDataByPage',params)
           .then( res => {
             if(res.data.code == "0000"){
@@ -237,7 +241,7 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           // 显示登录框
           this.loginbox.cover = true; // 遮罩层是否开启
           this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框

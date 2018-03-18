@@ -65,11 +65,62 @@
       
     }
     .user-present{
+      margin-top: 10px;
 
+      div {
+        float:left;
+      }
+
+      .present-text{
+        width:70px;
+        height: 40px;
+        line-height: 40px;
+      }
+
+      .present-input {
+        width: 530px;
+      }
+    }
+
+    .user-info{
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+      .user-name{
+        padding-top: 20px;
+
+        div {
+          float: left;
+        }
+        .name-left{
+          width: 80px;
+        }
+        .name-right{
+          width: 520px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+      }
+
+      .user-desc {
+        margin-top: 10px;
+        div{
+           float: left;
+        }
+        .desc-left{
+          width: 80px;
+        }
+        .desc-right{
+          width: 520px;
+        }
+      }
     }
     
+    
     .user-info-submit{
-
+      float: right;
+      margin-top: 20px;
     }
   
   }
@@ -125,7 +176,7 @@
     <div class="user-present clearfix">
       <div class="present-text">数据介绍:</div>
       
-      <div>
+      <div class="present-input">
         <el-input
           type="textarea"
           :rows="2"
@@ -136,9 +187,25 @@
       
     </div>
 
+    <div class=" user-info">
+      <div class="user-name clearfix">
+        <div class="name-left">
+          数据发布人:
+        </div>
+
+        <div class="name-right">
+          {{userInfo.userName}}
+        </div>
+        
+      </div>
+      <div class="user-desc clearfix">
+        <div class="desc-left">布人简介:</div>
+        <div class="desc-right">{{userInfo.desc}}</div>
+      </div>
+
+    </div>
     <div class="user-info-submit clearfix">
         <el-button type="primary" class="submit-button" @click="saveInfo">发布</el-button>
-
         <el-button  class="submit-button" @click="goBack">返回</el-button>
       </div>
 
@@ -147,6 +214,7 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
@@ -168,19 +236,33 @@ export default {
           value: '4',
           label: '其他'
         }],
-        value:''
+        value:'',
+        userInfo:{}
     }
   },
   created(){
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
-      if(res.data.code == "0001"){
+      if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
         });
         this.$router.push({ path: '/'});
+      }else {
+        //已登录  获取用户数据
+            this.$axios.post('/user/getUserInfo')
+            .then( res => {
+              if(res.data.code == code.success){
+                this.userInfo = res.data.data;
+
+                console.log(this.userInfo)
+              }else {
+                
+              }
+            })
+            .catch( err => console.log(err ));
       }
     })
   },
@@ -190,6 +272,61 @@ export default {
       this.dataSize ,
       this.dataType ,
       this.dataDesc )
+
+      if(this.dataName != '' &&
+      this.dataSize != '' &&
+      this.dataType != '' &&
+      this.dataDesc != '' ){
+
+        // 发送数据
+        var data ={
+          dataDesc: this.dataDesc,
+          dataNum: this.dataSize,
+          dataTitle: this.dataName,
+          dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string	
+          fileId: '',
+          pubDesc: '',
+          pubUser: '',
+          userId: '',
+        }
+
+        let params = 'body=' + JSON.stringify(data);
+
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+
+          if(res.data.code == code.login){
+            this.$axios.post('/data/saveDataInfo',params)
+            .then( res => {
+              if(res.data.code == code.success){
+                
+                // 提示上传成功
+
+                that.$message({
+                  message: '数据共享成功',
+                  type: 'success'
+                });
+
+              }
+            })
+            .catch( err => console.log(err ));
+
+            
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+                message: '未登录',
+                type: 'info'
+            });
+            this.$router.push({ path: '/'});
+          }
+        })
+        
+
+
+      }else {
+        alert('内容不能为空，请输入')
+      }
 
       // 只有当所有信息不为空时，才能提交
     },

@@ -170,6 +170,7 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
@@ -191,7 +192,7 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
 
-      if(res.data.code == '0002'){
+      if(res.data.code == code.login){
         this.$axios.post('/data/getDataInfo',params)
         .then( res => {
           if(res.data.code == '0000'){
@@ -211,7 +212,7 @@ export default {
         })
         .catch( err => console.log(err ));
 
-      }else if(res.data.code == "0001"){
+      }else if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
@@ -225,6 +226,7 @@ export default {
       this.$router.go(-1)
     },
     toApply(){
+      let that = this;
       // 申请这条数据
       let data = {
         dataId: this.$route.query.dataId,
@@ -234,18 +236,28 @@ export default {
 
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == '0002'){
+        if(res.data.code == code.login){
           this.$axios.post('/apply/saveApplyInfo',params)
           .then( res => {
             if(res.data.code == '0000'){
               this.otherInfo = '';
-              // 返回市场
-              this.$router.push({path:'/market'});
+              
+              this.$message({
+                message: '申请成功',
+                type: 'success'
+              });
+              
+              setTimeout(function(){
+                // 返回市场
+                that.$router.push({path:'/market'});
+              },200)
+
+              
             }
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           this.$message({
             message: '未登录',
             type: 'info'
