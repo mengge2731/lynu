@@ -43,7 +43,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../../webapp/html'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',  // 绝对路径和相对路径
+    assetsPublicPath: './',  // 绝对路径和相对路径
 
     /**
      * Source Maps
