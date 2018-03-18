@@ -7,6 +7,7 @@ import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.DataParam;
 import com.wanhong.domain.param.UserParam;
+import com.wanhong.domain.vo.UserInfoVo;
 import com.wanhong.service.DataService;
 import com.wanhong.service.UserService;
 import com.wanhong.util.BeanUtil;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/function/data")
-public class DataController {
+public class DataController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(DataController.class);
     @Autowired
     private DataService dataService;
@@ -42,7 +43,7 @@ public class DataController {
             dataInfoPage.setIndex(dataParam.getIndex());
             dataInfoPage.setPageSize(dataParam.getPageSize());
             resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+            logger.info("DataController--getDataByPage--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -63,7 +64,7 @@ public class DataController {
             dataInfoPage.setIndex(dataParam.getIndex());
             dataInfoPage.setPageSize(dataParam.getPageSize());
             resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+            logger.info("DataController--getDataByDataTypeAndPage--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -79,7 +80,7 @@ public class DataController {
         dataInfoPage.setIndex(dataParam.getIndex());
         dataInfoPage.setPageSize(dataParam.getPageSize());
         ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        logger.info("DataController--getMyPubDataByPage--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
 
@@ -92,7 +93,44 @@ public class DataController {
         dataInfo.setDataId(dataParam.getDataId());
         DataInfo dataInfoResult =dataService.findDataInfoByDataId(dataInfo);
         ResultJson<DataInfo> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoResult);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        logger.info("DataController--getDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
+
+    @RequestMapping("/saveDataInfo")
+    @ResponseBody
+    public ResultJson<Boolean> saveDataInfo(String body){
+        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+        DataInfo dataInfo = new DataInfo();
+        BeanUtil.copyProperties(dataParam,dataInfo);
+        UserInfo userInfo = this.getMyInfo();
+        dataInfo.setPubDesc(userInfo.getDesc());
+        dataInfo.setPubUser(userInfo.getUserName());
+        dataInfo.setUserId(userInfo.getUserId());
+        Integer res =dataService.saveDataInfo(dataInfo);
+        boolean flag = false;
+        if (res>0){
+            flag = true;
+        }
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,flag);
+        logger.info("DataController--saveDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
+    @RequestMapping("/delDataInfo")
+    @ResponseBody
+    public ResultJson<Boolean> delDataInfo(String body){
+        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+        DataInfo dataInfo = new DataInfo();
+        BeanUtil.copyProperties(dataParam,dataInfo);
+        Integer res =dataService.delDataInfoByDataId(dataInfo);
+        boolean flag = false;
+        if (res>0){
+            flag = true;
+        }
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,flag);
+        logger.info("DataController--delDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
 

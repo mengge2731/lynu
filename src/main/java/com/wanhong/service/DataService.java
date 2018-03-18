@@ -16,4 +16,5 @@ public interface DataService {
     Integer delDataInfoByDataId(DataInfo dataInfo);
     Integer updateDataInfo(DataInfo dataInfo);
     DataInfo findDataInfoByDataId(DataInfo dataInfo);
+    Integer saveDataInfo(DataInfo dataInfo);
 }

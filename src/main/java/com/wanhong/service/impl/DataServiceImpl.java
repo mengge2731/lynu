@@ -64,4 +64,9 @@ public class DataServiceImpl implements DataService {
     public DataInfo findDataInfoByDataId(DataInfo dataInfo) {
         return dataInfoDao.getDataInfoById(dataInfo);
     }
+
+    @Override
+    public Integer saveDataInfo(DataInfo dataInfo) {
+        return dataInfoDao.saveDataInfo(dataInfo);
+    }
 }
