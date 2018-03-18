@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
@@ -89,18 +90,18 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
       // 如果成功就去获取 用户权限 0000
-      if(res.data.code == "0000"){
+      if(res.data.code == code.success){
 
-        this.$axios.post('/getUserInfo')
+        this.$axios.post('/user/getUserInfo')
         .then( res => {
-          if(res.data.status == '1'){
-            this.admin = false;
-          }else {
-            this.admin = true;
+          if( res.data.code == code.success){
+            if(res.data.userType == '2'){
+              this.admin = true;
+            }
           }
         })
 
-      }else if(res.data.code == "0001"){
+      }else if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'

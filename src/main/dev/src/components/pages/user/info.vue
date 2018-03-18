@@ -11,6 +11,15 @@
 
     .user-account-number{
      margin-top: 10px;
+      div {
+        float:left;
+      }
+     .account-left{
+       width: 64px;
+     }
+     .account-right{
+       margin-left: 10px;
+     }
     }
     .user-name{
       width: 100%;
@@ -67,11 +76,13 @@
   <div class="data-con">
     <div class="user-info-form" >
       <div class="user-account-number clearfix">
-        登录账号: 13521260626
+        <div class="account-left">登录账号:</div>
+        <div class="account-right">{{phone}}</div>
+         
       </div>
       <div class="user-name clearfix">
         <div class="name-text">姓名:</div>
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        <el-input v-model="userName" placeholder=""></el-input>
       </div>
       <div class="user-present clearfix">
         <div class="present-text">介绍:</div>
@@ -79,8 +90,8 @@
         <el-input
           type="textarea"
           :rows="2"
-          placeholder="请输入内容"
-          v-model="textarea">
+          placeholder=""
+          v-model="desc">
         </el-input>
       </div>
 
@@ -98,11 +109,13 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
-      input:'韩冷',
-      textarea:'中国大数据中心数据专家，主要从事旅游大数据模型设计。'
+      phone:'',
+      userName:'',
+      desc:''
     }
   },
   created(){
@@ -110,12 +123,23 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
       console.log(res.data)
-      if(res.data.code == "0001"){
+      if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
         });
         this.$router.push({ path: '/'});
+      }else {
+        //  请求用户数据
+         this.$axios.post('/user/getUserInfo')
+        .then( res => {
+          if( res.data.code == code.success){
+            var userInfo = res.data.data;
+            this.phone = userInfo.phone;
+            this.userName = userInfo.userName;
+            this.desc = userInfo.desc;
+          }
+        })
       }
     })
 
@@ -123,7 +147,48 @@ export default {
   },
   methods:{
     saveInfo(){
-      console.log('提交保存修改')
+      console.log('提交保存修改');
+       let that = this;
+        // 请求登录查询
+        // 发送数据提交
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        // 如果成功就去获取 用户权限 0000
+        if(res.data.code == code.success){
+          
+          var data = {
+            userName: this.userName,
+            desc: this.desc,
+          }
+          let params = 'body=' + JSON.stringify(data);
+
+          this.$axios.post('/user/updateUserInfo',params )
+          .then( res => {
+            if( res.data.code == code.success){
+
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              });
+
+              // 重新加载页面
+              setTimeout(function(){
+                location.reload;
+              },200)
+            }
+          })
+
+        }else if(res.data.code == code.noLogin){
+          this.$message({
+              message: '未登录',
+              type: 'info'
+          });
+          this.$router.push({ path: '/'});
+        }
+
+      })
+
+
     }
   }
 }

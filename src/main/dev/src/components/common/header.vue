@@ -117,39 +117,7 @@ export default {
         this.type = 4;
         break;
     }
-  },
-  watch(){
-    switch (this.$route.path) {
-      case '/' :
-        this.type = 1;
-        break;
-      case  '/market':
-        this.type = 2;
-        break;
-      case '/center':
-        this.type = 3;
-        break;
-      default:
-        this.type = 4;
-        break;
-    }
-  },
-  activated(){
-    switch (this.$route.path) {
-      case '/' :
-        this.type = 1;
-        break;
-      case  '/market':
-        this.type = 2;
-        break;
-      case '/center':
-        this.type = 3;
-        break;
-      default:
-        this.type = 4;
-        break;
-    }
-  },  
+  }, 
   methods: {
     change(index){
       if(index == 1){
