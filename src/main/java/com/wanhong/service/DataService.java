@@ -17,4 +17,6 @@ public interface DataService {
     Integer updateDataInfo(DataInfo dataInfo);
     DataInfo findDataInfoByDataId(DataInfo dataInfo);
     Integer saveDataInfo(DataInfo dataInfo);
+    //我发布的数据共享
+    Page<List<DataInfo>> getMyPubDataByPage(DataParam dataParam);
 }

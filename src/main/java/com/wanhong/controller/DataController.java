@@ -76,7 +76,9 @@ public class DataController extends BaseController{
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getMyPubDataByPage(String body){
         DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        Page<List<DataInfo>> dataInfoPage =dataService.getDataByDataTypeAndPage(dataParam);
+        UserInfo userInfo = this.getMyInfo();
+        dataParam.setUserId(userInfo.getUserId());
+        Page<List<DataInfo>> dataInfoPage =dataService.getMyPubDataByPage(dataParam);
         dataInfoPage.setIndex(dataParam.getIndex());
         dataInfoPage.setPageSize(dataParam.getPageSize());
         ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);

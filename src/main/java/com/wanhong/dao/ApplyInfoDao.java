@@ -1,6 +1,7 @@
 package com.wanhong.dao;
 
 import com.wanhong.domain.ApplyInfo;
+import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.common.ApplyQuery;
 
 import java.util.List;
@@ -49,4 +50,11 @@ public interface ApplyInfoDao {
      * @return
      */
     ApplyInfo getApplyInfoByUserIdAndDataId(ApplyInfo applyInfo);
+
+    /**
+     *  根据dataid  获取 申请信息。
+     * @param dataInfo
+     * @return
+     */
+    ApplyInfo getApplyInfoByDataId(DataInfo dataInfo);
 }

@@ -42,6 +42,8 @@ public class ApplyController extends BaseController {
     @ResponseBody
     public ResultJson<Page<List<ApplyInfo>>> getMyApplyInfoByPage(String body){
         ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+        UserInfo userInfo = this.getMyInfo();
+        applyParam.setApplyUserId(userInfo.getUserId());
         Page<List<ApplyInfo>> applyInfoPage =applyService.getMyApplyInfoByPage(applyParam);
         ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
         logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
