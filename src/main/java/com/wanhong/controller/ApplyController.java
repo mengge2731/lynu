@@ -207,19 +207,54 @@ public class ApplyController extends BaseController {
             UserInfo userInfo = getMyInfo();
 
             applyInfo.setApplyUserId(userInfo.getUserId());
-            DataInfo dataInfoQuery = new DataInfo();
-            dataInfoQuery.setDataId(applyInfo.getDataId());
             ApplyInfo applyInfoResult = applyService.getApplyInfoById(applyInfo);
             ApplyInfoVo applyInfoVo = new ApplyInfoVo();
             BeanUtil.copyProperties(applyInfoResult,applyInfoVo);
-            userInfo.setUserId(applyInfo.getPubDataUserId());
+            userInfo.setUserId(applyInfoResult.getPubDataUserId());
             UserInfo userInfo1 = userInfoDao.getUserInfoById(userInfo);
+            DataInfo dataInfoQuery = new DataInfo();
+            dataInfoQuery.setDataId(applyInfoResult.getDataId());
             DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
             applyInfoVo.setPubUserName(userInfo1.getUserName());
             applyInfoVo.setDataTitle(dataInfo.getDataTitle());
             if ("1".equals(applyInfoVo.getStatus())){//如果回复了则将电话展示给申请者 。
                 applyInfoVo.setPubUserPhone(userInfo1.getPhone());
             }
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoVo);
+            logger.info("saveApplyInfo - resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return resultJson;
+    }
+
+
+    @RequestMapping("/getTheirApplyInfo")
+    @ResponseBody
+    public ResultJson<ApplyInfoVo> getTheirApplyInfo(String body){
+        ResultJson<ApplyInfoVo> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            ApplyInfo applyInfo = new ApplyInfo();
+            BeanUtil.copyProperties(applyParam,applyInfo);
+            if (applyInfo.getApplyId()==null){
+                return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+            }
+            UserInfo userInfo = getMyInfo();
+
+            applyInfo.setApplyUserId(userInfo.getUserId());
+            DataInfo dataInfoQuery = new DataInfo();
+            ApplyInfo applyInfoResult = applyService.getApplyInfoById(applyInfo);
+            ApplyInfoVo applyInfoVo = new ApplyInfoVo();
+            BeanUtil.copyProperties(applyInfoResult,applyInfoVo);
+            userInfo.setUserId(applyInfoResult.getPubDataUserId());
+            UserInfo userInfo1 = userInfoDao.getUserInfoById(userInfo);
+            dataInfoQuery.setDataId(applyInfoResult.getDataId());
+            DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
+            applyInfoVo.setPubUserName(userInfo1.getUserName());
+            applyInfoVo.setDataTitle(dataInfo.getDataTitle());
+
             resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoVo);
             logger.info("saveApplyInfo - resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         }catch (Exception e){

@@ -15,6 +15,8 @@ public interface UserInfoDao {
     UserInfo getUserImportantInfoById(UserInfo userInfo);
     //登录校验账号密码
     UserInfo getUserByPhoneAndPassword(UserInfo userInfo);
+    //找回密码
+    UserInfo getUserByPhoneAndPasswordAndMsg(UserInfo userInfo);
     //注册的时候用于检查是否存在该用户
     UserInfo getUserInfoByPhone(UserInfo userInfo);
     Integer getUserCount();
@@ -26,5 +28,7 @@ public interface UserInfoDao {
     Integer updateUserPassword(UserInfo userInfo);
     Integer updateUserStatus(UserInfo userInfo);
     Integer updateUserType(UserInfo userInfo);
+    //找回密码专用
+    Integer updateUserMsgAndExpired(UserInfo userInfo);
 
 }

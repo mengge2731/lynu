@@ -22,6 +22,7 @@ public interface UserService {
     UserInfo getUserInfoById(UserInfo userInfo);
     UserInfo saveUserInfo(UserInfo userInfo);
     UserInfo getUserByPhoneAndPassword(UserInfo userInfo);
+    UserInfo getUserByPhoneAndPasswordAndMsg(UserInfo userInfo);
     Integer updateUserStatus(UserInfo userInfo);
     Integer updateUserType(UserInfo userInfo);
 

@@ -86,8 +86,8 @@ public class DataServiceImpl implements DataService {
         //是否有人申请这条数据
         if (dataInfoListPage != null){
             for (DataInfo dataInfo : dataInfoListPage){
-                ApplyInfo applyInfo = applyInfoDao.getApplyInfoByDataId(dataInfo);
-                if (applyInfo != null && applyInfo.getApplyId()!=null){
+                List<ApplyInfo> applyInfoList = applyInfoDao.getApplyInfoByDataId(dataInfo);
+                if (applyInfoList != null && applyInfoList.size()>0){
                     dataInfo.setHaveApply(true);
                 }else{
                     dataInfo.setHaveApply(false);

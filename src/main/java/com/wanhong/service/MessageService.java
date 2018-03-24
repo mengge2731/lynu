@@ -10,7 +10,7 @@ import com.wanhong.domain.vo.MessageResultVo;
  */
 public interface MessageService {
     ResultJson<MessageResultVo> sendMessage(String phone);
-
+    ResultJson<MessageResultVo> sendFindPasswordMessage(String phone,String msg);
     Integer saveMessageInfo(MessageInfo messageInfo);
     MessageInfo getMessageInfoByPhone(MessageInfo messageInfo);
     Integer updateMessageInfoByPhone(MessageInfo messageInfo);

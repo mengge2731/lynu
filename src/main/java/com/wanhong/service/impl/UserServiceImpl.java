@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserInfo getUserByPhoneAndPasswordAndMsg(UserInfo userInfo) {
+        return userInfoDao.getUserByPhoneAndPasswordAndMsg(userInfo);
+    }
+
+    @Override
     public Integer updateUserStatus(UserInfo userInfo) {
         return userInfoDao.updateUserStatus(userInfo);
     }

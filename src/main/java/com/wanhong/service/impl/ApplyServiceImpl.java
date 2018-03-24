@@ -64,6 +64,7 @@ public class ApplyServiceImpl implements ApplyService {
         applyQuery.setIndex(applyParam.getIndex());
         applyQuery.setPageSize(applyParam.getPageSize());
         applyQuery.setPubDataUserId(applyParam.getPubDataUserId());
+        applyQuery.setDataId(applyParam.getDataId());
         List<ApplyInfo> applyInfoList = applyInfoDao.getThireApplyInfoByPage(applyQuery);
         Integer totalCount = applyInfoDao.getThireApplyInfoCount(applyQuery);
         Page page = new Page<>(applyInfoList);

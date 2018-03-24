@@ -79,6 +79,7 @@
 		apply_info
 		SET
 		update_time=NOW(),
+		reply_time=NOW(),
 		status = 1
 		WHERE
 		apply_id=#{applyId}

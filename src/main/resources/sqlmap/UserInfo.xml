@@ -39,7 +39,7 @@
 		FROM
 			user_info u
 		WHERE
-			status = 0
+			status != 1
 		ORDER BY u.create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
@@ -180,6 +180,18 @@
 		user_type=#{userType}
 		WHERE
 		user_id=#{userId}
+		AND
+		status = 0
+	</update>
+
+	<update id="updateUserMsgAndExpired" parameterType="userInfo">
+		UPDATE
+		user_info
+		SET
+		msg=#{msg},
+		msg_expired=#{msgExpired}
+		WHERE
+		phone=#{phone}
 		AND
 		status = 0
 	</update>

@@ -128,7 +128,7 @@ public class UserController extends BaseController {
             }
             userInfo.setUserId(userParam.getUserId());
             userInfo.setStatus(userParam.getStatus());
-            if (userInfo.getUserId()== null || userInfo.getStatus() <=0 ){
+            if (userInfo.getUserId()== null ){
                 return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR,false);
             }
 
@@ -170,6 +170,31 @@ public class UserController extends BaseController {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return resultJson;
+    }
+
+
+    @RequestMapping("/findMyPassword")
+    @ResponseBody
+    public ResultJson<Boolean> findMyPassword(String body){
+        UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body,UserParam.class);
+        UserInfo userInfo = this.getMyInfo();
+        userInfo.setPassword(userParam.getOldPassword());
+        if (StringUtil.hasBlank(userInfo.getPassword(),userInfo.getPhone(),userParam.getNewPassword(),userInfo.getMsg())){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR,false);
+        }
+        UserInfo oldUserInfo = userService.getUserByPhoneAndPassword(userInfo);
+        UserInfo oldUserInfo2 = userService.getUserByPhoneAndPassword(userInfo);
+        if (oldUserInfo == null){
+            return new ResultJson<>(BusinessCode.UPDATE_ERROR,false);
+        }
+
+        userInfo.setPassword(userParam.getNewPassword());
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.UPDATE_ERROR, false);
+        if (userService.updateUserPassword(userInfo)>0){
+            resultJson =  new ResultJson<>(BusinessCode.SUCCESS,true);
+        }
+        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
 

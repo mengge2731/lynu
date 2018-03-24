@@ -53,6 +53,23 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
+    @Override
+    public ResultJson<MessageResultVo> sendFindPasswordMessage(String phone,String msg) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(phone);
+        UserInfo oldUserInfo = userService.getUserInfoByPhone(userInfo);
+        if(oldUserInfo!= null){
+            if (oldUserInfo.getMsgExpired()==null || oldUserInfo.getMsgExpired().compareTo(new Date())<=0){//过期
+                this.sendAndUpdateUserInfo(phone);
+            }else{//没过期
+                return new ResultJson(BusinessCode.REGISTER_AGINE);
+            }
+        }else{
+            return new ResultJson(BusinessCode.REGISTER_AGINE);
+        }
+        return null;
+    }
+
     private ResultJson sendAndUpdate(String phone){
         MessageInfo messageInfoQuery = new MessageInfo();
         messageInfoQuery.setPhone(phone);
@@ -93,7 +110,25 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
-
+    private ResultJson sendAndUpdateUserInfo(String phone){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(phone);
+        SendMessageUtil sendMessageUtil = new SendMessageUtil();
+        ResultJson result = sendMessageUtil.sendMessage(phone);
+        if (BusinessCode.SUCCESS.getCode().equals(result.getCode())) {
+            Map<String, Object> mapResult = (Map<String, Object>) result.getData();
+            String message = (String) mapResult.get("message");
+            MessageResultVo messageResultVo = (MessageResultVo) mapResult.get("messageResultVo");
+            result.setData(messageResultVo);
+            userInfo.setMsg(message);
+            Date expireTime = new Date();
+            expireTime.setMinutes(expireTime.getMinutes() + 20);
+            userInfo.setMsgExpired(expireTime);
+            userInfoDao.updateUserMsgAndExpired(userInfo);
+            logger.info("MessageServiceImpl--sendAndUpdateUserInfo--result:{}",result);
+        }
+        return result;
+    }
     @Override
     public Integer saveMessageInfo(MessageInfo messageInfo) {
         return messageInfoDao.saveMessageInfo(messageInfo);
