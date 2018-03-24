@@ -168,11 +168,9 @@
 		status=#{status}
 		WHERE
 		user_id=#{userId}
-		AND
-		status = 0
 	</update>
 
-	<!-- status=0 正常   Status=1 被删除  status=2：停用 -->
+	<!-- 1:普通用户;2:管理员; -->
 	<update id="updateUserType" parameterType="userInfo">
 		UPDATE
 		user_info
@@ -180,8 +178,6 @@
 		user_type=#{userType}
 		WHERE
 		user_id=#{userId}
-		AND
-		status = 0
 	</update>
 
 	<update id="updateUserMsgAndExpired" parameterType="userInfo">
