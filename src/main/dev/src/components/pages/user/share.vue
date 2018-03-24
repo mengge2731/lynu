@@ -57,7 +57,7 @@
 
           .info-content-right {
             float: left;
-            padding: 10px 40px;
+            padding: 10px 24px;
 
             border-left: 1px dashed rgb(161, 161, 161);
             p {
@@ -114,7 +114,7 @@
             </div>
 
             <div class="item-right">
-              <el-button type="primary" plain size="small" v-if="item.havaApply"  @click="toDetail(item.id)">新申请待审批</el-button>
+              <el-button type="primary" plain size="small" v-if="item.haveApply"  @click="toDetail(item.id)">新申请待审批</el-button>
               <el-button type="primary" plain size="small" v-else disabled>无申请</el-button>
               <el-button type="danger" plain size="small" @click="del(item.id,index)">删除</el-button>
             </div>
