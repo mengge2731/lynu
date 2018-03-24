@@ -98,7 +98,6 @@ import { code } from '../../../util/util'
     data() {
       return {
         type: 0,
-        dataList:[], // 列表数据
         // 分页数据
         pageData: {},
         pageSize:[10, 20, 50],
@@ -108,118 +107,19 @@ import { code } from '../../../util/util'
         index:1,
 
 
-        userList:{
-          "data": [
-              {
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "1",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 1,
-                  "userName": "李明亮",
-                  "userType": 1
-              },
-              {
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "0",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 25,
-                  "userName": "赵大宝",
-                  "userType": 2
-              },
-              {
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "1",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 1,
-                  "userName": "李明亮",
-                  "userType": 1
-              },
-              {
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "0",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 25,
-                  "userName": "赵大宝",
-                  "userType": 2
-              },{
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "1",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 1,
-                  "userName": "李明亮",
-                  "userType": 1
-              },
-              {
-                  "createTime": "2018-02-11 16:24:36",
-                  "msg": "",
-                  "userDesc": "洛阳师范学院旅游学院老师，研究领域为意大利旅游经济情况构成。",
-                  "msgExpired": null,
-                  "nickName": "",
-                  "password": "",
-                  "phone": "13199998887",
-                  "status": "0",
-                  "updateTime": "2018-02-11 16:24:41",
-                  "userId": 25,
-                  "userName": "赵大宝",
-                  "userType": 2
-              }
-          ],
-          "endRow": 30,
-          "firstPage": true,
-          "index": 1,
-          "lastPage": true,
-          "middlePage": false,
-          "nextPage": 25,
-          "nextPageAvailable": false,
-          "pageSize": 30,
-          "previousPage": 1,
-          "previousPageAvailable": false,
-          "startRow": 0,
-          "totalItem": 25,
-          "totalPage": 1
-        },
+        userList:{},
         typeOptions: [{
-          value: 1,
+          value: '1',
           label: '普通用户'
         }, {
-          value: 2,
+          value:'2',
           label: '管理员'
         }],
         statusOptions:[{
-          value: '0',
+          value: 0,
           label: '正常'
         },{
-          value: '1',
+          value: 2,
           label: '停用'
         }],
 
@@ -242,8 +142,46 @@ import { code } from '../../../util/util'
 
           this.$router.push({ path: '/'});
         }else if(res.data.code == code.login){
+          // 获取 用户列表
+           let data = {
+            pageSize:this.size,
+            index:this.index, 
+          }
+          let params = 'body=' + JSON.stringify(data);
+          this.$axios.post('/login/isLogin')
+          .then( res => {
+            if(res.data.code == code.login){
+              this.$axios.post('/user/getUserByPage',params)
+              .then( res => {
+                  if(res.data.code == code.success){
+                  // 整体数据，包括分页数据
+                  let pageInfo = res.data.data
+                  this.pageData = pageInfo;
+                  // 数据总条数  总条数 = 总页数 * 每页数据
+                  this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+                  // 数据列表
+                  this.userList = res.data.data;
+                }else {
 
-      }
+                  this.$message({
+                  message: '用户信息获取失败，请刷新',
+                  type: 'info'
+                });
+
+                }
+              })
+              .catch( err => console.log(err));
+
+            }else if(res.data.code == code.noLogin){
+              this.$message({
+                message: '未登录',
+                type: 'info'
+              });
+
+              this.$router.push({ path: '/'});
+            }
+          })
+        }
       })
     },
     methods: {
@@ -300,7 +238,7 @@ import { code } from '../../../util/util'
         this.$axios.post('/login/isLogin')
         .then( res => {
           if(res.data.code == code.login){
-            this.$axios.post('/user/updateUserType',params)
+            this.$axios.post('/user/updateUserStatus',params)
             .then( res => {
                 // 修改成功 提示
                 this.$message({
@@ -322,50 +260,18 @@ import { code } from '../../../util/util'
       },
 
       // /function/user/getUserByPage
-        handleSizeChange(val){
-          this.size = val;
-          let data = {
-            pageSize:this.size,
-            index:this.index, 
-          }
-          let params = 'body=' + JSON.stringify(data);
-          this.$axios.post('/login/isLogin')
-          .then( res => {
-            if(res.data.code == code.login){
-              this.$axios.post('/user/getUserByPage',params)
-              .then( res => {
-                  // 整体数据，包括分页数据
-                  let pageInfo = res.data.data
-                  this.pageData = pageInfo;
-                  // 数据总条数  总条数 = 总页数 * 每页数据
-                  this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
-                  // 数据列表
-                  this.dataList = res.data.data.data;
-              })
-              .catch( err => console.log(err));
-
-            }else if(res.data.code == code.noLogin){
-              this.$message({
-                message: '未登录',
-                type: 'info'
-              });
-
-              this.$router.push({ path: '/'});
-            }
-          })
-        },
-        handleCurrentChange(val){
-          this.index = val;
-          let data = {
-            pageSize:this.size,
-            index:this.index, 
-          }
-          let params = 'body=' + JSON.stringify(data);
-          this.$axios.post('/login/isLogin')
-          .then( res => {
-            if(res.data.code == code.login){
-              this.$axios.post('/user/getUserByPage',params)
-              .then( res => {
+      handleSizeChange(val){
+        this.size = val;
+        let data = {
+          pageSize:this.size,
+          index:this.index, 
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/user/getUserByPage',params)
+            .then( res => {
                 if(res.data.code == code.success){
                   // 整体数据，包括分页数据
                   let pageInfo = res.data.data
@@ -373,21 +279,61 @@ import { code } from '../../../util/util'
                   // 数据总条数  总条数 = 总页数 * 每页数据
                   this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
                   // 数据列表
-                  this.dataList = res.data.data.data;
+                  this.userList = res.data.data;
                 }else {
-                  //网络异常请重试
-                }
-                  
-              })
-              .catch( err => console.log(err));
+                  this.$message({
+                    message: '用户信息获取失败，请刷新',
+                    type: 'info'
+                })
 
-            }else if(res.data.code == code.noLogin){
-              // 显示登录框
-              // this.loginbox.cover = true; // 遮罩层是否开启
-              // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
-            }
-          })
-        },
+                }
+            })
+            .catch( err => console.log(err));
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+              message: '未登录',
+              type: 'info'
+            });
+
+            this.$router.push({ path: '/'});
+          }
+        })
+      },
+      handleCurrentChange(val){
+        this.index = val;
+        let data = {
+          pageSize:this.size,
+          index:this.index, 
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/user/getUserByPage',params)
+            .then( res => {
+              if(res.data.code == code.success){
+                // 整体数据，包括分页数据
+                let pageInfo = res.data.data
+                this.pageData = pageInfo;
+                // 数据总条数  总条数 = 总页数 * 每页数据
+                this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+                // 数据列表
+                this.dataList = res.data.data.data;
+              }else {
+                //网络异常请重试
+              }
+                
+            })
+            .catch( err => console.log(err));
+
+          }else if(res.data.code == code.noLogin){
+            // 显示登录框
+            // this.loginbox.cover = true; // 遮罩层是否开启
+            // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+          }
+        })
+      },
        
     },
 

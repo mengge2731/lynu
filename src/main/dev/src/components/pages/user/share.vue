@@ -114,9 +114,9 @@
             </div>
 
             <div class="item-right">
-              <el-button type="primary" plain size="small" v-if="item.haveApply"  @click="toDetail(item.id)">新申请待审批</el-button>
+              <el-button type="primary" plain size="small" v-if="item.haveApply"  @click="toDetail(item.dataId)">新申请待审批</el-button>
               <el-button type="primary" plain size="small" v-else disabled>无申请</el-button>
-              <el-button type="danger" plain size="small" @click="del(item.id,index)">删除</el-button>
+              <el-button type="danger" plain size="small" @click="del(item.dataId,index)">删除</el-button>
             </div>
           </div>
         </li>
@@ -195,7 +195,7 @@ export default {
   methods:{
     toDetail(id){
       this.$router.push({
-        path:'agree?id=' + id
+        path:'agree?dataId=' + id
       });
     },
     del(fileId,index){
@@ -205,21 +205,44 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          // 发送删除请求操作
-          console.log('删除文件操作'+ fileId )
+           // 发送删除请求操作
+          let data = {
+            dataId: dataId
+          }
+          let params = 'body=' + JSON.stringify(data);
+          this.$axios.post('/login/isLogin')
+          .then( res => {
+            if(res.data.code == code.login){
+              this.$axios.post('/data/delDataInfo',params)
+              .then( res => {
+                if(res.data.code == code.success){
+                     this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                      });
 
-          this.dataList.shift(index,1);
-          // 发送请求，删除
-          
+                    setTimeout( function(){
+                      this.dataList.shift(index,1);
+                    },200)
+                  
+                }else {
+                  //网络异常请重试
 
-          setTimeout( function(){
-            that.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-          },3000)
 
-          
+                }
+                  
+              })
+              .catch( err => console.log(err));
+
+            }else if(res.data.code == code.noLogin){
+              this.$message({
+                message: '未登录',
+                type: 'info'
+              });
+
+              this.$router.push({ path: '/'});
+            }
+          })
         }).catch(() => {
           this.$message({
             type: 'info',

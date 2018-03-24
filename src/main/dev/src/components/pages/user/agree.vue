@@ -95,6 +95,36 @@ export default {
 
         this.$router.push({ path: '/'});
         
+      }else {
+        // 获取共享数据的  id  发送请求
+         let data = {
+          dataId : parseInt(this.$route.query.dataId),
+          pageSize: this.size,
+          index: this.index, 
+        }
+        
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/apply/getThireApplyInfoByPage',params)
+            .then( res => {
+                // 整体数据，包括分页数据
+                let pageInfo = res.data.data
+                this.pageData = pageInfo;
+                // 数据总条数  总条数 = 总页数 * 每页数据
+                this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+                // 数据列表
+                this.dataList = res.data.data.data;
+            })
+            .catch( err => console.log(err));
+          }else if(res.data.code == code.noLogin){
+
+            // 显示登录框
+            this.loginbox.cover = true; // 遮罩层是否开启
+            this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+          }
+        })
       }
     })
     // 获得当前数据id  获取该数据的申请状态信息
@@ -114,14 +144,16 @@ export default {
     handleSizeChange(val){
       this.size = val;
       let data = {
-        pageSize:this.size,
-        index:this.index, 
+        dataId : parseInt(this.$route.query.dataId),
+        pageSize: this.size,
+        index: this.index, 
       }
+      
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == code.login){
-           this.$axios.post('/data/getDataByPage',params)
+           this.$axios.post('/apply/getThireApplyInfoByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
@@ -143,8 +175,9 @@ export default {
     handleCurrentChange(val){
       this.index = val;
       let data = {
-        pageSize:this.size,
-        index:this.index, 
+        dataId : parseInt(this.$route.query.dataId),
+        pageSize: this.size,
+        index: this.index, 
       }
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')

@@ -185,7 +185,7 @@ export default {
     // let dataId = this.$route.query.dataId
 
     let data = {
-      dataId: this.$route.query.dataId,
+      dataId: parseInt(this.$route.query.dataId),
     }
     let params = 'body=' + JSON.stringify(data);
 
@@ -229,7 +229,7 @@ export default {
       let that = this;
       // 申请这条数据
       let data = {
-        dataId: this.$route.query.dataId,
+        dataId: parseInt(this.$route.query.dataId),  // 字符串转成数字
         applyDesc: this.otherInfo, 
       }
       let params = 'body=' + JSON.stringify(data);
@@ -250,9 +250,15 @@ export default {
               setTimeout(function(){
                 // 返回市场
                 that.$router.push({path:'/market'});
+
               },200)
 
               
+            }else {
+              this.$message({
+                message: '申请失败',
+                type: 'info'
+              });
             }
           })
           .catch( err => console.log(err));
