@@ -169,12 +169,18 @@ export default {
   },
   created(){
     let that = this;
+    let data = {
+        pageSize:this.size,
+        index:this.index, 
+        dataType: this.type
+      }
+      let params = 'body=' + JSON.stringify(data);
     this.$axios.post('/login/isLogin')
     .then( res => {
 
       if(res.data.code == code.login){
         // 默认请求首页数据
-        this.$axios.post('/login/getFirstPageData')
+        this.$axios.post('/login/getDataByDataTypeAndPage',params)
         .then( res => {
           // 整体数据，包括分页数据
           let pageInfo = res.data.data
@@ -211,7 +217,7 @@ export default {
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == code.login){
-          this.$axios.post('/data/getDataByPage',params)
+          this.$axios.post('/data/getDataByDataTypeAndPage',params)
           .then( res => {
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
@@ -244,7 +250,7 @@ export default {
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == code.login){
-           this.$axios.post('/data/getDataByPage',params)
+           this.$axios.post('/data/getDataByDataTypeAndPage',params)
           .then( res => {
             if(res.data.code == code.success){
               // 整体数据，包括分页数据

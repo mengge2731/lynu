@@ -136,7 +136,7 @@ export default {
     },
     check(id){
       this.$router.push({
-        path:'/user/approve?id=' + id 
+        path:'/user/approve?applyId=' + id 
       })
       // 跳转审核页面
     },

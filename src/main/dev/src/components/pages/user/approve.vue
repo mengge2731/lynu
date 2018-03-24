@@ -169,6 +169,8 @@ export default {
                 type: 'success'
             });
 
+            this.$router.go(-1);
+
             }
           })
           .catch( err => console.log(err));
@@ -202,6 +204,9 @@ export default {
                   message: '不同意',
                   type: 'info'
               });
+
+            this.$router.go(-1);
+              
               
             }
           })
