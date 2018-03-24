@@ -90,7 +90,7 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
       // 如果成功就去获取 用户权限 0000
-      if(res.data.code == code.success){
+      if(res.data.code == code.login){
 
         this.$axios.post('/user/getUserInfo')
         .then( res => {
