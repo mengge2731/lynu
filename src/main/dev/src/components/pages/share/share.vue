@@ -227,15 +227,17 @@ export default {
           value: '1',
           label: '旅游相关'
         },{
-          value: '2',
+          value: '3',
           label: '意大利相关'
         },{
-          value: '3',
+          value: '2',
           label: '文化相关'
-        },{
-          value: '4',
-          label: '其他'
-        }],
+        },
+        // {
+        //   value: '4',
+        //   label: '其他'
+        // }
+        ],
         value:'',
         userInfo:{}
     }
