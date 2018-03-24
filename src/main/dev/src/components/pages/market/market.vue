@@ -180,7 +180,7 @@ export default {
 
       if(res.data.code == code.login){
         // 默认请求首页数据
-        this.$axios.post('/login/getDataByDataTypeAndPage',params)
+        this.$axios.post('/data/getDataByDataTypeAndPage',params)
         .then( res => {
           // 整体数据，包括分页数据
           let pageInfo = res.data.data
