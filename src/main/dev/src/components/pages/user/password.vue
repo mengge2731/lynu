@@ -118,6 +118,8 @@ export default {
             type: 'info'
         });
         this.$router.push({ path: '/'});
+      }else {
+        // 请求用户 信息，获取 手机号
       }
     })
   },
