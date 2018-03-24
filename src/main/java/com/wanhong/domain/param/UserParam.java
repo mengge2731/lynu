@@ -14,6 +14,16 @@ public class UserParam extends BusinessParam {
     //确认密码
     private String ensurePassword;
 
+    private String userName;
+    private String desc;
+
+    private String newPassword;
+    private String oldPassword;
+
+    private Long userId;
+    private int status;
+    private String userType;
+
     public String getPhone() {
         return phone;
     }
@@ -52,5 +62,61 @@ public class UserParam extends BusinessParam {
 
     public void setEnsurePassword(String ensurePassword) {
         this.ensurePassword = ensurePassword;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

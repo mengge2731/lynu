@@ -103,13 +103,14 @@ public class DataController extends BaseController{
     @RequestMapping("/saveDataInfo")
     @ResponseBody
     public ResultJson<Boolean> saveDataInfo(String body){
+        logger.info("DataController--saveDataInfo--body:{}", body);
         ResultJson<Boolean> resultJson = null;
         try{
             DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
             DataInfo dataInfo = new DataInfo();
             BeanUtil.copyProperties(dataParam,dataInfo);
             UserInfo userInfo = this.getMyInfo();
-            dataInfo.setPubDesc(userInfo.getDesc());
+            dataInfo.setPubDesc(userInfo.getUserDesc());
             dataInfo.setPubUser(userInfo.getUserName());
             dataInfo.setUserId(userInfo.getUserId());
             Integer res =dataService.saveDataInfo(dataInfo);

@@ -1,5 +1,6 @@
 package com.wanhong.dao;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.UserQuery;
 
@@ -21,5 +22,9 @@ public interface UserInfoDao {
     Integer delUserInfoById(UserInfo userInfo);
     Integer updateUserInfo(UserInfo userInfo);
     Integer saveUserInfo(UserInfo userInfo);
+
+    Integer updateUserPassword(UserInfo userInfo);
+    Integer updateUserStatus(UserInfo userInfo);
+    Integer updateUserType(UserInfo userInfo);
 
 }

@@ -33,21 +33,21 @@ public class LoginInterceptor implements HandlerInterceptor {
     private String loginUrl = "http://localhost:8080";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        if (isExclude(request)){
-            return true;
-        }else{
-
-            UserInfoVo userInfo = (UserInfoVo)request.getSession().getAttribute("userInfo");
-            if (userInfo == null){
-                if (request.getRequestURI().startsWith("/function/upload/uploadFile")){
-                    String str = FastjsonUtil.objectToJson(new ResultJson<>(BusinessCode.NOT_LOG_IN));
-                    HtmlUtil.writerText(response,str);
-                }else{
-                    HtmlUtil.writerJson(response,new ResultJson<>(BusinessCode.NOT_LOG_IN));
-                }
-                return false;
-            }
-        }
+//        if (isExclude(request)){
+//            return true;
+//        }else{
+//
+//            UserInfoVo userInfo = (UserInfoVo)request.getSession().getAttribute("userInfo");
+//            if (userInfo == null){
+//                if (request.getRequestURI().startsWith("/function/upload/uploadFile")){
+//                    String str = FastjsonUtil.objectToJson(new ResultJson<>(BusinessCode.NOT_LOG_IN));
+//                    HtmlUtil.writerText(response,str);
+//                }else{
+//                    HtmlUtil.writerJson(response,new ResultJson<>(BusinessCode.NOT_LOG_IN));
+//                }
+//                return false;
+//            }
+//        }
         return true;
     }
 

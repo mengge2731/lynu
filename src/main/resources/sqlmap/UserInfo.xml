@@ -12,7 +12,6 @@
 			,introduction AS introduction
 			,user_type AS userType
 			,user_desc AS userDesc
-
 			,status AS status
 			,create_time AS createTime
 			,update_time AS updateTime
@@ -147,5 +146,42 @@
 		,now()
 		)
 	</insert>
+
+
+	<!-- status=0 正常   Status=1 被删除-->
+	<update id="updateUserPassword" parameterType="userInfo">
+		UPDATE
+		user_info
+		SET
+		password=#{password}
+		WHERE
+		user_id=#{userId}
+		AND
+		status = 0
+	</update>
+
+	<!-- status=0 正常   Status=1 被删除  status=2：停用 -->
+	<update id="updateUserStatus" parameterType="userInfo">
+		UPDATE
+		user_info
+		SET
+		status=#{status}
+		WHERE
+		user_id=#{userId}
+		AND
+		status = 0
+	</update>
+
+	<!-- status=0 正常   Status=1 被删除  status=2：停用 -->
+	<update id="updateUserType" parameterType="userInfo">
+		UPDATE
+		user_info
+		SET
+		user_type=#{userType}
+		WHERE
+		user_id=#{userId}
+		AND
+		status = 0
+	</update>
 
 </mapper>

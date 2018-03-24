@@ -63,6 +63,9 @@ public class LoginController {
         if (userInfo == null){
             return new ResultJson<>(BusinessCode.LOGIN_ERROR);
         }
+        if (userInfo.getStatus()==2){
+
+        }
         UserInfoVo userInfoVo = new UserInfoVo();
         BeanUtil.copyProperties(userInfo,userInfoVo);
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();

@@ -24,6 +24,7 @@ public enum BusinessCode implements ErrorCode{
     REGISTER_AGINE("0013", "已经注册过，请直接登录."),
     LOGIN_ERROR("0014", "账号或密码错误."),
     APPLY_AGINE_ERROR("0015", "已经申请过该数据."),
+    NO_ACCESS("0016", "没有权限修改数据."),
     ;
     private final String code;
     private final String description;

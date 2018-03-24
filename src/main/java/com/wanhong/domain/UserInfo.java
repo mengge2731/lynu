@@ -22,10 +22,10 @@ public class UserInfo{
     /**
      * 0--正常状态; 1--被删除; 2-- 停用
      */
-    private String status;
+    private int status;
     private Date msgExpired;
     //简介
-    private String desc;
+    private String userDesc;
     private Date createTime;
     private Date updateTime;
 
@@ -85,11 +85,11 @@ public class UserInfo{
         this.msg = msg;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -117,11 +117,11 @@ public class UserInfo{
         this.updateTime = updateTime;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getUserDesc() {
+        return userDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
     }
 }

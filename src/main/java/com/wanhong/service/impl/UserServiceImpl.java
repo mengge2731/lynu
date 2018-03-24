@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Integer updateUserPassword(UserInfo userInfo) {
-        return null;
+        return userInfoDao.updateUserPassword(userInfo);
     }
 
     @Override
@@ -90,5 +90,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserInfo getUserByPhoneAndPassword(UserInfo userInfo) {
         return userInfoDao.getUserByPhoneAndPassword(userInfo);
+    }
+
+    @Override
+    public Integer updateUserStatus(UserInfo userInfo) {
+        return userInfoDao.updateUserStatus(userInfo);
+    }
+
+    @Override
+    public Integer updateUserType(UserInfo userInfo) {
+        return userInfoDao.updateUserType(userInfo);
     }
 }
