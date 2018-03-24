@@ -40,7 +40,7 @@
 			user_info u
 		WHERE
 			status != 1
-		ORDER BY u.create_time ASC
+		ORDER BY u.create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 

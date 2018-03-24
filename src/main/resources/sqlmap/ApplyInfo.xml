@@ -35,7 +35,7 @@
 		status !=3
 		AND
 			apply_user_id = #{applyUserId}
-		ORDER BY create_time ASC
+		ORDER BY create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
@@ -54,7 +54,7 @@
 			pub_data_user_id = #{pubDataUserId}
 		AND
 			data_id = #{dataId}
-		ORDER BY create_time ASC
+		ORDER BY create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 

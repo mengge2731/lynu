@@ -33,7 +33,7 @@
 			data_info u
 		WHERE
 			status = 0
-		ORDER BY u.create_time ASC
+		ORDER BY u.create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 	<select id="getDataInfoCount" resultType="java.lang.Integer">
@@ -50,7 +50,7 @@
 		status = 0
 		<if test="dataType!=null and dataType != ''" >AND data_type=#{dataType}</if>
 
-		ORDER BY u.create_time ASC
+		ORDER BY u.create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 	<select id="getDataInfoTypeCount" parameterType="dataQuery" resultType="java.lang.Integer">
@@ -110,7 +110,7 @@
 		status = 0
 		AND
 		user_id = #{userId}
-		ORDER BY u.create_time ASC
+		ORDER BY u.create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 	<select id="findMyDataCount" parameterType="dataQuery" resultType="java.lang.Integer">
