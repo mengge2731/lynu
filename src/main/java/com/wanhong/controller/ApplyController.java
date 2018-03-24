@@ -41,12 +41,18 @@ public class ApplyController extends BaseController {
     @RequestMapping("/getMyApplyInfoByPage")
     @ResponseBody
     public ResultJson<Page<List<ApplyInfo>>> getMyApplyInfoByPage(String body){
-        ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
-        UserInfo userInfo = this.getMyInfo();
-        applyParam.setApplyUserId(userInfo.getUserId());
-        Page<List<ApplyInfo>> applyInfoPage =applyService.getMyApplyInfoByPage(applyParam);
-        ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            UserInfo userInfo = this.getMyInfo();
+            applyParam.setApplyUserId(userInfo.getUserId());
+            Page<List<ApplyInfo>> applyInfoPage =applyService.getMyApplyInfoByPage(applyParam);
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
+            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 

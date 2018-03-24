@@ -140,7 +140,7 @@
 		(
 		#{password}
 		,#{phone}
-		,0
+		,1
 		,0
 		,now()
 		,now()

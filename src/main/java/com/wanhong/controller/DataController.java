@@ -54,7 +54,7 @@ public class DataController extends BaseController{
     @RequestMapping("/getDataByDataTypeAndPage")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getDataByDataTypeAndPage(String body){
-        ResultJson<Page<List<DataInfo>>> resultJson =null;
+        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
         try{
             DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
             if ("0".equals(dataParam.getDataType())){
@@ -68,21 +68,25 @@ public class DataController extends BaseController{
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return resultJson;
     }
 
     @RequestMapping("/getMyPubDataByPage")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getMyPubDataByPage(String body){
-        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        UserInfo userInfo = this.getMyInfo();
-        dataParam.setUserId(userInfo.getUserId());
-        Page<List<DataInfo>> dataInfoPage =dataService.getMyPubDataByPage(dataParam);
-        dataInfoPage.setIndex(dataParam.getIndex());
-        dataInfoPage.setPageSize(dataParam.getPageSize());
-        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
-        logger.info("DataController--getMyPubDataByPage--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<Page<List<DataInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+            UserInfo userInfo = this.getMyInfo();
+            dataParam.setUserId(userInfo.getUserId());
+            Page<List<DataInfo>> dataInfoPage =dataService.getMyPubDataByPage(dataParam);
+            dataInfoPage.setIndex(dataParam.getIndex());
+            dataInfoPage.setPageSize(dataParam.getPageSize());
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoPage);
+            logger.info("DataController--getMyPubDataByPage--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return resultJson;
     }
 
@@ -122,7 +126,6 @@ public class DataController extends BaseController{
         }catch (Exception e){
             e.printStackTrace();
         }
-
         logger.info("DataController--saveDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
     }
