@@ -56,7 +56,7 @@
 
           .info-content-right {
             float: left;
-            padding: 10px 40px;
+            padding: 10px 20px;
 
             border-left: 1px dashed rgb(161, 161, 161);
             p {

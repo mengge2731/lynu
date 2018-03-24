@@ -2,7 +2,7 @@
 <style lang="less" scoped>
 .data-list {
   padding: 20px 0 20px 10px;
-  width: 100%;
+  // width: 100%;
   .data-list-item {
     &:first-child {
       border-top: 1px dashed #ccc;
@@ -51,7 +51,7 @@
 
         .info-content-right {
           float: left;
-          padding: 10px 40px;
+          padding: 10px 20px;
 
           border-left: 1px dashed rgb(161, 161, 161);
           p {
@@ -157,8 +157,13 @@ export default {
         this.$router.push({ path: '/'});
       }else {
         // 登录后获取  第一页信息
+        let data = {
+          pageSize:this.size,
+          index:this.index, 
+        }
+        let params = 'body=' + JSON.stringify(data);
         // 默认请求首页数据
-        this.$axios.post('/data/getDataByPage')
+        this.$axios.post('/data/getDataByPage',params)
         .then( res => {
           // 整体数据，包括分页数据
           let pageInfo = res.data.data
@@ -169,7 +174,6 @@ export default {
           this.dataList = res.data.data.data;
         })
         .catch( err => console.log(err + '获取首页数据失败'));
-
 
       }
     })
