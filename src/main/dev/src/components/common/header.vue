@@ -71,6 +71,7 @@
 
 <script>
 import loginBox from './loginBox';
+import { code } from '../../util/util'
 export default {
   name: "nav-header",
   data() {
