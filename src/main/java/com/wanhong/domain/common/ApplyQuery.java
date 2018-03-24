@@ -7,63 +7,98 @@ import java.util.Date;
  * @date 2018-02-11 14:09
  */
 public class ApplyQuery extends PageQuery {
-    private Long userId;
-    private String userName;
-    private String password;
-    private String phone;
-    private String userType;
-    private String msg;
+    //申请记录id
+    private Long applyId;
+    private Long dataId;
+    //申请者id
+    private Long applyUserId;
+    //发布数据人的id
+    private Long pubDataUserId;
+    //申请者姓名
+    private String applyUserName;
+    //申请者手机号
+    private String applyUserPhone;
+    //申请者附言
+    private String applyDesc;
+    //申请时间
+    private Date applyTime;
+    //回复时间
+    private Date replyTime;
+    //0--正常  1--回复   2--拒绝  3--删除
     private String status;
-    private Date msgExpired;
     private Date createTime;
     private Date updateTime;
 
-    public Long getUserId() {
-        return userId;
+    public Long getApplyId() {
+        return applyId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setApplyId(Long applyId) {
+        this.applyId = applyId;
     }
 
-    public String getUserName() {
-        return userName;
+    public Long getDataId() {
+        return dataId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setDataId(Long dataId) {
+        this.dataId = dataId;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getApplyUserId() {
+        return applyUserId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setApplyUserId(Long applyUserId) {
+        this.applyUserId = applyUserId;
     }
 
-    public String getPhone() {
-        return phone;
+    public Long getPubDataUserId() {
+        return pubDataUserId;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPubDataUserId(Long pubDataUserId) {
+        this.pubDataUserId = pubDataUserId;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getApplyUserName() {
+        return applyUserName;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setApplyUserName(String applyUserName) {
+        this.applyUserName = applyUserName;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getApplyUserPhone() {
+        return applyUserPhone;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setApplyUserPhone(String applyUserPhone) {
+        this.applyUserPhone = applyUserPhone;
+    }
+
+    public String getApplyDesc() {
+        return applyDesc;
+    }
+
+    public void setApplyDesc(String applyDesc) {
+        this.applyDesc = applyDesc;
+    }
+
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public Date getReplyTime() {
+        return replyTime;
+    }
+
+    public void setReplyTime(Date replyTime) {
+        this.replyTime = replyTime;
     }
 
     public String getStatus() {
@@ -72,14 +107,6 @@ public class ApplyQuery extends PageQuery {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Date getMsgExpired() {
-        return msgExpired;
-    }
-
-    public void setMsgExpired(Date msgExpired) {
-        this.msgExpired = msgExpired;
     }
 
     public Date getCreateTime() {

@@ -53,8 +53,8 @@ public interface ApplyInfoDao {
 
     /**
      *  根据dataid  获取 申请信息。
-     * @param dataInfo
+     * @param applyQuery
      * @return
      */
-    ApplyInfo getApplyInfoByDataId(DataInfo dataInfo);
+    ApplyInfo getApplyInfoByDataIdAndPage(ApplyQuery applyQuery);
 }

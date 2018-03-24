@@ -139,7 +139,7 @@
 		data_id = #{dataId}
 	</select>
 
-	<select id="getApplyInfoByDataId" parameterType="dataInfo" resultType="applyInfo">
+	<select id="getApplyInfoByDataIdAndPage" parameterType="applyQuery" resultType="applyInfo">
 		SELECT
 		<include refid="QUERY_COLUMN_LIST"/>
 		FROM
@@ -148,6 +148,8 @@
 		status = 0
 		AND
 		data_id = #{dataId}
+		ORDER BY create_time ASC
+		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
 </mapper>

@@ -114,7 +114,7 @@
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 	<select id="findMyDataCount" parameterType="dataQuery" resultType="java.lang.Integer">
-		SELECT COUNT (1) FROM  data_info WHERE status = 0 AND user_id = #{userId}
+		SELECT COUNT(1) FROM  data_info WHERE status = 0 AND user_id = #{userId}
 	</select>
 
 	<!-- status=0 正常   Status=1 被删除-->
