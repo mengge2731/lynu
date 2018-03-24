@@ -200,7 +200,7 @@
       </div>
       <div class="user-desc clearfix">
         <div class="desc-left">发布人简介:</div>
-        <div class="desc-right">{{userInfo.desc}}</div>
+        <div class="desc-right">{{userInfo.userDesc}}</div>
       </div>
 
     </div>
@@ -259,7 +259,11 @@ export default {
 
                 console.log(this.userInfo)
               }else {
-                
+                // 数据获取失败
+                this.$message({
+                    message: '申请数据失败，请重试',
+                    type: 'info'
+                });
               }
             })
             .catch( err => console.log(err ));
