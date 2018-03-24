@@ -91,7 +91,7 @@
           type="textarea"
           :rows="2"
           placeholder=""
-          v-model="desc">
+          v-model="userDesc">
         </el-input>
       </div>
 
@@ -111,7 +111,7 @@ export default {
     return {
       phone:'',
       userName:'',
-      desc:''
+      userDesc:''
     }
   },
   created(){
@@ -133,7 +133,7 @@ export default {
             var userInfo = res.data.data;
             this.phone = userInfo.phone;
             this.userName = userInfo.userName;
-            this.desc = userInfo.desc;
+            this.userDesc = userInfo.userDesc;
           }
         })
       }
@@ -154,7 +154,7 @@ export default {
           
           var data = {
             userName: this.userName,
-            desc: this.desc,
+            desc: this.userDesc,
           }
           let params = 'body=' + JSON.stringify(data);
 

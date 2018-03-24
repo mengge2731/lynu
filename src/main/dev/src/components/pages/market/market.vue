@@ -149,6 +149,7 @@
 
 <script>
 import infoRight from '../../common/infoRight'
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
@@ -171,7 +172,7 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
 
-      if(res.data.code == '0002'){
+      if(res.data.code == code.login){
         // 默认请求首页数据
         this.$axios.post('/login/getFirstPageData')
         .then( res => {
@@ -184,6 +185,7 @@ export default {
           this.dataList = res.data.data.data;
         })
         .catch( err => console.log(err));
+
       }else if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',

@@ -95,7 +95,7 @@ export default {
         this.$axios.post('/user/getUserInfo')
         .then( res => {
           if( res.data.code == code.success){
-            if(res.data.userType == '2'){
+            if(res.data.data.userType == '2'){
               this.admin = true;
             }
           }
