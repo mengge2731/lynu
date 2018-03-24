@@ -184,7 +184,7 @@ export default {
       this.$axios.post('/login/isLogin')
       .then( res => {
 
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
 
         }else {
           this.$router.push({
@@ -193,14 +193,12 @@ export default {
         }
       })
 
-
-
     },
     handleCurrentChange(){
       this.$axios.post('/login/isLogin')
       .then( res => {
 
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
 
         }else {
           this.$router.push({

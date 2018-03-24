@@ -136,91 +136,12 @@
   </div>
 </template>
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
       type: 0,
-      dataList:[{
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-        },
-        {
-          title:'意大利2017年经济情况报告-全部数据',
-          desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-          dataNum:'200GB',
-          dataTime:'2018年1月29日',
-          dataId: 1,
-
-      }], // 列表数据
+      dataList:[], // 列表数据
       // 分页数据
       pageData: {},
       pageSize:[10, 20, 50],
@@ -232,19 +153,40 @@ export default {
   },
   created(){
     let that = this;
-    // this.$axios.post('/login/isLogin')
-    // .then( res => {
-    //   console.log(res.data)
-    //   if(res.data.code == "0001"){
-    //     this.$message({
-    //         message: '未登录',
-    //         type: 'info'
-    //     });
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      console.log(res.data)
+      if(res.data.code == code.noLogin){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
 
-    //     this.$router.push({ path: '/'});
+        this.$router.push({ path: '/'});
         
-    //   }
-    // })
+      }else if(res.data.code == code.login){
+        let data = {
+          pageSize:this.size,
+          index:this.index, 
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/apply/getMyApplyInfoByPage',params)
+          .then( res => {
+            if(res.data.code == code.success){
+              // 整体数据，包括分页数据
+              let pageInfo = res.data.data
+              this.pageData = pageInfo;
+              // 数据总条数  总条数 = 总页数 * 每页数据
+              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+              // 数据列表
+              this.dataList = res.data.data.data;
+            }else {
+              //网络异常请重试
+            }
+          })
+      }
+    
+    })
   },
   methods:{
     toDetail(id){
@@ -253,17 +195,18 @@ export default {
         path:'detail?id=' + id
       });
     },
-     handleSizeChange(val){
+    handleSizeChange(val){
       this.size = val;
       let data = {
         pageSize:this.size,
         index:this.index, 
       }
+      
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
-          this.$axios.post('/data/getDataByPage',params)
+        if(res.data.code == code.login){
+          this.$axios.post('/apply/getMyApplyInfoByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
@@ -275,7 +218,7 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           this.$message({
             message: '未登录',
             type: 'info'
@@ -294,10 +237,10 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
-           this.$axios.post('/data/getDataByPage',params)
+        if(res.data.code == code.login){
+           this.$axios.post('/apply/getMyApplyInfoByPage',params)
           .then( res => {
-            if(res.data.code == "0000"){
+            if(res.data.code == code.success){
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
               this.pageData = pageInfo;
@@ -312,49 +255,52 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
-          // 显示登录框
-          // this.loginbox.cover = true; // 遮罩层是否开启
-          // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+        }else if(res.data.code == code.noLogin){
+          this.$message({
+            message: '未登录',
+            type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
         }
       })
     },
-    check(val){
-      let data = {
-        pageSize:this.size,
-        index:this.index, 
-        dataType: this.type
-      }
-      // 切换分类
-      let params = 'body=' + JSON.stringify(data);
-      this.$axios.post('/login/isLogin')
-      .then( res => {
-        if(res.data.code == "0002"){
-           this.$axios.post('/data/getDataByDataTypeAndPage',params)
-          .then( res => {
-            if(res.data.code == "0000"){
-              // 整体数据，包括分页数据
-              let pageInfo = res.data.data
-              this.pageData = pageInfo;
-              // 数据总条数  总条数 = 总页数 * 每页数据
-              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
-              // 数据列表
-              this.dataList = res.data.data.data;
-            }else {
-              //网络异常请重试
-            }
+    // check(val){
+    //   let data = {
+    //     pageSize:this.size,
+    //     index:this.index, 
+    //     dataType: this.type
+    //   }
+    //   // 切换分类
+    //   let params = 'body=' + JSON.stringify(data);
+    //   this.$axios.post('/login/isLogin')
+    //   .then( res => {
+    //     if(res.data.code == code.login){
+    //        this.$axios.post('/data/getDataByDataTypeAndPage',params)
+    //       .then( res => {
+    //         if(res.data.code == code.success){
+    //           // 整体数据，包括分页数据
+    //           let pageInfo = res.data.data
+    //           this.pageData = pageInfo;
+    //           // 数据总条数  总条数 = 总页数 * 每页数据
+    //           this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+    //           // 数据列表
+    //           this.dataList = res.data.data.data;
+    //         }else {
+    //           //网络异常请重试
+    //         }
               
-          })
-          .catch( err => console.log(err));
+    //       })
+    //       .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
-          // 显示登录框
-          // this.loginbox.cover = true; // 遮罩层是否开启
-          // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
-        }
-      })
+    //     }else if(res.data.code == code.noLogin){
+    //       // 显示登录框
+    //       // this.loginbox.cover = true; // 遮罩层是否开启
+    //       // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+    //     }
+    //   })
 
-    }
+    // }
 
   }
 }

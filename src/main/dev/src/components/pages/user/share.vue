@@ -147,54 +147,7 @@ import { code } from '../../../util/util'
 export default {
   data(){
     return {
-      dataList:[{
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      },
-      {
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      },
-      {
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      },
-      {
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      },
-      {
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      },
-      {
-        title:'意大利2017年经济情况报告-全部数据',
-        desc:'意大利2017年金融、工业、旅游等主要经济类型各地金融工业旅游等主要经济类型各地',
-        dataNum:'200GB',
-        dataTime:'2018年1月29日',
-        dataId: 1,
-
-      }],
+      dataList:[],
       // 分页数据
       pageData: {},
       pageSize:[10, 20, 50],
@@ -205,20 +158,36 @@ export default {
     }
   },
   created(){
-    // let that = this;
-    // this.$axios.post('/login/isLogin')
-    // .then( res => {
-    //   console.log(res.data)
-    //   if(res.data.code == "0001"){
-    //     this.$message({
-    //         message: '未登录',
-    //         type: 'info'
-    //     });
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      console.log(res.data)
+      if(res.data.code == code.noLogin){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
 
-    //     this.$router.push({ path: '/'});
+        this.$router.push({ path: '/'});
         
-    //   }
-    // })
+      }else if(res.data.code == code.login){
+          let data = {
+            pageSize:this.size,
+            index:this.index, 
+          }
+           this.$axios.post('/data/getMyPubDataByPage',params)
+          .then( res => {
+              // 整体数据，包括分页数据
+              let pageInfo = res.data.data
+              this.pageData = pageInfo;
+              // 数据总条数  总条数 = 总页数 * 每页数据
+              this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
+              // 数据列表
+              this.dataList = res.data.data.data;
+          })
+          .catch( err => console.log(err));
+        }
+    })
   },
   methods:{
     toDetail(id){
@@ -236,7 +205,7 @@ export default {
           // 发送删除请求操作
           console.log('删除文件操作'+ fileId )
 
-          this.dataList.shift(index);
+          this.dataList.shift(index,1);
           // 发送请求，删除
           
 
@@ -261,11 +230,12 @@ export default {
         pageSize:this.size,
         index:this.index, 
       }
+
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == code.login){
-           this.$axios.post('/data/getDataByPage',params)
+           this.$axios.post('/data/getMyPubDataByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
@@ -294,9 +264,9 @@ export default {
       this.$axios.post('/login/isLogin')
       .then( res => {
         if(res.data.code == code.login){
-           this.$axios.post('/data/getDataByPage',params)
+           this.$axios.post('/data/getMyPubDataByPage',params)
           .then( res => {
-            if(res.data.code == "0000"){
+            if(res.data.code == code.success){
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
               this.pageData = pageInfo;

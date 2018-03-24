@@ -184,7 +184,7 @@ export default {
           this.dataList = res.data.data.data;
         })
         .catch( err => console.log(err));
-      }else if(res.data.code == "0001"){
+      }else if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
@@ -207,7 +207,7 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
           this.$axios.post('/data/getDataByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
@@ -220,7 +220,7 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           this.$message({
             message: '未登录',
             type: 'info'
@@ -239,10 +239,10 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
            this.$axios.post('/data/getDataByPage',params)
           .then( res => {
-            if(res.data.code == "0000"){
+            if(res.data.code == code.success){
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
               this.pageData = pageInfo;
@@ -257,7 +257,7 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           // 显示登录框
           // this.loginbox.cover = true; // 遮罩层是否开启
           // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
@@ -274,10 +274,10 @@ export default {
       let params = 'body=' + JSON.stringify(data);
       this.$axios.post('/login/isLogin')
       .then( res => {
-        if(res.data.code == "0002"){
+        if(res.data.code == code.login){
            this.$axios.post('/data/getDataByDataTypeAndPage',params)
           .then( res => {
-            if(res.data.code == "0000"){
+            if(res.data.code == code.success){
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
               this.pageData = pageInfo;
@@ -292,7 +292,7 @@ export default {
           })
           .catch( err => console.log(err));
 
-        }else if(res.data.code == "0001"){
+        }else if(res.data.code == code.noLogin){
           // 显示登录框
           // this.loginbox.cover = true; // 遮罩层是否开启
           // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框

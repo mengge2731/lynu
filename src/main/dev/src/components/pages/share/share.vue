@@ -299,10 +299,13 @@ export default {
                 
                 // 提示上传成功
 
-                that.$message({
+                this.$message({
                   message: '数据共享成功',
                   type: 'success'
                 });
+                // 跳转首页
+                this.$router.push({ path: '/'});
+
 
               }
             })

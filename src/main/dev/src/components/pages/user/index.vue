@@ -82,7 +82,7 @@ import { code } from '../../../util/util'
 export default {
   data(){
     return {
-      admin: true,
+      admin: false,
     }
   },
   created(){

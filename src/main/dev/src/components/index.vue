@@ -226,7 +226,7 @@ export default {
         if(res.data.code == code.login){
            this.$axios.post('/data/getDataByPage',params)
           .then( res => {
-            if(res.data.code == "0000"){
+            if(res.data.code == code.success){
               // 整体数据，包括分页数据
               let pageInfo = res.data.data
               this.pageData = pageInfo;

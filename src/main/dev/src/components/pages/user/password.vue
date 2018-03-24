@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
 export default {
   data(){
     return {
@@ -103,6 +104,7 @@ export default {
       newPw:'',
       newPwRepeat:'',
 
+      newPassword:''
     }
   },
   created(){
@@ -110,7 +112,7 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
       console.log(res.data)
-      if(res.data.code == "0001"){
+      if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
@@ -135,6 +137,51 @@ export default {
       }
 
       console.log('提交修改的密码');
+
+      // /function/user/changePassword
+
+      let data = {
+        newPassword: this.newPassword,
+        oldPassword: this.oldPw, 
+      }
+      let params = 'body=' + JSON.stringify(data);
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        if(res.data.code == code.login){
+           this.$axios.post('/user/changePassword',params)
+          .then( res => {
+            if(res.data.code == code.success){
+              // 修改完密码后，应该重新登录
+
+              // 清空输入框
+              this.oldPw='';
+              this.newPw='';
+              this.newPwRepeat='';
+
+              // 提示
+              this.$message({
+                type: 'success',
+                message: '密码修改成功!'
+              });
+              
+            }else {
+              //网络异常请重试
+            }
+              
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == code.noLogin){
+          this.$message({
+            message: '未登录',
+            type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
+        }
+      })
+
+
     },
     check(){
       console.log('校验2次新密码是否相同');
@@ -143,6 +190,7 @@ export default {
         console.log('2次密码输入不同')
       }else{
         console.log('2次密码相同')
+        this.newPassword = this.newPw
       }
     },
     goBack(){
