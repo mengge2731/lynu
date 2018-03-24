@@ -95,15 +95,11 @@
         </el-input>
       </div>
 
-
       <div class="user-info-submit clearfix">
         <el-button type="primary" class="submit-button" @click="saveInfo">保存</el-button>
       </div>
-     
-
 
     </div>
-
      
   </div>
 </template>
@@ -154,7 +150,7 @@ export default {
       this.$axios.post('/login/isLogin')
       .then( res => {
         // 如果成功就去获取 用户权限 0000
-        if(res.data.code == code.success){
+        if(res.data.code == code.login){
           
           var data = {
             userName: this.userName,

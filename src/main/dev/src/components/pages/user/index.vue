@@ -34,6 +34,7 @@
 
   .right-content{
     flex: 1;
+    overflow: scroll;
     // border: 2px solid red;
   }
 
@@ -71,7 +72,6 @@
     <div class="right-content">
       <router-view></router-view>
     </div>
-
 
   </div>
 

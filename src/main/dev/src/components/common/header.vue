@@ -1,6 +1,6 @@
 <style lang="less" scoped>
 .header {
-    height: 170px;
+    height: 180px;
     .nav-list {
       height: 50px;
       min-height: 50px;
@@ -61,9 +61,9 @@
           </el-radio-group>
 
         </div>
-        <div class="banner"> 
-          <img src="../../assets/img/banner.jpg" alt="">
-        </div>
+        <!-- <div class="banner"> 
+          <img src="../../assets/img/banner.png" alt="">
+        </div> -->
 
         <login-box :loginbox="loginbox" ></login-box>
     </div>

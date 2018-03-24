@@ -34,6 +34,7 @@ export default {
   min-width: 1000px;
   height: 100%;
   min-height: 720px;
+  background: url('./assets/img/bg-1.jpg') no-repeat center top;
 }
 
 </style>

@@ -1,18 +1,297 @@
 <style lang="less" scoped>
+  .data-share-con{
+    // width: 600px;
 
+    font-size: 14px;
+    padding: 80px 0 0 300px;
+    .find-pub,
+    .phone-num,
+    .send-msg,
+    .new-pw-repeat,
+    {
+      margin-top: 10px;
+    }
+
+    
+    // 单独样式
+    .find-pub{
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .phone-num{
+      display: flex;
+      .phone-title{
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      .phone-input{
+        // flex:1;
+        width: 300px;
+      }
+    }
+    
+    .send-msg{
+      display: flex;
+      .msg-title{
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      .msg-input{
+        width: 200px;
+        margin-right: 8px;
+      }
+    }
+
+    .pwd-new{
+      display: flex;
+      margin-top: 10px;
+      .pwd-text{
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      .pwd-input{
+        width: 300px;
+        // margin-right: 8px;
+      }
+    }
+
+    .pwd-new-two{
+      display: flex;
+      margin-top: 10px;
+      .pwd-text{
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      .pwd-input{
+        width: 300px;
+        // margin-right: 8px;
+      }
+    }
+    
+    
+    .pwd-submit{
+      float: right;
+      margin-top: 20px;
+    }
+  
+  }
+
+  .el-select{
+    width: 100%;
+  }
 </style>
 
 <template>
-  <div class="find-con">
-    找回密码
+  <div class="data-share-con">
+
+    <div class="find-pub">找回密码:</div>
+
+    <div class="phone-num">
+      <div class="phone-title">
+        手机号:
+      </div>
+      <div class="phone-input">
+         <el-input v-model="phone" placeholder=""></el-input>
+      </div>
+    </div>
+
+    <div class="send-msg">
+        <div class="msg-title">
+          验证码:
+        </div>
+        <div class="msg-input">
+          <el-input v-model="phone" placeholder=""></el-input>
+        </div>
+        <el-button @click="phoneCode" :disabled="disabled" v-text="sendMsg" size="mini"></el-button>
+    </div>
+    
+    <div class="pwd-new clearfix">
+      <div class="pwd-text">新的登录密码:</div>
+      <div class="pwd-input">
+         <el-input v-model="phone" placeholder=""></el-input>
+      </div>
+    </div>
+
+    <div class="pwd-new-two clearfix">
+      <div class="pwd-text">再次输入登录密码:</div>
+      <div class="pwd-input">
+         <el-input v-model="phone" placeholder=""></el-input>
+      </div>
+    </div>
+
+    <div class="pwd-submit clearfix">
+      <el-button type="primary" class="submit-button" @click="saveInfo">确认</el-button>
+      <el-button  class="submit-button" @click="goBack">返回</el-button>
+    </div>
+
   </div>
 </template>
 
 <script>
+import { code } from '../util/util'
 export default {
   data(){
-    return{
+    return {
+      phone:'',
+      dataSize:'',
+      dataType:'',
+      dataDesc:'',
+      fileId:0,
+      label:'',
+      sendMsg:'获取验证码',
+      disabled:false,
+      
+    }
+  },
+  created(){
+    let that = this;
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+      if(res.data.code == code.noLogin){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+        this.$router.push({ path: '/'});
+      }else {
+        //已登录  获取用户数据
+            this.$axios.post('/user/getUserInfo')
+            .then( res => {
+              if(res.data.code == code.login){
+                this.userInfo = res.data.data;
 
+                console.log(this.userInfo)
+
+              }else {
+                
+              }
+            })
+            .catch( err => console.log(err ));
+      }
+    })
+  },
+  methods:{
+    // 获取验证码
+    phoneCode(){ 
+      this.disabled = true;
+
+      let that =this;
+      let sec =60;
+
+      let data = {phone: this.codePhone};
+      let todata = JSON.stringify(data)
+
+      var dataParam = 'body='+ todata;
+      this.$axios.post('/login/sendMsg',dataParam)
+      .then(res => {
+        if(res.data.code == '0000' || res.data.code == '0006'){
+            that.$message({
+              message: '手机号已注册，请直接登录',
+              type: 'success'
+            });
+
+            for(let  i=0; i<=60; i++){
+              setTimeout(function(){
+                  if (sec != 0) {
+                    that.sendMsg =   sec + "秒后重发" ;
+                    sec--;
+                } else {
+                    sec = 60;//如果倒计时结束就让  获取验证码显示出来
+                    that.sendMsg = '获取验证码';
+                    that.disabled = false;
+                }
+              }, i * 1000)
+            }
+        }else if(res.data.code == '0013'){
+          that.$message({
+            message: '手机号已注册，请直接登录',
+            type: 'info'
+          });
+        }
+      })
+    },
+    saveInfo(){
+      console.log(this.phone , this.dataSize , this.dataType , this.dataDesc )
+
+      if(this.phone != '' && this.dataSize != '' && this.dataType != '' && this.dataDesc != '' ){
+
+        // 发送数据
+        var data ={
+          dataDesc: this.dataDesc,
+          dataNum: this.dataSize,
+          dataTitle: this.phone,
+          dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string
+          fileId: this.fileId,	
+        }
+
+        let params = 'body=' + JSON.stringify(data);
+
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+
+          if(res.data.code == code.login){
+            this.$axios.post('/data/saveDataInfo',params)
+            .then( res => {
+              if(res.data.code == code.success){
+                
+                // 提示上传成功
+
+                that.$message({
+                  message: '数据共享成功',
+                  type: 'success'
+                });
+
+              }
+            })
+            .catch( err => console.log(err ));
+
+            
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+                message: '未登录',
+                type: 'info'
+            });
+            this.$router.push({ path: '/'});
+          }
+        })
+        
+
+
+      }else {
+        alert('内容不能为空，请输入')
+      }
+
+      // 只有当所有信息不为空时，才能提交
+    },
+    goBack(){
+      // 默认返回首页，或者历史记录 返回
+      // this.$router.push({
+      //   path:'/'
+      // })
+      this.$router.go(-1);
     }
   }
 }
