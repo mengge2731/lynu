@@ -199,7 +199,7 @@
         
       </div>
       <div class="user-desc clearfix">
-        <div class="desc-left">布人简介:</div>
+        <div class="desc-left">发布人简介:</div>
         <div class="desc-right">{{userInfo.desc}}</div>
       </div>
 
@@ -208,7 +208,6 @@
         <el-button type="primary" class="submit-button" @click="saveInfo">发布</el-button>
         <el-button  class="submit-button" @click="goBack">返回</el-button>
       </div>
-
 
   </div>
 </template>

@@ -12,7 +12,7 @@
       // background-color: red;
 
       .info-list {
-        padding: 10px 0px;
+        padding-bottom: 20px;
 
         .info-list-item {
           padding: 10px 0;

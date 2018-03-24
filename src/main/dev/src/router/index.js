@@ -11,6 +11,7 @@ import Password from '@/components/pages/user/password'
 
 import Detail from '@/components/pages/user/detail'
 import Agree from '@/components/pages/user/agree' // 申请数据的用户列表页面
+import Approve from '@/components/pages/user/approve'
 
 // 管理权限 发布信息管理 ， 用户管理
 import infoManage from '@/components/pages/user/infoManage'
@@ -53,7 +54,8 @@ export default new Router({
         { name:'detail', path: 'detail',component: Detail ,meta: { requiresAuth: true } },
         {name:'manage', path: 'manage',component: Manage ,meta: { requiresAuth: true } },
         {name:'infoManage', path: 'infoManage',component: infoManage ,meta: { requiresAuth: true } },
-        {name:'agree', path: 'agree',component: Agree ,meta: { requiresAuth: true } }
+        {name:'agree', path: 'agree',component: Agree ,meta: { requiresAuth: true } },
+        { name:'approve' , path:'approve',component: Approve , meta: { requiresAuth: true }},
       ],
       
     },
@@ -81,10 +83,11 @@ export default new Router({
       name:'err',
       component:err
     },
+    
     {
       path: "*",
       redirect: "/err"
-    }
+    },
     // {
     //   path: '/login',
     //   name: 'login',

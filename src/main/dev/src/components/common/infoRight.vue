@@ -2,7 +2,7 @@
 .info-right {
       flex: 1;
       // background-color: rgb(185, 185, 185);
-      padding-top: 10px;
+      // padding-top: 10px;
       padding-left: 10px;
       .info-right-top,
       .info-right-bot {

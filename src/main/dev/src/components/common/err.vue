@@ -6,6 +6,7 @@
     text-align: center;
     img{
       width: 500px;
+      height: 260px;
     }
     .err-text{
       font-size: 16px;

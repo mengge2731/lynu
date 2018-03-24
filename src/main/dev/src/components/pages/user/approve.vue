@@ -80,12 +80,12 @@
 <template>
   <div class="approve-con clearfix">
     <div class="approve-pub">
-      数据申请:
+      数据获取申请:
     </div>
     <div class="approve-info clearfix">
       <div class="approve-user clearfix">
-        <div class="uesr-left">发布人:</div>
-        <div class="uesr-right">韩冷</div>
+        <div class="uesr-left">申请人:</div>
+        <div class="uesr-right">王磊</div>
       </div>
       <div class="pub-phone">
         <div class="phone-left clearfix">注册电话:</div>
@@ -97,11 +97,12 @@
       <div class="title-right">意大利2017年经济情况报告-全部数据(意大利2017年经济情况报告-全部数据)</div>
     </div>
     <div class="other-desc clearfix">
-      <div class="desc-left">状态:</div>
-      <div class="desc-right">韩冷已同意给您数据，请直接与他联系。</div>
+      <div class="desc-left">附言:</div>
+      <div class="desc-right">您好，我是河北师范大学旅游学院的王磊，我们希望获取贵校意大利2017年的经济数据，不知可否共享，我校有加拿大的数据可以交换，如果可以麻烦您联系我的电话13512348888.谢谢。</div>
     </div>
     <div class="agree-submit clearfix">
-      <el-button  class="submit-button" @click="goBack">返回</el-button>
+      <el-button type="primary" class="submit-button" @click="agree">同意</el-button>
+      <el-button  class="submit-button" @click="noAgree">不同意</el-button>
     </div>
   </div>
 </template>
@@ -114,26 +115,17 @@ export default {
     }
   },
   created(){
-    let that = this;
-    // this.$axios.post('/login/isLogin')
-    // .then( res => {
-    //   if(res.data.code == "0001"){
-    //     this.$message({
-    //         message: '未登录',
-    //         type: 'info'
-    //     });
 
-    //     this.$router.push({ path: '/'});
-        
-    //   }
-    // })
-    // 获得当前数据id  获取该数据的申请状态信息
   },
   methods:{
-    goBack(){
-      this.$router.go(-1);
+    agree(){
+      console.log('同意操作')
+
     },
-    
+    noAgree(){
+      console.log('不同意操作')
+
+    }
   }
 }
 </script>

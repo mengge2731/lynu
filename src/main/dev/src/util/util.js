@@ -1,7 +1,7 @@
 const code = {
-  success: '0000', // 请求成功 0000
-  noLogin: '0001', // 未登录  0001
-  login: '0002', // 已登录 0002
+  success: '0001', // 请求成功 0000
+  noLogin: '0002', // 未登录  0001
+  login: '0001', // 已登录 0002
   ILLEGAL_ARG_ERROR: "0003", // 请求参数错误
   UNKNOWN_ERROR: "0004", // 未知异常.
   SEND_MESSAGE_ERROR: "0005", // 发送短信异常.
