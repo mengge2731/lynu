@@ -102,19 +102,20 @@
                     <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
                   </div> 
                   <div class="info-text">
-                    <h3>{{item.title}}</h3>
-                    <p>{{item.desc}}</p>
+                    <h3>{{item.dataTitle}}</h3>
+                    <p>{{item.dataDesc}}</p>
                   </div> 
                 </div>
                 <div class="info-content-right">
                   <p>数据量: {{item.dataNum}}</p>
-                  <p>时间: {{item.dataTime}}</p>
+                  <p>时间: {{item.createTime}}</p>
                 </div>
               </div>
             </div>
 
             <div class="item-right">
-              <el-button type="primary" plain size="small"  @click="toDetail(item.id)">新申请待审批</el-button>
+              <el-button type="primary" plain size="small" v-if="item.havaApply"  @click="toDetail(item.id)">新申请待审批</el-button>
+              <el-button type="primary" plain size="small" v-else disabled>无申请</el-button>
               <el-button type="danger" plain size="small" @click="del(item.id,index)">删除</el-button>
             </div>
           </div>
@@ -175,6 +176,8 @@ export default {
             pageSize:this.size,
             index:this.index, 
           }
+
+          let params = 'body=' + JSON.stringify(data);
            this.$axios.post('/data/getMyPubDataByPage',params)
           .then( res => {
               // 整体数据，包括分页数据
