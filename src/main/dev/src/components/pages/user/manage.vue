@@ -133,7 +133,6 @@ import { code } from '../../../util/util'
       let that = this;
       this.$axios.post('/login/isLogin')
       .then( res => {
-        console.log(res.data)
         if(res.data.code == code.noLogin){
           this.$message({
               message: '未登录',
@@ -185,16 +184,6 @@ import { code } from '../../../util/util'
       })
     },
     methods: {
-      // handleEdit(index,row) {
-      //   console.log(index)
-      // },
-      // handleDelete(index,row){
-      //   console.log(index)
-      // },
-      // submitType(value){
-      //   alert('触发了')
-      //   console.log(value)
-      // },
       changeType(id, userType){
 
         let data = {
@@ -227,8 +216,6 @@ import { code } from '../../../util/util'
 
       },
       changeStatus(id,status){
-        alert(id)
-        alert(status)
 
          let data = {
           userId: id,

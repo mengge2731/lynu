@@ -157,8 +157,6 @@ export default {
     loginBox,
   },
   created(){
-    console.log(code.Login)
-
     // 默认请求首页数据
     this.$axios.post('/login/getFirstPageData')
     .then( res => {

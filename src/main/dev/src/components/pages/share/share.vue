@@ -256,8 +256,6 @@ export default {
             .then( res => {
               if(res.data.code == code.success){
                 this.userInfo = res.data.data;
-
-                console.log(this.userInfo)
               }else {
                 // 数据获取失败
                 this.$message({
@@ -272,10 +270,6 @@ export default {
   },
   methods:{
     saveInfo(){
-      console.log(this.dataName ,
-      this.dataSize ,
-      this.dataType ,
-      this.dataDesc )
 
       if(this.dataName != '' &&
       this.dataSize != '' &&

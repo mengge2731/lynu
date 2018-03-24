@@ -211,7 +211,7 @@ export default {
       .then(res => {
         if(res.data.code == '0000' || res.data.code == '0006'){
             that.$message({
-              message: '手机号已注册，请直接登录',
+              message: '验证码发送成功',
               type: 'success'
             });
 

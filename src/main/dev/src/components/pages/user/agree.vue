@@ -19,22 +19,22 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="date"
+        prop="createTime"
         label="申请日期"
         width="100">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="applyUserName"
         label="申请人"
         width="100">
       </el-table-column>
       <el-table-column
-        prop="tel"
+        prop="applyUserPhone"
         label="注册电话"
         width="140">
       </el-table-column>
       <el-table-column
-        prop="desc"
+        prop="applyDesc"
         label="申请信息"
         width="400">
       </el-table-column>
@@ -43,7 +43,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="check(scope.row.id)">查看</el-button>
+            @click="check(scope.row.applyId)">查看</el-button>
           
         </template>
       </el-table-column>
@@ -115,7 +115,7 @@ export default {
                 // 数据总条数  总条数 = 总页数 * 每页数据
                 this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
                 // 数据列表
-                this.dataList = res.data.data.data;
+                this.tableData = res.data.data.data;
             })
             .catch( err => console.log(err));
           }else if(res.data.code == code.noLogin){
@@ -135,7 +135,6 @@ export default {
       this.$router.go(-1)
     },
     check(id){
-      console.log(id);
       this.$router.push({
         path:'/user/approve?id=' + id 
       })
@@ -161,7 +160,7 @@ export default {
               // 数据总条数  总条数 = 总页数 * 每页数据
               this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
               // 数据列表
-              this.dataList = res.data.data.data;
+              this.tableData = res.data.data.data;
           })
           .catch( err => console.log(err));
         }else if(res.data.code == code.noLogin){
@@ -192,7 +191,7 @@ export default {
               // 数据总条数  总条数 = 总页数 * 每页数据
               this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
               // 数据列表
-              this.dataList = res.data.data.data;
+              this.tableData = res.data.data.data;
             }else {
               //网络异常请重试
             }
