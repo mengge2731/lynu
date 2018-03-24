@@ -122,7 +122,7 @@
           验证码:
         </div>
         <div class="msg-input">
-          <el-input v-model="phone" placeholder=""></el-input>
+          <el-input v-model="codePhone" placeholder=""></el-input>
         </div>
         <el-button @click="phoneCode" :disabled="disabled" v-text="sendMsg" size="mini"></el-button>
     </div>
@@ -130,14 +130,14 @@
     <div class="pwd-new clearfix">
       <div class="pwd-text">新的登录密码:</div>
       <div class="pwd-input">
-         <el-input v-model="phone" placeholder=""></el-input>
+         <el-input v-model="newPw" placeholder=""></el-input>
       </div>
     </div>
 
     <div class="pwd-new-two clearfix">
       <div class="pwd-text">再次输入登录密码:</div>
       <div class="pwd-input">
-         <el-input v-model="phone" placeholder=""></el-input>
+         <el-input v-model="newPwRe" placeholder=""></el-input>
       </div>
     </div>
 
@@ -155,42 +155,24 @@ export default {
   data(){
     return {
       phone:'',
-      dataSize:'',
-      dataType:'',
-      dataDesc:'',
-      fileId:0,
-      label:'',
+      codePhone:'',
+      newPw:'',
+      newPwRe:'',
       sendMsg:'获取验证码',
       disabled:false,
-      
     }
   },
   created(){
-    let that = this;
-    this.$axios.post('/login/isLogin')
-    .then( res => {
-      if(res.data.code == code.noLogin){
-        this.$message({
-            message: '未登录',
-            type: 'info'
-        });
-        this.$router.push({ path: '/'});
-      }else {
-        //已登录  获取用户数据
-            this.$axios.post('/user/getUserInfo')
-            .then( res => {
-              if(res.data.code == code.login){
-                this.userInfo = res.data.data;
-
-                console.log(this.userInfo)
-
-              }else {
-                
-              }
-            })
-            .catch( err => console.log(err ));
-      }
-    })
+    // this.$axios.post('/login/isLogin')
+    // .then( res => {
+    //   if(res.data.code == code.noLogin){
+    //     this.$message({
+    //         message: '未登录',
+    //         type: 'info'
+    //     });
+    //     this.$router.push({ path: '/'});
+    //   }
+    // })
   },
   methods:{
     // 获取验证码
@@ -200,15 +182,16 @@ export default {
       let that =this;
       let sec =60;
 
-      let data = {phone: this.codePhone};
+      let data = {phone: this.phone};
       let todata = JSON.stringify(data)
 
       var dataParam = 'body='+ todata;
       this.$axios.post('/login/sendMsg',dataParam)
       .then(res => {
         if(res.data.code == '0000' || res.data.code == '0006'){
-            that.$message({
-              message: '手机号已注册，请直接登录',
+
+            this.$message({
+              message: '验证码发送成功',
               type: 'success'
             });
 
@@ -225,7 +208,7 @@ export default {
               }, i * 1000)
             }
         }else if(res.data.code == '0013'){
-          that.$message({
+          this.$message({
             message: '手机号已注册，请直接登录',
             type: 'info'
           });
@@ -233,58 +216,57 @@ export default {
       })
     },
     saveInfo(){
-      console.log(this.phone , this.dataSize , this.dataType , this.dataDesc )
-
-      if(this.phone != '' && this.dataSize != '' && this.dataType != '' && this.dataDesc != '' ){
-
-        // 发送数据
-        var data ={
-          dataDesc: this.dataDesc,
-          dataNum: this.dataSize,
-          dataTitle: this.phone,
-          dataType: this.dataType,	// 数据类型；数据类型 1-旅游相关 2-文化相关 3-意大利相关	string
-          fileId: this.fileId,	
-        }
-
-        let params = 'body=' + JSON.stringify(data);
-
-        this.$axios.post('/login/isLogin')
-        .then( res => {
-
-          if(res.data.code == code.login){
-            this.$axios.post('/data/saveDataInfo',params)
-            .then( res => {
-              if(res.data.code == code.success){
-                
-                // 提示上传成功
-
-                that.$message({
-                  message: '数据共享成功',
-                  type: 'success'
-                });
-
-              }
-            })
-            .catch( err => console.log(err ));
-
-            
-
-          }else if(res.data.code == code.noLogin){
-            this.$message({
-                message: '未登录',
-                type: 'info'
-            });
-            this.$router.push({ path: '/'});
-          }
-        })
+      if(this.phone != '' && this.codePhone != '' && this.newPw != '' && this.newPwRe != '' ){
         
+        if(this.newPw != this.newPwRe){
+          this.$message({
+            message: '两次密码输入不一致，请重新输入',
+            type: 'info'
+          });
+        }
+        let data = {
+            phone: this.phone,
+            msg: this.codePhone,
+            newPw: this.newPw
+          }
 
+          let params = 'body=' + JSON.stringify(data);
+
+          this.$axios.post('/login/isLogin')
+          .then( res => {
+
+            if(res.data.code == code.login){
+              this.$axios.post('/data/saveDataInfo',params)
+              .then( res => {
+                if(res.data.code == code.success){
+      
+                  that.$message({
+                    message: '密码修改成功',
+                    type: 'success'
+                  });
+
+                  this.$router.push('/');
+
+                }
+              })
+              .catch( err => console.log(err ));
+
+            }else if(res.data.code == code.noLogin){
+              this.$message({
+                  message: '未登录',
+                  type: 'info'
+              });
+              this.$router.push({ path: '/'});
+            }
+          })
 
       }else {
-        alert('内容不能为空，请输入')
+        this.$message({
+            message: '内容不能为空，请重新输入',
+            type: 'info'
+          });
       }
 
-      // 只有当所有信息不为空时，才能提交
     },
     goBack(){
       // 默认返回首页，或者历史记录 返回

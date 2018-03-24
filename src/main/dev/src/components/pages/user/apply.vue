@@ -106,7 +106,7 @@
               </div>
               <div class="info-content-right">
                 <p>数据量: {{item.dataNum}}</p>
-                <p>时间: {{item.cteateTime}}</p>
+                <p>时间: {{item.createTime}}</p>
               </div>
             </div>
           </div>
@@ -155,7 +155,6 @@ export default {
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
-      console.log(res.data)
       if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
@@ -190,7 +189,6 @@ export default {
   },
   methods:{
     toDetail(id){
-      // console.log('跳转到 -------------- 已共享详情页面')
       this.$router.push({
         path:'detail?applyId=' + id
       });

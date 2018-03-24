@@ -118,7 +118,6 @@ export default {
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
-      console.log(res.data)
       if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
@@ -143,7 +142,6 @@ export default {
   },
   methods:{
     saveInfo(){
-      console.log('提交保存修改');
        let that = this;
         // 请求登录查询
         // 发送数据提交

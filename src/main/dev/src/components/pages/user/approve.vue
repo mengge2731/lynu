@@ -85,20 +85,20 @@
     <div class="approve-info clearfix">
       <div class="approve-user clearfix">
         <div class="uesr-left">申请人:</div>
-        <div class="uesr-right">王磊</div>
+        <div class="uesr-right">{{data.applyUserName}}</div>
       </div>
       <div class="pub-phone">
         <div class="phone-left clearfix">注册电话:</div>
-        <div class="phone-right">13512348888</div>
+        <div class="phone-right">{{data.applyUserPhone}}</div>
       </div>
     </div>
     <div class="approve-title clearfix">
       <div class="title-left">申请内容:</div>
-      <div class="title-right">意大利2017年经济情况报告-全部数据(意大利2017年经济情况报告-全部数据)</div>
+      <div class="title-right">{{data.dataTitle}}</div>
     </div>
     <div class="other-desc clearfix">
       <div class="desc-left">附言:</div>
-      <div class="desc-right">您好，我是河北师范大学旅游学院的王磊，我们希望获取贵校意大利2017年的经济数据，不知可否共享，我校有加拿大的数据可以交换，如果可以麻烦您联系我的电话13512348888.谢谢。</div>
+      <div class="desc-right">{{data.applyDesc}}</div>
     </div>
     <div class="agree-submit clearfix">
       <el-button type="primary" class="submit-button" @click="agree">同意</el-button>
@@ -108,22 +108,114 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
+
 export default {
   data(){
     return {
-      
+      applyId:'',
+      data:{},
     }
   },
   created(){
+    this.applyId = parseInt(this.$route.query.applyId)
+
+    let data = {
+      applyId: this.applyId
+    }
+    let params = 'body=' + JSON.stringify(data);
+
+    this.$axios.post('/login/isLogin')
+    .then( res => {
+
+      if(res.data.code == code.login){
+        // 默认请求首页数据
+        this.$axios.post('/apply/getTheirApplyInfo',params)
+        .then( res => {
+          // 数据列表
+          this.data = res.data.data;
+        })
+        .catch( err => console.log(err));
+
+      }else if(res.data.code == code.noLogin){
+        this.$message({
+            message: '未登录',
+            type: 'info'
+        });
+
+        this.$router.push({ path: '/'});
+      }
+    })
 
   },
   methods:{
     agree(){
-      console.log('同意操作')
+      let data = {
+        applyId: this.applyId
+      }
+      let params = 'body=' + JSON.stringify(data);
 
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+
+        if(res.data.code == code.login){
+          // 默认请求首页数据
+          this.$axios.post('/apply/agreeApply',params)
+          .then( res => {
+            if(res.data.code == code.success){
+              // 弹框提示
+              this.$message({
+                message: '已同意',
+                type: 'success'
+            });
+
+            }
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == code.noLogin){
+          this.$message({
+              message: '未登录',
+              type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
+        }
+      })
     },
     noAgree(){
-      console.log('不同意操作')
+      let data = {
+        applyId: this.applyId
+      }
+      let params = 'body=' + JSON.stringify(data);
+
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+
+        if(res.data.code == code.login){
+          // 默认请求首页数据
+          this.$axios.post('/apply/refuseApply',params)
+          .then( res => {
+           if(res.data.code == code.success){
+              // 弹框提示
+              this.$message({
+                  message: '不同意',
+                  type: 'info'
+              });
+              
+            }
+          })
+          .catch( err => console.log(err));
+
+        }else if(res.data.code == code.noLogin){
+          this.$message({
+              message: '未登录',
+              type: 'info'
+          });
+
+          this.$router.push({ path: '/'});
+        }
+      })
 
     }
   }

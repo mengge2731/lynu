@@ -1,115 +1,114 @@
 
 <style lang="less" scoped>
+.data-list {
+  padding: 20px 0 20px 10px;
+  width: 100%;
+  .data-list-item {
+    &:first-child {
+      border-top: 1px dashed #ccc;
+    }
 
-  .data-list{
-    padding: 20px 0 20px 10px;
-    width: 100%;
-    .data-list-item{
+    padding: 10px 0;
+    border-bottom: 1px dashed #ccc;
+    .item-container {
+      width: 100%;
 
-      &:first-child{
-          border-top: 1px dashed #ccc;
-      }
+      .item-left {
+        float: left;
+        width: 764px;
 
-      padding: 10px 0;
-      border-bottom: 1px dashed #ccc;
-      .item-container{
-        width: 100%;
-
-        .item-left{
-          float: left;
-          width: 764px;
-
-          .info-content-left {
-            .info-img {
-              width: 60px;
-              float: left;
-              img {
-                width: 100%;
-              }
-            }
-
-            .info-text {
-              padding: 8px 14px;
-              float: left;
-              width: 480px;
-              
-
-              h3 {
-                font-size: 18px;
-                font-weight: 700;
-                color: rgb(49, 49, 49);
-              }
-              p {
-                margin-top: 12px;
-                font-size: 14px;
-                color: rgb(151, 151, 151);
-                // 省略号
-                width: 480px;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-              }
-            }
-          }
-
-          .info-content-right {
+        .info-content-left {
+          .info-img {
+            width: 60px;
             float: left;
-            padding: 10px 40px;
-
-            border-left: 1px dashed rgb(161, 161, 161);
-            p {
-              font-size: 12px;
+            img {
+              width: 100%;
             }
-            p + p {
-              margin-top: 10px;
+          }
+
+          .info-text {
+            padding: 8px 14px;
+            float: left;
+            width: 480px;
+
+            h3 {
+              font-size: 18px;
+              font-weight: 700;
+              color: rgb(49, 49, 49);
+            }
+            p {
+              margin-top: 12px;
+              font-size: 14px;
+              color: rgb(151, 151, 151);
+              // 省略号
+              width: 480px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
             }
           }
         }
-        // 按钮
-        .item-right{
-          float: right;
-          padding-top: 20px;
-          padding-right: 20px;
-          
+
+        .info-content-right {
+          float: left;
+          padding: 10px 40px;
+
+          border-left: 1px dashed rgb(161, 161, 161);
+          p {
+            font-size: 12px;
+          }
+          p + p {
+            margin-top: 10px;
+          }
         }
       }
-
-
+      // 按钮
+      .item-right {
+        float: right;
+        padding-top: 20px;
+        padding-right: 20px;
+      }
     }
   }
-  
+}
+
+.page-component {
+  float: right;
+  margin-bottom: 20px;
+}
 </style>
 
 <template>
-  <div class="data-con">
-    
-   <ul class="data-list">
-      <li class="data-list-item clearfix"  v-for=" (item,index) in dataList" :key="index">
-        <div class="item-container">
-          <div class="item-left">
-              <div class="info-content">
-              <div class="info-content-left" >
-                <div class="info-img" >
-                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
-                </div> 
-                <div class="info-text">
-                  <h3>{{item.dataTitle}}</h3>
-                  <p>{{item.dataDesc}}</p>
-                </div> 
-              </div>
-              <div class="info-content-right">
-                 <p>数据量: {{item.dataNum}}</p>
-                  <p>时间: {{item.createTime}}</p>
+    <div>
+        <ul class="data-list">
+        <li class="data-list-item clearfix"  v-for=" (item,index) in dataList" :key="index">
+          <div class="item-container">
+            <div class="item-left">
+                <div class="info-content">
+                <div class="info-content-left" >
+                  <div class="info-img" >
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
+                  </div> 
+                  <div class="info-text">
+                    <h3>{{item.dataTitle}}</h3>
+                    <p>{{item.dataDesc}}</p>
+                  </div> 
+                </div>
+                <div class="info-content-right">
+                  <p>数据量: {{item.dataNum}}</p>
+                    <p>时间: {{item.createTime}}</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="item-right">
-            <el-button type="danger" plain size="small"  @click="del(item.dataId,index)">删除</el-button>
+            <div class="item-right">
+              <el-button type="danger" plain size="small"  @click="del(item.dataId,index)">删除</el-button>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+
+   
 
     <!-- 分页组件 -->
     <div class="page-component">
@@ -149,7 +148,6 @@ export default {
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
-      console.log(res.data)
       if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
@@ -160,7 +158,7 @@ export default {
       }else {
         // 登录后获取  第一页信息
         // 默认请求首页数据
-        this.$axios.post('/login/getFirstPageData')
+        this.$axios.post('/data/getDataByPage')
         .then( res => {
           // 整体数据，包括分页数据
           let pageInfo = res.data.data
@@ -265,7 +263,7 @@ export default {
                       });
 
                     setTimeout( function(){
-                      this.dataList.shift(index,1);
+                      that.dataList.shift(index,1);
                     },200)
                   
                 }else {
