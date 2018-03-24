@@ -41,6 +41,7 @@ public class ApplyController extends BaseController {
     @RequestMapping("/getMyApplyInfoByPage")
     @ResponseBody
     public ResultJson<Page<List<ApplyInfo>>> getMyApplyInfoByPage(String body){
+        logger.info("ApplyController--getMyApplyInfoByPage--body:{}",body);
         ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
         try{
             ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
@@ -97,34 +98,48 @@ public class ApplyController extends BaseController {
     @RequestMapping("/agreeApply")
     @ResponseBody
     public ResultJson<Boolean> agreeApply(String body){
-        ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
-        ApplyInfo applyInfo = new ApplyInfo();
-        BeanUtil.copyProperties(applyParam,applyInfo);
-        Boolean res = false;
-        UserInfo userInfo = getMyInfo();
-        applyInfo.setPubDataUserId(userInfo.getUserId());
-        if (applyService.agreeApply(applyInfo)>0){
-            res = true;
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            logger.info("ApplyController--agreeApply--body:{}",body);
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            ApplyInfo applyInfo = new ApplyInfo();
+            BeanUtil.copyProperties(applyParam,applyInfo);
+            Boolean res = false;
+            UserInfo userInfo = getMyInfo();
+            applyInfo.setPubDataUserId(userInfo.getUserId());
+            if (applyService.agreeApply(applyInfo)>0){
+                res = true;
+            }
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,res);
+            logger.info("agreeApply--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,res);
-        logger.info("agreeApply--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+
         return resultJson;
     }
 
     @RequestMapping("/refuseApply")
     @ResponseBody
     public ResultJson<Boolean> refuseApply(String body){
-        ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
-        ApplyInfo applyInfo = new ApplyInfo();
-        BeanUtil.copyProperties(applyParam,applyInfo);
-        Boolean res = false;
-        UserInfo userInfo = getMyInfo();
-        applyInfo.setPubDataUserId(userInfo.getUserId());
-        if (applyService.refuseApply(applyInfo)>0){
-            res = true;
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try {
+            logger.info("ApplyController--agreeApply--body:{}", body);
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            ApplyInfo applyInfo = new ApplyInfo();
+            BeanUtil.copyProperties(applyParam,applyInfo);
+            Boolean res = false;
+            UserInfo userInfo = getMyInfo();
+            applyInfo.setPubDataUserId(userInfo.getUserId());
+            if (applyService.refuseApply(applyInfo)>0){
+                res = true;
+            }
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,res);
+            logger.info("refuseApply--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,res);
-        logger.info("refuseApply--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+
         return resultJson;
     }
 

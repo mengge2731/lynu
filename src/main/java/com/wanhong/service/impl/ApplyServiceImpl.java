@@ -1,5 +1,7 @@
 package com.wanhong.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.wanhong.controller.ApplyController;
 import com.wanhong.dao.ApplyInfoDao;
 import com.wanhong.dao.DataInfoDao;
 import com.wanhong.domain.ApplyInfo;
@@ -10,6 +12,8 @@ import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.service.ApplyService;
 import com.wanhong.util.BeanUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,7 +23,7 @@ import java.util.List;
  * @date 2018-03-03 21:06
  */
 public class ApplyServiceImpl implements ApplyService {
-
+    private static final Logger logger = LoggerFactory.getLogger(ApplyServiceImpl.class);
     @Autowired
     ApplyInfoDao applyInfoDao;
     @Autowired
@@ -29,6 +33,8 @@ public class ApplyServiceImpl implements ApplyService {
         ApplyQuery applyQuery = new ApplyQuery();
         applyQuery.setIndex(applyParam.getIndex());
         applyQuery.setPageSize(applyParam.getPageSize());
+        applyQuery.setApplyUserId(applyParam.getApplyUserId());
+        logger.info("ApplyServiceImpl--getMyApplyInfoByPage--applyQuery:{}", JSON.toJSONString(applyQuery));
         List<ApplyInfo> applyInfoList = applyInfoDao.getMyApplyInfoByPage(applyQuery);
         Integer totalCount = applyInfoDao.getMyApplyInfoCount(applyQuery);
         Page page = new Page<>(applyInfoList);
