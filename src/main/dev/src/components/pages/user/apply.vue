@@ -100,19 +100,19 @@
                   <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
                 </div> 
                 <div class="info-text">
-                  <h3>{{item.title}}</h3>
-                  <p>{{item.desc}}</p>
+                  <h3>{{item.dataTitle}}</h3>
+                  <p>{{item.dataDesc}}</p>
                 </div> 
               </div>
               <div class="info-content-right">
                 <p>数据量: {{item.dataNum}}</p>
-                <p>时间: {{item.dataTime}}</p>
+                <p>时间: {{item.cteateTime}}</p>
               </div>
             </div>
           </div>
 
           <div class="item-right">
-            <el-button type="primary" plain size="small"  @click="toDetail(item.id)">查看</el-button>
+            <el-button type="primary" plain size="small"  @click="toDetail(item.applyId)">查看</el-button>
           </div>
         </div>
       </li>
@@ -192,7 +192,7 @@ export default {
     toDetail(id){
       // console.log('跳转到 -------------- 已共享详情页面')
       this.$router.push({
-        path:'detail?id=' + id
+        path:'detail?applyId=' + id
       });
     },
     handleSizeChange(val){
