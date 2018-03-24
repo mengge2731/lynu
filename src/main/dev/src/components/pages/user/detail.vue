@@ -82,23 +82,25 @@
     <div class="approve-pub">
       数据申请:
     </div>
-    <div class="approve-info clearfix">
+    <div class="approve-info clearfix" >
       <div class="approve-user clearfix">
         <div class="uesr-left">发布人:</div>
-        <div class="uesr-right">韩冷</div>
+        <div class="uesr-right">{{data.pubUserName}}</div>
       </div>
       <div class="pub-phone">
         <div class="phone-left clearfix">注册电话:</div>
-        <div class="phone-right">13512348888</div>
+        <div class="phone-right">{{data.pubUserPhone}}</div>
       </div>
     </div>
     <div class="approve-title clearfix">
       <div class="title-left">申请内容:</div>
-      <div class="title-right">意大利2017年经济情况报告-全部数据(意大利2017年经济情况报告-全部数据)</div>
+      <div class="title-right">{{data.dataTitle}}</div>
     </div>
     <div class="other-desc clearfix">
       <div class="desc-left">状态:</div>
-      <div class="desc-right">韩冷已同意给您数据，请直接与他联系。</div>
+      <div class="desc-right" v-show="data.status == '0'">无</div>
+      <div class="desc-right" v-show="data.status == '1'">{{data.pubUserName}}已同意给您数据，请直接与他联系。</div>
+      <div class="desc-right" v-show="data.status == '2'">{{data.pubUserName}}已拒绝给您数据。</div>
     </div>
     <div class="agree-submit clearfix">
       <el-button  class="submit-button" @click="goBack">返回</el-button>
@@ -107,10 +109,12 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
+
 export default {
   data(){
     return {
-      
+      data:{}
     }
   },
   created(){
@@ -125,9 +129,35 @@ export default {
 
         this.$router.push({ path: '/'});
         
+      }else {
+        // 获得当前数据id  获取该数据的申请状态信息
+        
+        let data = {
+          applyId : parseInt(this.$route.query.applyId),
+        }
+        
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/apply/applyResult',params)
+            .then( res => {
+              // 获取 数据申请状态  信息
+              this.data = res.data.data;
+           
+            })
+            .catch( err => console.log(err));
+          }else if(res.data.code == code.noLogin){
+
+            // 显示登录框
+            this.loginbox.cover = true; // 遮罩层是否开启
+            this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
+          }
+        })
+
       }
     })
-    // 获得当前数据id  获取该数据的申请状态信息
+    
   },
   methods:{
     goBack(){
@@ -137,5 +167,8 @@ export default {
   }
 }
 </script>
+
+
+
 
 
