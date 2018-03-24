@@ -45,6 +45,9 @@ public class ApplyServiceImpl implements ApplyService {
                 DataInfo dataInfoQuery = new DataInfo();
                 dataInfoQuery.setDataId(applyInfo.getDataId());
                 DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
+                if (dataInfo == null){
+                    continue;
+                }
                 DataInfoVo dataInfoVo = new DataInfoVo();
                 logger.info("=============dataInfo:{}",JSON.toJSONString(dataInfo));
                 BeanUtil.copyProperties(dataInfo,dataInfoVo);
