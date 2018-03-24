@@ -47,7 +47,7 @@
 
       <el-table-column label="角色"  width="100">
         <template slot-scope="scope">
-          <el-select v-model="scope.row.userType" size="mini">
+          <el-select v-model="scope.row.userType" size="mini" @change="changeType(scope.row.userId,scope.row.userType)">
             <el-option
               v-for="item in typeOptions"
               :key="item.value"
@@ -60,7 +60,7 @@
 
       <el-table-column label="状态"  width="100" :model="userList.data">
         <template slot-scope="scope">
-          <el-select v-model="scope.row.status" size="mini">
+          <el-select v-model="scope.row.status" size="mini" @change="changeStatus( scope.row.userId ,scope.row.status )">
             
             <el-option
               v-for="item in statusOptions"
@@ -92,6 +92,8 @@
 </template>
 
 <script>
+import { code } from '../../../util/util'
+
   export default {
     data() {
       return {
@@ -229,30 +231,97 @@
     },
     created(){
       let that = this;
-      // this.$axios.post('/login/isLogin')
-      // .then( res => {
-      //   console.log(res.data)
-      //   if(res.data.code == "0001"){
-      //     this.$message({
-      //         message: '未登录',
-      //         type: 'info'
-      //     });
+      this.$axios.post('/login/isLogin')
+      .then( res => {
+        console.log(res.data)
+        if(res.data.code == code.noLogin){
+          this.$message({
+              message: '未登录',
+              type: 'info'
+          });
 
-      //     this.$router.push({ path: '/'});
-      //   }
-      // })
+          this.$router.push({ path: '/'});
+        }else if(res.data.code == code.login){
+
+      }
+      })
     },
     methods: {
-      handleEdit(index,row) {
-        console.log(index)
+      // handleEdit(index,row) {
+      //   console.log(index)
+      // },
+      // handleDelete(index,row){
+      //   console.log(index)
+      // },
+      // submitType(value){
+      //   alert('触发了')
+      //   console.log(value)
+      // },
+      changeType(id, userType){
+
+        let data = {
+          userId: id,
+          userType: userType, 
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/user/updateUserType',params)
+            .then( res => {
+                // 修改成功 提示
+                this.$message({
+                  type: 'success',
+                  message: '修改成功!'
+                });
+            })
+            .catch( err => console.log(err));
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+              message: '未登录',
+              type: 'info'
+            });
+
+            this.$router.push({ path: '/'});
+          }
+        })
+
       },
-      handleDelete(index,row){
-        console.log(index)
+      changeStatus(id,status){
+        alert(id)
+        alert(status)
+
+         let data = {
+          userId: id,
+          status: status, 
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/user/updateUserType',params)
+            .then( res => {
+                // 修改成功 提示
+                this.$message({
+                  type: 'success',
+                  message: '修改成功!'
+                });
+            })
+            .catch( err => console.log(err));
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+              message: '未登录',
+              type: 'info'
+            });
+
+            this.$router.push({ path: '/'});
+          }
+        })
       },
-      submitType(value){
-        alert('触发了')
-        console.log(value)
-      },
+
+      // /function/user/getUserByPage
         handleSizeChange(val){
           this.size = val;
           let data = {
@@ -262,8 +331,8 @@
           let params = 'body=' + JSON.stringify(data);
           this.$axios.post('/login/isLogin')
           .then( res => {
-            if(res.data.code == "0002"){
-              this.$axios.post('/data/getDataByPage',params)
+            if(res.data.code == code.login){
+              this.$axios.post('/user/getUserByPage',params)
               .then( res => {
                   // 整体数据，包括分页数据
                   let pageInfo = res.data.data
@@ -275,7 +344,7 @@
               })
               .catch( err => console.log(err));
 
-            }else if(res.data.code == "0001"){
+            }else if(res.data.code == code.noLogin){
               this.$message({
                 message: '未登录',
                 type: 'info'
@@ -294,10 +363,10 @@
           let params = 'body=' + JSON.stringify(data);
           this.$axios.post('/login/isLogin')
           .then( res => {
-            if(res.data.code == "0002"){
-              this.$axios.post('/data/getDataByPage',params)
+            if(res.data.code == code.login){
+              this.$axios.post('/user/getUserByPage',params)
               .then( res => {
-                if(res.data.code == "0000"){
+                if(res.data.code == code.success){
                   // 整体数据，包括分页数据
                   let pageInfo = res.data.data
                   this.pageData = pageInfo;
@@ -312,49 +381,14 @@
               })
               .catch( err => console.log(err));
 
-            }else if(res.data.code == "0001"){
+            }else if(res.data.code == code.noLogin){
               // 显示登录框
               // this.loginbox.cover = true; // 遮罩层是否开启
               // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
             }
           })
         },
-        check(val){
-          let data = {
-            pageSize:this.size,
-            index:this.index, 
-            dataType: this.type
-          }
-          // 切换分类
-          let params = 'body=' + JSON.stringify(data);
-          this.$axios.post('/login/isLogin')
-          .then( res => {
-            if(res.data.code == "0002"){
-              this.$axios.post('/data/getDataByDataTypeAndPage',params)
-              .then( res => {
-                if(res.data.code == "0000"){
-                  // 整体数据，包括分页数据
-                  let pageInfo = res.data.data
-                  this.pageData = pageInfo;
-                  // 数据总条数  总条数 = 总页数 * 每页数据
-                  this.totalPage = pageInfo.totalPage * pageInfo.pageSize;
-                  // 数据列表
-                  this.dataList = res.data.data.data;
-                }else {
-                  //网络异常请重试
-                }
-                  
-              })
-              .catch( err => console.log(err));
-
-            }else if(res.data.code == "0001"){
-              // 显示登录框
-              // this.loginbox.cover = true; // 遮罩层是否开启
-              // this.loginbox.loginOrRegister = true;  // 显示登录框  还是注册框
-            }
-          })
-
-        }
+       
     },
 
     

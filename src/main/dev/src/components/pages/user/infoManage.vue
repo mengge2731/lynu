@@ -126,7 +126,7 @@ export default {
     this.$axios.post('/login/isLogin')
     .then( res => {
       console.log(res.data)
-      if(res.data.code == "0001"){
+      if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
