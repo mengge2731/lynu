@@ -5,6 +5,7 @@ import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.domain.param.DataParam;
+import com.wanhong.domain.vo.DataInfoVo;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface ApplyService {
      * @param applyParam
      * @return
      */
-    Page<List<ApplyInfo>> getMyApplyInfoByPage(ApplyParam applyParam);
+    Page<List<DataInfoVo>> getMyApplyInfoByPage(ApplyParam applyParam);
 
     /**
      * 获取我发布数据名下的申请信息
@@ -60,5 +61,11 @@ public interface ApplyService {
      * @return
      */
     Boolean isMyApplyInfo(ApplyInfo applyInfo);
+
+    /**
+     * @param applyInfo
+     * @return
+     */
+    ApplyInfo getApplyInfoById(ApplyInfo applyInfo);
 
 }

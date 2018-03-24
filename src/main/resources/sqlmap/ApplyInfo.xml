@@ -32,7 +32,7 @@
 		FROM
 			apply_info
 		WHERE
-			status = 0
+		status !=3
 		AND
 			apply_user_id = #{applyUserId}
 		ORDER BY create_time ASC
@@ -40,7 +40,7 @@
 	</select>
 
 	<select id="getMyApplyInfoCount" parameterType="applyInfo" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND apply_user_id = #{applyUserId}
+		SELECT COUNT(1) FROM apply_info WHERE  status !=3 AND apply_user_id = #{applyUserId}
 	</select>
 
 	<select id="getThireApplyInfoByPage" parameterType="applyQuery" resultType="applyInfo">
@@ -49,7 +49,7 @@
 		FROM
 			apply_info
 		WHERE
-			status = 0
+		status !=3
 		AND
 			pub_data_user_id = #{pubDataUserId}
 		AND
@@ -59,7 +59,7 @@
 	</select>
 
 	<select id="getThireApplyInfoCount" parameterType="applyQuery" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND pub_data_user_id = #{pubDataUserId} AND data_id = #{dataId}
+		SELECT COUNT(1) FROM apply_info WHERE  status !=3 AND pub_data_user_id = #{pubDataUserId} AND data_id = #{dataId}
 	</select>
 
 	<update id="delMyApplyInfoById" parameterType="applyInfo">
@@ -134,7 +134,7 @@
 		FROM
 		apply_info
 		WHERE
-		status = 0
+		status !=3
 		AND
 		apply_user_id = #{applyUserId}
 		AND
@@ -147,9 +147,21 @@
 		FROM
 		apply_info
 		WHERE
-		status = 0
+		status !=3
 		AND
 		data_id = #{dataId}
+	</select>
+
+
+	<select id="getApplyInfoById" parameterType="applyInfo" resultType="applyInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		apply_info
+		WHERE
+		status !=3
+		AND
+		apply_id = #{applyId}
 	</select>
 
 </mapper>

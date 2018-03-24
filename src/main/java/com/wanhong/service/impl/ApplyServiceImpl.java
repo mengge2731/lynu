@@ -10,12 +10,14 @@ import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.ApplyQuery;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
+import com.wanhong.domain.vo.DataInfoVo;
 import com.wanhong.service.ApplyService;
 import com.wanhong.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +31,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Autowired
     DataInfoDao dataInfoDao;
     @Override
-    public Page<List<ApplyInfo>> getMyApplyInfoByPage(ApplyParam applyParam) {
+    public Page<List<DataInfoVo>> getMyApplyInfoByPage(ApplyParam applyParam) {
         ApplyQuery applyQuery = new ApplyQuery();
         applyQuery.setIndex(applyParam.getIndex());
         applyQuery.setPageSize(applyParam.getPageSize());
@@ -37,7 +39,19 @@ public class ApplyServiceImpl implements ApplyService {
         logger.info("ApplyServiceImpl--getMyApplyInfoByPage--applyQuery:{}", JSON.toJSONString(applyQuery));
         List<ApplyInfo> applyInfoList = applyInfoDao.getMyApplyInfoByPage(applyQuery);
         Integer totalCount = applyInfoDao.getMyApplyInfoCount(applyQuery);
-        Page page = new Page<>(applyInfoList);
+        List<DataInfoVo> dataInfoList = new ArrayList<>();
+        if (applyInfoList != null && applyInfoList.size()>0){
+            for (ApplyInfo applyInfo : applyInfoList){
+                DataInfo dataInfoQuery = new DataInfo();
+                dataInfoQuery.setDataId(applyInfo.getDataId());
+                DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
+                DataInfoVo dataInfoVo = new DataInfoVo();
+                BeanUtil.copyProperties(dataInfo,dataInfoVo);
+                dataInfoVo.setApplyId(applyInfo.getApplyId());
+                dataInfoList.add(dataInfoVo);
+            }
+        }
+        Page page = new Page<>(dataInfoList);
         page.setTotalItem(totalCount);
         page.setIndex(applyParam.getIndex());
         page.setPageSize(applyParam.getPageSize());
@@ -87,5 +101,10 @@ public class ApplyServiceImpl implements ApplyService {
         }else{
             return true;
         }
+    }
+
+    @Override
+    public ApplyInfo getApplyInfoById(ApplyInfo applyInfo) {
+        return applyInfoDao.getApplyInfoById(applyInfo);
     }
 }

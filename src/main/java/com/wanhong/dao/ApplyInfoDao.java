@@ -63,4 +63,6 @@ public interface ApplyInfoDao {
      * @return
      */
     ApplyInfo getApplyInfoByDataId(DataInfo dataInfo);
+
+    ApplyInfo getApplyInfoById(ApplyInfo applyInfo);
 }

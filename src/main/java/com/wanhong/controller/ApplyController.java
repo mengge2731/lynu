@@ -1,6 +1,8 @@
 package com.wanhong.controller;
 
 import com.wanhong.common.errorcode.BusinessCode;
+import com.wanhong.dao.DataInfoDao;
+import com.wanhong.dao.UserInfoDao;
 import com.wanhong.domain.ApplyInfo;
 import com.wanhong.domain.DataInfo;
 import com.wanhong.domain.ResultJson;
@@ -8,6 +10,8 @@ import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.domain.param.DataParam;
+import com.wanhong.domain.vo.ApplyInfoVo;
+import com.wanhong.domain.vo.DataInfoVo;
 import com.wanhong.domain.vo.UserInfoVo;
 import com.wanhong.service.ApplyService;
 import com.wanhong.service.DataService;
@@ -18,10 +22,12 @@ import com.wanhong.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.xml.crypto.Data;
 import javax.xml.ws.Action;
 import java.util.List;
 
@@ -37,17 +43,22 @@ public class ApplyController extends BaseController {
     ApplyService applyService;
     @Autowired
     DataService dataService;
+    @Autowired
+    UserInfoDao userInfoDao;
+    @Autowired
+    DataInfoDao dataInfoDao;
+
 
     @RequestMapping("/getMyApplyInfoByPage")
     @ResponseBody
-    public ResultJson<Page<List<ApplyInfo>>> getMyApplyInfoByPage(String body){
+    public ResultJson<Page<List<DataInfoVo>>> getMyApplyInfoByPage(String body){
         logger.info("ApplyController--getMyApplyInfoByPage--body:{}",body);
-        ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        ResultJson<Page<List<DataInfoVo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
         try{
             ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
             UserInfo userInfo = this.getMyInfo();
             applyParam.setApplyUserId(userInfo.getUserId());
-            Page<List<ApplyInfo>> applyInfoPage =applyService.getMyApplyInfoByPage(applyParam);
+            Page<List<DataInfoVo>> applyInfoPage =applyService.getMyApplyInfoByPage(applyParam);
             resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
             logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         }catch (Exception e){
@@ -178,6 +189,43 @@ public class ApplyController extends BaseController {
 
         ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS,res);
         logger.info("saveApplyInfo - resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
+
+
+    @RequestMapping("/applyResult")
+    @ResponseBody
+    public ResultJson<ApplyInfoVo> applyResult(String body){
+        ResultJson<ApplyInfoVo> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            ApplyInfo applyInfo = new ApplyInfo();
+            BeanUtil.copyProperties(applyParam,applyInfo);
+            if (applyInfo.getApplyId()==null){
+                return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+            }
+            UserInfo userInfo = getMyInfo();
+
+            applyInfo.setApplyUserId(userInfo.getUserId());
+            DataInfo dataInfoQuery = new DataInfo();
+            dataInfoQuery.setDataId(applyInfo.getDataId());
+            ApplyInfo applyInfoResult = applyService.getApplyInfoById(applyInfo);
+            ApplyInfoVo applyInfoVo = new ApplyInfoVo();
+            BeanUtil.copyProperties(applyInfoResult,applyInfoVo);
+            userInfo.setUserId(applyInfo.getPubDataUserId());
+            UserInfo userInfo1 = userInfoDao.getUserInfoById(userInfo);
+            DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
+            applyInfoVo.setPubUserName(userInfo1.getUserName());
+            applyInfoVo.setDataTitle(dataInfo.getDataTitle());
+            if ("1".equals(applyInfoVo.getStatus())){//如果回复了则将电话展示给申请者 。
+                applyInfoVo.setPubUserPhone(userInfo1.getPhone());
+            }
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoVo);
+            logger.info("saveApplyInfo - resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 }
