@@ -52,12 +52,14 @@
 			status = 0
 		AND
 			pub_data_user_id = #{pubDataUserId}
+		AND
+			data_id = #{dataId}
 		ORDER BY create_time ASC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
-	<select id="getThireApplyInfoCount" parameterType="applyInfo" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND pub_data_user_id = #{pubDataUserId}
+	<select id="getThireApplyInfoCount" parameterType="applyQuery" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM apply_info WHERE  status=0 AND pub_data_user_id = #{pubDataUserId} AND data_id = #{dataId}
 	</select>
 
 	<update id="delMyApplyInfoById" parameterType="applyInfo">
@@ -139,7 +141,7 @@
 		data_id = #{dataId}
 	</select>
 
-	<select id="getApplyInfoByDataIdAndPage" parameterType="applyQuery" resultType="applyInfo">
+	<select id="getApplyInfoByDataId" parameterType="dataInfo" resultType="applyInfo">
 		SELECT
 		<include refid="QUERY_COLUMN_LIST"/>
 		FROM
@@ -148,8 +150,6 @@
 		status = 0
 		AND
 		data_id = #{dataId}
-		ORDER BY create_time ASC
-		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
 </mapper>

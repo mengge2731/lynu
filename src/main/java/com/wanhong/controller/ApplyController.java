@@ -59,10 +59,23 @@ public class ApplyController extends BaseController {
     @RequestMapping("/getThireApplyInfoByPage")
     @ResponseBody
     public ResultJson<Page<List<ApplyInfo>>> getThireApplyInfoByPage(String body){
-        ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
-        Page<List<ApplyInfo>> applyInfoPage =applyService.getThireApplyInfoByPage(applyParam);
-        ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
-        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<Page<List<ApplyInfo>>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+        try{
+            logger.info("ApplyController--getThireApplyInfoByPage--body:{}",body);
+            //dataId
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            if (applyParam.getDataId() == null){
+                resultJson = new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+            }
+            UserInfo userInfo = this.getMyInfo();
+            applyParam.setPubDataUserId(userInfo.getUserId());
+            Page<List<ApplyInfo>> applyInfoPage =applyService.getThireApplyInfoByPage(applyParam);
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoPage);
+            logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 

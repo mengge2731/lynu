@@ -51,10 +51,16 @@ public interface ApplyInfoDao {
      */
     ApplyInfo getApplyInfoByUserIdAndDataId(ApplyInfo applyInfo);
 
+//    /**
+//     *  根据dataid  获取 申请信息。
+//     * @param applyQuery
+//     * @return
+//     */
+//    List<ApplyInfo> getApplyInfoByDataIdAndPage(ApplyQuery applyQuery);
     /**
      *  根据dataid  获取 申请信息。
-     * @param applyQuery
+     * @param dataInfo
      * @return
      */
-    ApplyInfo getApplyInfoByDataIdAndPage(ApplyQuery applyQuery);
+    ApplyInfo getApplyInfoByDataId(DataInfo dataInfo);
 }

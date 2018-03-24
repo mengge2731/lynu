@@ -4,10 +4,12 @@ import com.wanhong.dao.ApplyInfoDao;
 import com.wanhong.dao.DataInfoDao;
 import com.wanhong.domain.ApplyInfo;
 import com.wanhong.domain.DataInfo;
+import com.wanhong.domain.UserInfo;
 import com.wanhong.domain.common.ApplyQuery;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.service.ApplyService;
+import com.wanhong.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public class ApplyServiceImpl implements ApplyService {
         ApplyQuery applyQuery = new ApplyQuery();
         applyQuery.setIndex(applyParam.getIndex());
         applyQuery.setPageSize(applyParam.getPageSize());
+        applyQuery.setPubDataUserId(applyParam.getPubDataUserId());
         List<ApplyInfo> applyInfoList = applyInfoDao.getThireApplyInfoByPage(applyQuery);
         Integer totalCount = applyInfoDao.getThireApplyInfoCount(applyQuery);
         Page page = new Page<>(applyInfoList);
