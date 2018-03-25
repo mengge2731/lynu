@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanhong.dao.MessageInfoDao">
+
+	<!-- message_info 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[
+			id AS id
+			,phone AS phone
+			,message AS message
+			,expire_time AS expireTime
+			,status AS status
+			,create_time AS createTime
+			,update_time AS updateTime
+		]]>
+	</sql>
+
+	<insert id="saveMessageInfo" parameterType="messageInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT IGNORE INTO message_info
+		(
+		phone
+		,message
+		,expire_time
+		,status
+		,create_time
+		,update_time
+		)
+		VALUES
+		(
+		#{phone}
+		,#{message}
+		,#{expireTime}
+		,0
+		,now()
+		,now()
+		)
+	</insert>
+
+	<select id="getMessageInfoByPhone" parameterType="messageInfo" resultType="messageInfo">
+		SELECT
+			<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+			message_info
+		WHERE
+			phone = #{phone}
+	</select>
+
+
+	<!-- status=0 正常   Status=1 被删除-->
+	<update id="updateMessageInfoByPhone" parameterType="messageInfo">
+		UPDATE
+			message_info
+		SET
+			update_time=NOW(),
+			message = #{message},
+			expire_time = #{expireTime}
+		WHERE
+			phone=#{phone}
+	</update>
+
+</mapper>

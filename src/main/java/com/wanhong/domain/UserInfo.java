@@ -14,10 +14,18 @@ public class UserInfo{
     private String nickName;
     private String password;
     private String phone;
+    /**
+     * 1--普通用户;2--管理员;
+     */
     private String userType;
     private String msg;
-    private String status;
+    /**
+     * 0--正常状态; 1--被删除; 2-- 停用
+     */
+    private int status;
     private Date msgExpired;
+    //简介
+    private String userDesc;
     private Date createTime;
     private Date updateTime;
 
@@ -77,11 +85,11 @@ public class UserInfo{
         this.msg = msg;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -107,5 +115,13 @@ public class UserInfo{
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getUserDesc() {
+        return userDesc;
+    }
+
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
     }
 }

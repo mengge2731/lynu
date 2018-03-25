@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: wangmeng36
-  Date: 2017/11/14
-  Time: 14:57
+  Date: 2018/3/11
+  Time: 13:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,6 +10,10 @@
 <head>
     <title>Title</title>
 </head>
-<body>我是jsp页面
+<body>
+
+<script>
+    window.location.href = 'http://120.27.37.129:8080/lynu/index';
+</script>>
 </body>
 </html>
