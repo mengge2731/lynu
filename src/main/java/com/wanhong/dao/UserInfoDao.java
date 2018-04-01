@@ -33,4 +33,6 @@ public interface UserInfoDao {
 
     UserInfo getUserByPhoneAndPasswordWithOutStatus(UserInfo userInfo);
 
+    UserInfo getFindPassUserInfoByPhone(UserInfo userInfo);
+
 }

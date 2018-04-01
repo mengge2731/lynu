@@ -18,6 +18,23 @@
 		]]>
 	</sql>
 
+	<!-- user_info 所有查询列 -->
+	<sql id="QUERY_FIND_PASS_COLUMN_LIST">
+		<![CDATA[
+			user_id AS userId
+			,user_name AS userName
+			,phone AS phone
+			,introduction AS introduction
+			,msg AS msg
+			,msg_expired AS msgExpired
+			,user_type AS userType
+			,user_desc AS userDesc
+			,status AS status
+			,create_time AS createTime
+			,update_time AS updateTime
+		]]>
+	</sql>
+
 	<!-- user_info 列 -->
 	<sql id="QUERY_SIMPLE_COLUMN_LIST">
 		<![CDATA[
@@ -202,4 +219,14 @@
 		password = #{password}
 	</select>
 
+	<select id="getFindPassUserInfoByPhone" parameterType="userInfo" resultType="userInfo">
+		SELECT
+		<include refid="QUERY_FIND_PASS_COLUMN_LIST"/>
+		FROM
+		user_info
+		WHERE
+		phone = #{phone}
+		AND
+		status =0
+	</select>
 </mapper>

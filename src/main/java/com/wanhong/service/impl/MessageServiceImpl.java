@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
         try{
-            UserInfo oldUserInfo = userService.getUserInfoByPhone(userInfo);
+            UserInfo oldUserInfo = userService.getFindPassUserInfoByPhone(userInfo);
             logger.info("sendFindPasswordMessage--oldUserInfo--MsgExpired:{}",oldUserInfo.getMsgExpired());
             if(oldUserInfo!= null){
                 if (oldUserInfo.getMsgExpired()==null || oldUserInfo.getMsgExpired().compareTo(new Date())<=0){//过期

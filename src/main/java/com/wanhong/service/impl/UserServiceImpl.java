@@ -111,4 +111,9 @@ public class UserServiceImpl implements UserService{
     public UserInfo getUserByPhoneAndPasswordWithOutStatus(UserInfo userInfo) {
         return userInfoDao.getUserByPhoneAndPasswordWithOutStatus(userInfo);
     }
+
+    @Override
+    public UserInfo getFindPassUserInfoByPhone(UserInfo userInfo) {
+        return userInfoDao.getFindPassUserInfoByPhone(userInfo);
+    }
 }
