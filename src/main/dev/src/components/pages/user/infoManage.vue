@@ -27,7 +27,7 @@
           }
 
           .info-text {
-            padding: 8px 14px;
+            padding: 8px 0 0 14px;
             float: left;
             width: 480px;
 
@@ -57,7 +57,7 @@
 
         .info-content-right {
           float: left;
-          padding: 10px 20px;
+          padding: 10px 0 10px 20px;
 
           border-left: 1px dashed rgb(161, 161, 161);
           p {

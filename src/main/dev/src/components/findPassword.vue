@@ -130,14 +130,14 @@
     <div class="pwd-new clearfix">
       <div class="pwd-text">新的登录密码:</div>
       <div class="pwd-input">
-         <el-input v-model="newPw" placeholder=""></el-input>
+         <el-input v-model="newPw" placeholder="" type="password"></el-input>
       </div>
     </div>
 
     <div class="pwd-new-two clearfix">
       <div class="pwd-text">再次输入登录密码:</div>
       <div class="pwd-input">
-         <el-input v-model="newPwRe" placeholder=""></el-input>
+         <el-input v-model="newPwRe" placeholder="" type="password"></el-input>
       </div>
     </div>
 
@@ -177,6 +177,21 @@ export default {
   methods:{
     // 获取验证码
     phoneCode(){ 
+
+      if(this.phone == ''){
+        this.$message({
+          message: '手机号不能为空',
+          type: 'info'
+        });
+        return false;
+      }else if(false){
+        this.$message({
+          message: '请输入正确的手机号',
+          type: 'info'
+        });
+        return false;
+      }
+      
       this.disabled = true;
 
       let that =this;
@@ -186,7 +201,7 @@ export default {
       let todata = JSON.stringify(data)
 
       var dataParam = 'body='+ todata;
-      this.$axios.post('/login/sendMsg',dataParam)
+      this.$axios.post('/login/sendFindPassMsg',dataParam)
       .then(res => {
         if(res.data.code == '0000' || res.data.code == '0006'){
 
@@ -207,11 +222,30 @@ export default {
                 }
               }, i * 1000)
             }
-        }else if(res.data.code == '0013'){
+        }else if(res.data.code == '0003'){
           this.$message({
-            message: '手机号已注册，请直接登录',
+            message: '请输入正确的手机号',
             type: 'info'
           });
+          this.disabled = false;
+        }else if(res.data.code == '0005'){
+          this.$message({
+            message: '网络异常，稍后重试',
+            type: 'info'
+          });
+          this.disabled = false;
+        }else if(res.data.code == '0020'){
+          this.$message({
+            message: '验证码已发送',
+            type: 'info'
+          });
+          this.disabled = false;
+        }else if(res.data.code == '0021'){
+          this.$message({
+            message: '手机号异常，请核实',
+            type: 'info'
+          });
+          this.disabled = false;
         }
       })
     },
@@ -223,11 +257,13 @@ export default {
             message: '两次密码输入不一致，请重新输入',
             type: 'info'
           });
+
+          return false;
         }
         let data = {
             phone: this.phone,
-            msg: this.codePhone,
-            newPw: this.newPw
+            message: this.codePhone,
+            newPassword: this.newPw
           }
 
           let params = 'body=' + JSON.stringify(data);
@@ -236,18 +272,39 @@ export default {
           .then( res => {
 
             if(res.data.code == code.login){
-              this.$axios.post('/data/saveDataInfo',params)
+              this.$axios.post('/login/changePassword',params)
               .then( res => {
                 if(res.data.code == code.success){
       
                   that.$message({
-                    message: '密码修改成功',
+                    message: '密码修改成功,请登录',
                     type: 'success'
                   });
 
                   this.$router.push('/');
 
+                }else if(res.data.code == '0009'){
+                  that.$message({
+                    message: '验证码超时，请重新获取',
+                    type: 'info'
+                  });
+                }else if(res.data.code == '0008'){
+                  that.$message({
+                    message: '验证码错误，请重新输入',
+                    type: 'info'
+                  });
+                }else if(res.data.code == '0021'){
+                  that.$message({
+                    message: '无权访问',
+                    type: 'info'
+                  });
+                }else if(res.data.code == '0003'){
+                  that.$message({
+                    message: '输入信息有误，请重新输入',
+                    type: 'info'
+                  });
                 }
+
               })
               .catch( err => console.log(err ));
 
@@ -261,6 +318,13 @@ export default {
           })
 
       }else {
+
+        // 手机号校验
+
+        // 验证码不为空
+
+        // 密码不为空
+
         this.$message({
             message: '内容不能为空，请重新输入',
             type: 'info'

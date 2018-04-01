@@ -47,6 +47,11 @@
                 font-size: 18px;
                 font-weight: 700;
                 color: rgb(49, 49, 49);
+                // 省略号
+                width: 480px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
               }
               p {
                 margin-top: 12px;
