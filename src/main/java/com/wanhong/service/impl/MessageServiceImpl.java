@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResultJson<MessageResultVo> sendFindPasswordMessage(String phone,String msg) {
+    public ResultJson<MessageResultVo> sendFindPasswordMessage(String phone) {
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
         UserInfo oldUserInfo = userService.getUserInfoByPhone(userInfo);
@@ -62,10 +62,10 @@ public class MessageServiceImpl implements MessageService {
             if (oldUserInfo.getMsgExpired()==null || oldUserInfo.getMsgExpired().compareTo(new Date())<=0){//过期
                 this.sendAndUpdateUserInfo(phone);
             }else{//没过期
-                return new ResultJson(BusinessCode.REGISTER_AGINE);
+                return new ResultJson(BusinessCode.SEND_AGINE);
             }
         }else{
-            return new ResultJson(BusinessCode.REGISTER_AGINE);
+            return new ResultJson(BusinessCode.FORBIDDEN);
         }
         return null;
     }

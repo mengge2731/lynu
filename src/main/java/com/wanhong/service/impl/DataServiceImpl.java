@@ -82,21 +82,21 @@ public class DataServiceImpl implements DataService {
         dataQuery.setPageSize(dataParam.getPageSize());
         dataQuery.setUserId(dataParam.getUserId());
         List<DataInfo> dataInfoListPage = dataInfoDao.findMyData(dataQuery);
-        List<DataInfo> dataInfoList = new ArrayList<>();
-        //是否有人申请这条数据
-        if (dataInfoListPage != null){
-            for (DataInfo dataInfo : dataInfoListPage){
-                List<ApplyInfo> applyInfoList = applyInfoDao.getApplyInfoByDataId(dataInfo);
-                if (applyInfoList != null && applyInfoList.size()>0){
-                    dataInfo.setHaveApply(true);
-                }else{
-                    dataInfo.setHaveApply(false);
-                }
-                dataInfoList.add(dataInfo);
-            }
-        }
+//        List<DataInfo> dataInfoList = new ArrayList<>();
+//        //是否有人申请这条数据
+//        if (dataInfoListPage != null){
+//            for (DataInfo dataInfo : dataInfoListPage){
+//                List<ApplyInfo> applyInfoList = applyInfoDao.getApplyInfoByDataId(dataInfo);
+//                if (applyInfoList != null && applyInfoList.size()>0){
+//                    dataInfo.setHaveApply(true);
+//                }else{
+//                    dataInfo.setHaveApply(false);
+//                }
+//                dataInfoList.add(dataInfo);
+//            }
+//        }
         Integer totalCount = dataInfoDao.findMyDataCount(dataQuery);
-        Page page = new Page<>(dataInfoList);
+        Page page = new Page<>(dataInfoListPage);
         page.setTotalItem(totalCount);
         page.setIndex(dataParam.getIndex());
         page.setPageSize(dataParam.getPageSize());

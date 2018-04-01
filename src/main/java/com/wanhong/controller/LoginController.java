@@ -126,6 +126,17 @@ public class LoginController {
         }
     }
 
+    @RequestMapping("/sendFindPassMsg")
+    @ResponseBody
+    public ResultJson<MessageResultVo> sendFindPassMsg(String body){
+        UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body, UserParam.class);
+        if (StringUtil.hasBlank(userParam.getPhone()) || !ValidateUtil.validateParaPhone(userParam.getPhone())){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+        }else{
+            return messageService.sendFindPasswordMessage(userParam.getPhone());
+        }
+    }
+
     @RequestMapping("/register")
     @ResponseBody
     public ResultJson<Boolean> register(String body){
@@ -173,7 +184,7 @@ public class LoginController {
     }
 
 
-    
+
     @RequestMapping("/getFirstPageData")
     @ResponseBody
     public ResultJson<Page<List<DataInfo>>> getFirstPageData(){
@@ -193,5 +204,35 @@ public class LoginController {
 
         logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;
+    }
+
+
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public ResultJson<Boolean> changePassword(String body){
+        ResultJson<Boolean> resultJson = new ResultJson(BusinessCode.UNKNOWN_ERROR);
+        UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body, UserParam.class);
+        if (StringUtil.hasBlank(userParam.getPhone(),userParam.getMessage(),userParam.getNewPassword()) || !ValidateUtil.validateParaPhone(userParam.getPhone()) ){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+        }else{
+            UserInfo userInfoQuery = new UserInfo();
+            userInfoQuery.setPhone(userParam.getPhone());
+            UserInfo userInfo = userService.getUserInfoByPhone(userInfoQuery);
+            if (userInfo != null){
+                if (userParam.getMessage().equals(userInfo.getMsg())){
+                    if (userInfo.getMsgExpired()==null || userInfo.getMsgExpired().compareTo(new Date())<=0) {//过期
+                        resultJson = new ResultJson<>(BusinessCode.MESSAGE_OVER_TIME);
+                    }else{
+                        resultJson = new ResultJson<>(BusinessCode.SUCCESS,true);
+                    }
+                }else{
+                    resultJson = new ResultJson<>(BusinessCode.MESSAGE_WRONG);
+                }
+            }else
+            {
+                resultJson = new ResultJson<>(BusinessCode.FORBIDDEN);
+            }
+            return resultJson;
+        }
     }
 }

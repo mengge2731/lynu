@@ -25,6 +25,11 @@ public enum BusinessCode implements ErrorCode{
     LOGIN_ERROR("0014", "账号或密码错误."),
     APPLY_AGINE_ERROR("0015", "已经申请过该数据."),
     NO_ACCESS("0016", "没有权限修改数据."),
+    GET_FILE_ERROR("0017", "获取文件数据出错,确认是否选中文件."),
+    FILE_SIZE_ERROR("0018", "大小超出限制，不能超过1G."),
+    FILE_UPLOAD_ERROR("0019", "保存上传的图片失败."),
+    SEND_AGINE("0020", "已经发过短信."),
+    FORBIDDEN("0021", "无权访问."),
     ;
     private final String code;
     private final String description;
