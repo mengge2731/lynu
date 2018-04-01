@@ -14,7 +14,6 @@
 
 <template>
   <div class="data-agree-con">
-  
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -40,11 +39,13 @@
             size="mini"
             @click="check(scope.row.applyId)">查看</el-button>
         </template>
+      </el-table-column>
 
+      <el-table-column label="操作"  width="80">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="delRow(scope.row.applyId)">删除</el-button>
+            @click="delRow(scope.row.applyId)" type="danger">删除</el-button>
         </template>
       </el-table-column>
   </el-table>

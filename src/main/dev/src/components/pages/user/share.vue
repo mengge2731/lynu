@@ -43,10 +43,10 @@
                 color: rgb(49, 49, 49);
 
                 // 省略号
-              width: 480px;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;
+                width: 350px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
               }
               p {
                 margin-top: 12px;
@@ -63,7 +63,7 @@
 
           .info-content-right {
             float: left;
-            padding: 10px 24px;
+            padding: 10px 0 10px 24px;
 
             border-left: 1px dashed rgb(161, 161, 161);
             p {
@@ -227,7 +227,7 @@ export default {
                       });
 
                     setTimeout( function(){
-                      this.dataList.shift(index,1);
+                      that.dataList.shift(index,1);
                     },200)
                   
                 }else {

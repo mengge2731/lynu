@@ -269,11 +269,21 @@ export default {
                 that.$router.push({path:'/market'});
 
               },200)
-
+            }else if(res.data.code == '0015'){
+              this.$message({
+                message: '您已经申请过该条数据。请在个人中心已申请数据里查看',
+                type: 'info'
+              });
               
+            }else if(res.data.code == '0010') {
+              
+              this.$message({
+                message: '不能申请自己发布的数据',
+                type: 'info'
+              });
             }else {
               this.$message({
-                message: '申请失败',
+                message: '申请失败，请重试',
                 type: 'info'
               });
             }
