@@ -57,17 +57,22 @@ public class MessageServiceImpl implements MessageService {
     public ResultJson<MessageResultVo> sendFindPasswordMessage(String phone) {
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        UserInfo oldUserInfo = userService.getUserInfoByPhone(userInfo);
-        if(oldUserInfo!= null){
-            if (oldUserInfo.getMsgExpired()==null || oldUserInfo.getMsgExpired().compareTo(new Date())<=0){//过期
-                this.sendAndUpdateUserInfo(phone);
-            }else{//没过期
-                return new ResultJson(BusinessCode.SEND_AGINE);
+        try{
+            UserInfo oldUserInfo = userService.getUserInfoByPhone(userInfo);
+            logger.info("sendFindPasswordMessage--oldUserInfo--MsgExpired:{}",oldUserInfo.getMsgExpired());
+            if(oldUserInfo!= null){
+                if (oldUserInfo.getMsgExpired()==null || oldUserInfo.getMsgExpired().compareTo(new Date())<=0){//过期
+                    return this.sendAndUpdateUserInfo(phone);
+                }else{//没过期
+                    return new ResultJson(BusinessCode.SEND_AGINE);
+                }
+            }else{
+                return new ResultJson(BusinessCode.FORBIDDEN);
             }
-        }else{
-            return new ResultJson(BusinessCode.FORBIDDEN);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return null;
+        return new ResultJson(BusinessCode.UNKNOWN_ERROR);
     }
 
     private ResultJson sendAndUpdate(String phone){
@@ -125,7 +130,7 @@ public class MessageServiceImpl implements MessageService {
             expireTime.setMinutes(expireTime.getMinutes() + 20);
             userInfo.setMsgExpired(expireTime);
             userInfoDao.updateUserMsgAndExpired(userInfo);
-            logger.info("MessageServiceImpl--sendAndUpdateUserInfo--result:{}",result);
+            logger.info("MessageServiceImpl--sendAndUpdateUserInfo--result:{}",JSON.toJSONString(result));
         }
         return result;
     }
