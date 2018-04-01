@@ -263,4 +263,25 @@ public class ApplyController extends BaseController {
 
         return resultJson;
     }
+
+
+    @RequestMapping("/delApplyInfoById")
+    @ResponseBody
+    public ResultJson<Boolean> delApplyInfoById(String body){
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.SUCCESS);
+        try{
+            ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
+            ApplyInfo applyInfo = new ApplyInfo();
+            BeanUtil.copyProperties(applyParam,applyInfo);
+            if (applyService.delApplyInfoById(applyInfo)>0){
+                resultJson = new ResultJson<>(BusinessCode.SUCCESS,true);
+            }else{
+                resultJson = new ResultJson<>(BusinessCode.APPLY_DELETE_ERROR);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        return resultJson;
+    }
 }

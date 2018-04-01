@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ValidateUtil {
 
     public static boolean validateParaPhone(String paraPhone){
-        String regEx = "^1[234578]\\d{9}";
+        String regEx = "^1[23456789]\\d{9}";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(paraPhone);
         return  matcher.matches();

@@ -65,4 +65,6 @@ public interface ApplyInfoDao {
     List<ApplyInfo> getApplyInfoByDataId(DataInfo dataInfo);
 
     ApplyInfo getApplyInfoById(ApplyInfo applyInfo);
+
+    Integer delApplyInfoById(ApplyInfo applyInfo);
 }

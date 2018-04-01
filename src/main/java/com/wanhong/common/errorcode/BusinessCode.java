@@ -31,6 +31,7 @@ public enum BusinessCode implements ErrorCode{
     SEND_AGINE("0020", "已经发过短信."),
     FORBIDDEN("0021", "无权访问."),
     USER_STATUS_ERROR("0022", "用户状态异常，请联系系统管理员."),
+    APPLY_DELETE_ERROR("0023", "请先同意或者拒绝后再删除该条数据."),
     ;
     private final String code;
     private final String description;

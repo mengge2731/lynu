@@ -68,4 +68,5 @@ public interface ApplyService {
      */
     ApplyInfo getApplyInfoById(ApplyInfo applyInfo);
 
+    Integer delApplyInfoById(ApplyInfo applyInfo);
 }

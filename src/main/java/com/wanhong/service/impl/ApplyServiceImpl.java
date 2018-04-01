@@ -112,4 +112,9 @@ public class ApplyServiceImpl implements ApplyService {
     public ApplyInfo getApplyInfoById(ApplyInfo applyInfo) {
         return applyInfoDao.getApplyInfoById(applyInfo);
     }
+
+    @Override
+    public Integer delApplyInfoById(ApplyInfo applyInfo) {
+        return applyInfoDao.delApplyInfoById(applyInfo);
+    }
 }

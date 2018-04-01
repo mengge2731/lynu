@@ -166,4 +166,17 @@
 		apply_id = #{applyId}
 	</select>
 
+	<update id="delApplyInfoById" parameterType="applyInfo">
+		UPDATE
+		apply_info
+		SET
+		update_time=NOW(),
+		status = 3
+		WHERE
+		apply_id=#{applyId}
+		AND
+		(status = 1 OR status =2)
+	</update>
+
+
 </mapper>
