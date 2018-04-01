@@ -1,0 +1,93 @@
+/* 样式重置  设置 */
+/* 输入框 部分 */
+.el-textarea__inner{
+  padding: 5px 10px !important;
+  color:#000;
+}
+
+.el-pager li.active {
+  color: #0c6e3d;
+}
+
+.el-input__inner:focus {
+  border-color: #0c6e3d;
+}
+
+.el-pager li:hover {
+  color: #0c6e3d;
+}
+
+.el-pagination button:hover {
+  color: #0c6e3d;
+}
+
+.el-select .el-input__inner:focus {
+  border-color: #0c6e3d;
+}
+
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #0c6e3d;
+}
+
+.el-pagination__sizes .el-input .el-input__inner:hover {
+  border-color: #0c6e3d;
+}
+
+.el-select-dropdown__item.selected {
+  color: #0c6e3d;
+}
+
+.el-textarea__inner:focus {
+  border-color: #0c6e3d;
+}
+
+
+
+
+/* button 按钮部分 */
+
+.el-button--primary {
+  color: #fff;
+  background-color: #0c6e3d;
+  border-color: #0c6e3d;
+}
+
+.el-button--primary:focus, .el-button--primary:hover {
+  background: #0c6e3d;
+  border-color: #0c6e3d;
+  color: #fff;
+}
+
+
+.el-button:hover {
+  color: #0c6e3d;
+  border-color: #0c6e3d;
+  background-color: #dceae3;
+}
+
+
+.el-button.is-plain:focus, .el-button.is-plain:hover {
+  background: #fff;
+  border-color: #0c6e3d;
+  color: #0c6e3d;
+}
+
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  color: #fff;
+  background-color: #0c6e3d;
+  border-color: #0c6e3d;
+  -webkit-box-shadow: -1px 0 0 0 #0c6e3d;
+  box-shadow: -1px 0 0 0 #0c6e3d;
+}
+
+.el-radio-button__inner:hover {
+  color: #0c6e3d;
+}
+
+
+
+/* 头部菜单 */
+.el-radio-button__inner {
+  background: rgba(255,255,255,.0);
+}

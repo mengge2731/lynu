@@ -20,7 +20,7 @@
 
         .item-left{
           float: left;
-          width: 644px;
+          width: 610px;
 
           .info-content-left {
             .info-img {
@@ -32,7 +32,7 @@
             }
 
             .info-text {
-              padding: 8px 14px;
+              padding: 8px 0 0 14px;
               float: left;
               width: 360px;
               
@@ -41,6 +41,12 @@
                 font-size: 18px;
                 font-weight: 700;
                 color: rgb(49, 49, 49);
+
+                // 省略号
+              width: 480px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
               }
               p {
                 margin-top: 12px;
@@ -197,7 +203,7 @@ export default {
         path:'agree?dataId=' + id
       });
     },
-    del(fileId,index){
+    del(dataId,index){
       let that = this;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',

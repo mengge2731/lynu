@@ -63,7 +63,7 @@
     
     <div class="user-phone clearfix">
       <div class="user-phone-text">登录手机号:</div>
-      <div>13512349999</div>
+      <div> {{userInfo.phone}} </div>
     </div>
 
     <div class="old-pw clearfix">
@@ -104,21 +104,35 @@ export default {
       newPw:'',
       newPwRepeat:'',
 
-      newPassword:''
+      newPassword:'',
+
+      userInfo:{}
     }
   },
   created(){
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
-      if(res.data.code == code.noLogin){
+
+      if(res.data.code == code.login){
+
+        // 获取用户数据
+        this.$axios.post('/user/getUserInfo')
+        .then( res => {
+          if(res.data.code == '0000'){
+            this.userInfo = res.data.data;
+          }else {
+            
+          }
+        })
+        .catch( err => console.log(err ));
+
+      }else if(res.data.code == code.noLogin){
         this.$message({
             message: '未登录',
             type: 'info'
         });
         this.$router.push({ path: '/'});
-      }else {
-        // 请求用户 信息，获取 手机号
       }
     })
   },
@@ -137,7 +151,7 @@ export default {
         return false;
       }
 
-      console.log('提交修改的密码');
+      
 
       // /function/user/changePassword
 

@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/common.css'
+import './assets/css/lynu.css'
 Vue.use(ElementUI)
 
 // 兼容ie低版本设置

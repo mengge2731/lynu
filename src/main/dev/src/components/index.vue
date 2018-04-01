@@ -4,15 +4,21 @@
     display: flex;
     flex: 1;
     
+    margin-top:10px;
     min-height: 500px;
     overflow: auto;
     overflow-y: auto;
     .info-left {
+      margin-top: 10px;
+      margin-left: 10px; 
+
       flex: 4;
       // background-color: red;
 
       .info-list {
         padding-bottom: 20px;
+
+        
 
         .info-list-item {
           padding: 10px 0;
@@ -22,6 +28,7 @@
             .info-img {
               width: 60px;
               float: left;
+
               // img {
               //   width: 100%;
               //   height: 100%;
@@ -90,22 +97,25 @@
      <!-- 这是要做成 路由的区域 -->
       <div class="info-left">
         <ul class="info-list">
-          <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
-            <div class="info-content" @click="goDetail(item.dataId)">
-              <div class="info-content-left">
-                <div class="info-img" >
-                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
-                </div> 
-                <div class="info-text">
-                  <h3>{{item.dataTitle}}</h3>
-                  <p>{{item.dataDesc}}</p>
-                </div> 
+          <li class="info-list-item clearfix" @click="goDetail(item.dataId)" v-for="(item,index) in dataList" :key="index">
+            <a href="javascript:void(0)">
+              <div class="info-content" >
+                <div class="info-content-left">
+                  <div class="info-img" >
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
+                  </div> 
+                  <div class="info-text">
+                    <h3>{{item.dataTitle}}</h3>
+                    <p>{{item.dataDesc}}</p>
+                  </div> 
+                </div>
+                <div class="info-content-right">
+                  <p>数据量: {{item.dataNum}}</p>
+                  <p>时间: {{item.createTime}}</p>
+                </div>
               </div>
-              <div class="info-content-right">
-                <p>数据量: {{item.dataNum}}</p>
-                <p>时间: {{item.createTime}}</p>
-              </div>
-            </div>
+            </a>
+            
           </li>
         </ul>
         <!-- 分页组件 -->

@@ -2,10 +2,12 @@
 <style lang="less" scoped>
 .data-con{
   width: 100%;
+  margin-top:10px;
   display: flex;
   .nav-left{
-    width: 140px;
-    // border: 2px solid red;
+    width: 120px;
+    padding: 10px;
+
     ul {
       margin-top: 10px;
       li{
@@ -24,14 +26,21 @@
          a:hover{
            display:block;
            height: 30px;
-           background-color: red;
-           color: #fff;
-           border: 1px solid red;
+           background-color: #dceae3;
+           color: #0c6e3d;
+           border: 1px solid #0c6e3d;
          }
       }
     }
   }
 
+  .active{
+    display:block;
+    height: 30px;
+    background-color: #0c6e3d;
+    color: #fff;
+    border: 1px solid #0c6e3d;
+  }
   .right-content{
     flex: 1;
     overflow: scroll;
@@ -47,24 +56,24 @@
     
     <div class="nav-left">
       <ul>
-        <li>
-          <router-link :to="{name:'info'}">个人信息</router-link>
+        <li @click="checkNav(1)">
+          <router-link :to="{name:'info'}" :class="{active: selectNav == 1 }" >个人信息</router-link>
         </li>
-        <li>
-          <router-link :to="{name:'share' }">已共享数据</router-link>
+        <li  @click="checkNav(2)">
+          <router-link :to="{name:'share' }" :class="{active: selectNav == 2 }">已共享数据</router-link>
         </li>
-        <li>
-          <router-link :to="{name:'userApply'}">已申请数据</router-link>
+        <li @click="checkNav(3)">
+          <router-link :to="{name:'userApply'}" :class="{active: selectNav == 3 }" >已申请数据</router-link>
         </li>
-        <li>
-          <router-link :to="{name:'password'}">密码修改</router-link>
+        <li  @click="checkNav(4)">
+          <router-link :to="{name:'password'}" :class="{active: selectNav == 4 }">密码修改</router-link>
         </li>
 
-        <li v-show="admin">
-          <router-link :to="{name:'infoManage'}">发布信息管理</router-link>
+        <li v-if="admin" @click="checkNav(5)">
+          <router-link :to="{name:'infoManage'}" :class="{active: selectNav == 5 }" >发布信息管理</router-link>
         </li>
-        <li v-show="admin">
-          <router-link :to="{name:'manage'}">用户管理</router-link>
+        <li v-if="admin" @click="checkNav(6)">
+          <router-link :to="{name:'manage'}" :class="{active: selectNav == 6 }" >用户管理</router-link>
         </li>
       </ul>
     </div>
@@ -83,9 +92,37 @@ export default {
   data(){
     return {
       admin: false,
+      selectNav: 1, // 默认选择个人信息
+    }
+  },
+  methods:{
+    checkNav(key){
+      console.log(key)
+      this.selectNav = key;
     }
   },
   created(){
+    // switch (this.$route.path) {
+    //   case '/user/info' :
+    //     this.selectNav = 1;
+    //     break;
+    //   case  '/market':
+    //     this.selectNav = 2;
+    //     break;
+    //   case '/center':
+    //     this.selectNav = 3;
+    //     break;
+    //   case '/center':
+    //     this.selectNav = 4;
+    //     break;
+    //   case '/center':
+    //     this.selectNav = 5;
+    //     break;
+    //   default:
+    //     this.selectNav = 6;
+    //     break;
+    // }
+
     let that = this;
     this.$axios.post('/login/isLogin')
     .then( res => {
