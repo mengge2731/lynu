@@ -106,4 +106,9 @@ public class UserServiceImpl implements UserService{
     public Integer updateUserType(UserInfo userInfo) {
         return userInfoDao.updateUserType(userInfo);
     }
+
+    @Override
+    public UserInfo getUserByPhoneAndPasswordWithOutStatus(UserInfo userInfo) {
+        return userInfoDao.getUserByPhoneAndPasswordWithOutStatus(userInfo);
+    }
 }

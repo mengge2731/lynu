@@ -59,13 +59,17 @@ public class LoginController {
         }
         UserInfo userInfoQuery = new UserInfo();
         BeanUtil.copyProperties(userParam,userInfoQuery);
-        UserInfo userInfo = userService.getUserByPhoneAndPassword(userInfoQuery);
+        UserInfo userInfo = userService.getUserByPhoneAndPasswordWithOutStatus(userInfoQuery);
         if (userInfo == null){
             return new ResultJson<>(BusinessCode.LOGIN_ERROR);
+        }else{
+            if (userInfo.getStatus()==2){
+                return new ResultJson<>(BusinessCode.USER_STATUS_ERROR);
+            }else if (userInfo.getStatus()==1){
+                return new ResultJson<>(BusinessCode.LOGIN_ERROR);
+            }
         }
-        if (userInfo.getStatus()==2){
 
-        }
         UserInfoVo userInfoVo = new UserInfoVo();
         BeanUtil.copyProperties(userInfo,userInfoVo);
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();

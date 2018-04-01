@@ -214,7 +214,7 @@ public class ApplyController extends BaseController {
             UserInfo userInfo1 = userInfoDao.getUserInfoById(userInfo);
             DataInfo dataInfoQuery = new DataInfo();
             dataInfoQuery.setDataId(applyInfoResult.getDataId());
-            DataInfo dataInfo = dataInfoDao.getDataInfoById(dataInfoQuery);
+            DataInfo dataInfo = dataInfoDao.getDataInfoOnlyById(dataInfoQuery);
             applyInfoVo.setPubUserName(userInfo1.getUserName());
             applyInfoVo.setDataTitle(dataInfo.getDataTitle());
             if ("1".equals(applyInfoVo.getStatus())){//如果回复了则将电话展示给申请者 。

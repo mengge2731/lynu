@@ -31,4 +31,6 @@ public interface UserInfoDao {
     //找回密码专用
     Integer updateUserMsgAndExpired(UserInfo userInfo);
 
+    UserInfo getUserByPhoneAndPasswordWithOutStatus(UserInfo userInfo);
+
 }

@@ -91,8 +91,6 @@
 			user_info
 		WHERE
 			user_id = #{userId}
-		AND
-			status =0
 	</select>
 
 	<!--查询患者信息-->
@@ -191,5 +189,17 @@
 		AND
 		status = 0
 	</update>
+
+	<!--查询患者信息-->
+	<select id="getUserByPhoneAndPasswordWithOutStatus" parameterType="userInfo" resultType="userInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		user_info
+		WHERE
+		phone = #{phone}
+		AND
+		password = #{password}
+	</select>
 
 </mapper>

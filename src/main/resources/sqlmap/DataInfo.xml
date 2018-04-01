@@ -116,7 +116,14 @@
 		AND
 		status = 0
 	</select>
-
+	<select id="getDataInfoOnlyById" parameterType="dataInfo" resultType="dataInfo">
+		SELECT
+		<include refid="QUERY_COLUMN_LIST"/>
+		FROM
+		data_info
+		WHERE
+		data_id = #{dataId}
+	</select>
 
 
 	<!--<select id="findMyData" parameterType="dataQuery" resultType="dataInfo">-->

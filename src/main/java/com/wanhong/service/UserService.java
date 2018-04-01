@@ -25,5 +25,6 @@ public interface UserService {
     UserInfo getUserByPhoneAndPasswordAndMsg(UserInfo userInfo);
     Integer updateUserStatus(UserInfo userInfo);
     Integer updateUserType(UserInfo userInfo);
+    UserInfo getUserByPhoneAndPasswordWithOutStatus(UserInfo userInfo);
 
 }

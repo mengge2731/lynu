@@ -30,6 +30,7 @@ public enum BusinessCode implements ErrorCode{
     FILE_UPLOAD_ERROR("0019", "保存上传的图片失败."),
     SEND_AGINE("0020", "已经发过短信."),
     FORBIDDEN("0021", "无权访问."),
+    USER_STATUS_ERROR("0022", "用户状态异常，请联系系统管理员."),
     ;
     private final String code;
     private final String description;

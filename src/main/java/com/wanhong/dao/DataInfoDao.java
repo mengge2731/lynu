@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface DataInfoDao {
     DataInfo getDataInfoById(DataInfo dataInfo);
+    DataInfo getDataInfoOnlyById(DataInfo dataInfo);
     Integer delDataInfoById(DataInfo dataInfo);
     List<DataInfo> findMyData(DataQuery dataQuery);
     Integer findMyDataCount(DataQuery dataQuery);
