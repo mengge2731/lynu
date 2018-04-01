@@ -221,7 +221,7 @@ public class LoginController {
         }else{
             UserInfo userInfoQuery = new UserInfo();
             userInfoQuery.setPhone(userParam.getPhone());
-            UserInfo userInfo = userService.getUserInfoByPhone(userInfoQuery);
+            UserInfo userInfo = userService.getFindPassUserInfoByPhone(userInfoQuery);
             if (userInfo != null){
                 if (userParam.getMessage().equals(userInfo.getMsg())){
                     if (userInfo.getMsgExpired()==null || userInfo.getMsgExpired().compareTo(new Date())<=0) {//过期

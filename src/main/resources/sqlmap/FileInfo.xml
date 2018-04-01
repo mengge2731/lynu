@@ -17,7 +17,7 @@
 		]]>
 	</sql>
 
-	<insert id="saveFileInfo" parameterType="fileInfo" useGeneratedKeys="true" keyProperty="file_id">
+	<insert id="saveFileInfo" parameterType="fileInfo" useGeneratedKeys="true" keyProperty="fileId">
 		INSERT IGNORE INTO file_info
 		(
 		file_name
