@@ -30,12 +30,13 @@
 		SELECT
 			<include refid="QUERY_COLUMN_LIST"/>
 		FROM
-			apply_info
+			apply_info a
 		WHERE
-		status !=3
+		a.status !=3
 		AND
-			apply_user_id = #{applyUserId}
-		ORDER BY create_time DESC
+			a.apply_user_id = #{applyUserId}
+		and exists (select * from data_info b where  b.data_id =a.data_id and b.status=0)
+		ORDER BY a.create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
 	</select>
 
