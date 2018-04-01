@@ -3,14 +3,16 @@
     width: 100%;
     display: flex;
     flex: 1;
-    
+    margin-top: 10px;
     min-height: 500px;
     overflow: auto;
     overflow-y: auto;
 
     .info-left {
       flex: 4;
-      // background-color: red;
+      
+      margin-left: 10px;
+      
 
       .info-nav{
         margin-top: 10px;
@@ -18,11 +20,7 @@
         line-height: 40px;
         font-size: 16px;
 
-
-
       }
-
-
 
       .info-list {
         padding: 10px 0px;
@@ -64,7 +62,7 @@
           }
           .info-content-right {
             float: left;
-            padding: 10px 40px;
+            padding: 10px 20px;
 
             border-left: 1px dashed rgb(161, 161, 161);
             p {
@@ -101,27 +99,30 @@
             <el-radio-button label="1">旅游相关</el-radio-button>
             <el-radio-button label="2">文化相关</el-radio-button>
             <el-radio-button label="3">意大利相关</el-radio-button>
+            <el-radio-button label="4">其他</el-radio-button>
           </el-radio-group>
         </div>
 
         <ul class="info-list">
           <li class="info-list-item clearfix" v-for="(item,index) in dataList" :key="index">
             <!-- <router-link :to="{ name:'marketApply', params:{fileId: item.fileId} }"> -->
-            <div class="info-content" @click="goDetail(item.dataId)">
-              <div class="info-content-left">
-                <div class="info-img" >
-                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
-                </div> 
-                <div class="info-text">
-                  <h3>{{item.dataTitle}}</h3>
-                  <p>{{item.dataDesc}}</p>
-                </div> 
+            <a href="javascript:void(0)">
+              <div class="info-content" @click="goDetail(item.dataId)">
+                <div class="info-content-left">
+                  <div class="info-img" >
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
+                  </div> 
+                  <div class="info-text">
+                    <h3>{{item.dataTitle}}</h3>
+                    <p>{{item.dataDesc}}</p>
+                  </div> 
+                </div>
+                <div class="info-content-right">
+                  <p>数据量: {{item.dataNum}}</p>
+                  <p>时间: {{item.createTime}}</p>
+                </div>
               </div>
-              <div class="info-content-right">
-                <p>数据量: {{item.dataNum}}</p>
-                <p>时间: {{item.createTime}}</p>
-              </div>
-            </div>
+            </a>
             <!-- </router-link> -->
           </li>
         </ul>

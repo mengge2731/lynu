@@ -152,7 +152,8 @@
             type="textarea"
             :rows="2"
             placeholder="请输入至少20个字"
-            v-model="otherInfo">
+            v-model="otherInfo"
+            >
           </el-input>
         </div>
         
@@ -227,6 +228,22 @@ export default {
     },
     toApply(){
       let that = this;
+      // 校验输入框
+      if(this.otherInfo == ''){
+        this.$message({
+          message: '附言内容不能为空，请重新输入',
+          type: 'info'
+        });
+
+        return false;
+      }else if(this.otherInfo.length < 20){
+        this.$message({
+          message: '请输入至少20个字',
+          type: 'info'
+        });
+
+        return false;
+      }
       // 申请这条数据
       let data = {
         dataId: parseInt(this.$route.query.dataId),  // 字符串转成数字

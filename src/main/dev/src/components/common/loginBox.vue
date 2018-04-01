@@ -84,6 +84,7 @@
         .login-check-right{
           float: right;
           color: red;
+          cursor:pointer;
         }
       }
 
@@ -98,6 +99,7 @@
         margin-top: 10px;
         span {
           color:red;
+          cursor: pointer;
         }
         
 
@@ -125,7 +127,7 @@
 
 <template>
     <!-- 遮罩层 -->
-    <div id="cover-box" v-show="loginbox.cover">
+    <div id="cover-box" v-if="loginbox.cover">
       <div class="box-cover" @click.stop="closeCover"></div>
       <!-- 登录框 -->
       <div class="login-box" v-if="loginbox.loginOrRegister">
@@ -182,7 +184,6 @@ export default {
       phoneNum:'',
       disabled: false,
       sendMsg:'获取验证码'
-      
     }
   },
   props: {
@@ -191,6 +192,19 @@ export default {
   created(){
   },
   methods:{
+    // 校验手机号
+    isPoneAvailable(phone) {  
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;  
+      if (!myreg.test(phone)) {  
+        this.$message({
+          message: '请输入正确的手机号',
+          type: 'success'
+        });
+        return false;  
+      } else {  
+        return true;  
+      }  
+    },
     clearInput(){
       this.codePhone ='';
       this.msg ='';
@@ -240,7 +254,6 @@ export default {
       let data = {phone: this.phoneNum, password: this.password };
       let todata = JSON.stringify(data)
       var dataParam = 'body='+ todata;
-
       this.$axios.post('/login/submit',dataParam)
       .then(res => {
         if(res.data.code == '0000'){
@@ -248,25 +261,33 @@ export default {
             message: '登录成功',
             type: 'success'
           });
-
           // 关闭弹窗
           that.loginbox.cover = false;
           that.loginbox.loginOrRegister = true;
           if(this.checked == 1){
-
           }else {
             this.clearInput();
           }
-          
         }else if(res.data.code == '0003' || res.data.code == '0014'){
+          // 登录信息错误
           that.$message.error('手机号或密码错误')
+        }else if(res.data.code == '0022'){
+          // 账号停用显示
+          that.$message.error('用户状态异常。请联系系统管理员')
         }
-
       })
     },
     submitRegister(){
+      // 校验用户输入的信息，手机号，不为空
+      this.isPoneAvailable(this.codePhone);
+
+
+
+
+
+
       let that =this;
-      let data = {phone: this.codePhone,message: this.msg, password: this.password };
+      let data = { phone: this.codePhone,message: this.msg, password: this.password };
       let todata = JSON.stringify(data)
       var dataParam = 'body='+ todata;
 

@@ -1,8 +1,8 @@
 <style lang="less" scoped>
 .approve-con{
-    width: 530px;
+    width: 544px;
     font-size: 14px;
-    padding: 60px 0 0 180px;
+    padding: 60px 0 0 160px;
     // border: 1px solid red;
   .approve-pub {
       font-size: 16px;
@@ -89,7 +89,8 @@
       </div>
       <div class="pub-phone">
         <div class="phone-left clearfix">注册电话:</div>
-        <div class="phone-right">{{data.pubUserPhone}}</div>
+        <div class="phone-right" v-if="data.status == '1'">{{data.pubUserPhone}}</div>
+        <div class="phone-right" v-else>审核通过后显示发布人联系方式</div>
       </div>
     </div>
     <div class="approve-title clearfix">
@@ -98,9 +99,9 @@
     </div>
     <div class="other-desc clearfix">
       <div class="desc-left">状态:</div>
-      <div class="desc-right" v-show="data.status == '0'">无</div>
-      <div class="desc-right" v-show="data.status == '1'">{{data.pubUserName}}已同意给您数据，请直接与他联系。</div>
-      <div class="desc-right" v-show="data.status == '2'">{{data.pubUserName}}已拒绝给您数据。</div>
+      <div class="desc-right" v-if="data.status == '0'">已提交，待审核。</div>
+      <div class="desc-right" v-else-if="data.status == '1'">{{data.pubUserName}}已同意给您数据，请直接与他联系。</div>
+      <div class="desc-right" v-else="data.status == '2'">{{data.pubUserName}}已拒绝给您数据。</div>
     </div>
     <div class="agree-submit clearfix">
       <el-button  class="submit-button" @click="goBack">返回</el-button>

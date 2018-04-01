@@ -15,7 +15,7 @@
 
       .item-left {
         float: left;
-        width: 764px;
+        width: 750px;
 
         .info-content-left {
           .info-img {
@@ -35,6 +35,12 @@
               font-size: 18px;
               font-weight: 700;
               color: rgb(49, 49, 49);
+
+              // 省略号
+              width: 480px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
             }
             p {
               margin-top: 12px;
@@ -79,8 +85,8 @@
 </style>
 
 <template>
-    <div>
-        <ul class="data-list">
+  <div>
+      <ul class="data-list">
         <li class="data-list-item clearfix"  v-for=" (item,index) in dataList" :key="index">
           <div class="item-container">
             <div class="item-left">
@@ -108,21 +114,19 @@
         </li>
       </ul>
 
-   
-
-    <!-- 分页组件 -->
-    <div class="page-component">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="pageSize"
-        :page-size="pageData.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        
-        :total="totalPage">
-      </el-pagination>
-    </div>
+      <!-- 分页组件 -->
+      <div class="page-component">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="pageSize"
+          :page-size="pageData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          
+          :total="totalPage">
+        </el-pagination>
+      </div>
 
   </div>
 

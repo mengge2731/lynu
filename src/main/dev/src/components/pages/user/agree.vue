@@ -30,13 +30,8 @@
       </el-table-column>
       <el-table-column
         prop="applyUserPhone"
-        label="注册电话"
+        label="申请人电话"
         width="140">
-      </el-table-column>
-      <el-table-column
-        prop="applyDesc"
-        label="申请信息"
-        width="400">
       </el-table-column>
 
       <el-table-column label="操作"  width="80">
@@ -44,7 +39,12 @@
           <el-button
             size="mini"
             @click="check(scope.row.applyId)">查看</el-button>
-          
+        </template>
+
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="delRow(scope.row.applyId)">删除</el-button>
         </template>
       </el-table-column>
   </el-table>
@@ -133,6 +133,59 @@ export default {
   methods:{
     goBack(){
       this.$router.go(-1)
+    },
+    delRow(){ //需要测试
+      let that = this;
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 发送删除请求操作
+          let data = {
+            dataId: dataId
+          }
+          let params = 'body=' + JSON.stringify(data);
+          this.$axios.post('/login/isLogin')
+          .then( res => {
+            if(res.data.code == code.login){
+              this.$axios.post('/data/',params)
+              .then( res => {
+                if(res.data.code == code.success){
+                     this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                      });
+
+                    setTimeout( function(){
+                      that.dataList.shift(index,1);
+                    },200)
+                  
+                }else {
+                  //网络异常请重试
+
+
+                }
+                  
+              })
+              .catch( err => console.log(err));
+
+            }else if(res.data.code == code.noLogin){
+              this.$message({
+                message: '未登录',
+                type: 'info'
+              });
+
+              this.$router.push({ path: '/'});
+            }
+          })
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     check(id){
       this.$router.push({

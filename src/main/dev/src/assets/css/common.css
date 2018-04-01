@@ -5,6 +5,7 @@ html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, l
 
 html, body{
   height: 100%;
+  font-family:"Microsoft Yahei", "Arial","Tahoma", "宋体";
 }
 
 /*各浏览器显示不同，去掉蓝色边框*/
@@ -22,7 +23,7 @@ ul, ol {
 input {
   padding-top: 0;
   padding-bottom: 0;
-  font-family: "SimSun", "宋体";
+ 
 }
 
 /*去掉行内替换元素空白缝隙*/
@@ -128,5 +129,9 @@ img {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+li:hover {
+  background-color: #fafafa;
 }
 

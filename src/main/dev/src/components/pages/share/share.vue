@@ -128,6 +128,8 @@
   .el-select{
     width: 100%;
   }
+
+  
 </style>
 
 <template>
@@ -233,10 +235,10 @@ export default {
           value: '2',
           label: '文化相关'
         },
-        // {
-        //   value: '4',
-        //   label: '其他'
-        // }
+        {
+          value: '4',
+          label: '其他'
+        }
         ],
         value:'',
         userInfo:{}

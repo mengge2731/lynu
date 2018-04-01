@@ -26,7 +26,6 @@
     display: flex;
     flex: 1;
     min-height: 500px;
-    // background-color: #fff;
     border-bottom: 1px dashed #ccc;
 }
 </style>

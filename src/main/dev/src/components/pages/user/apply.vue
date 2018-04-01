@@ -19,7 +19,7 @@
 
         .item-left{
           float: left;
-          width: 764px;
+          width: 740px;
 
           .info-content-left {
             .info-img {
@@ -31,7 +31,7 @@
             }
 
             .info-text {
-              padding: 8px 14px;
+              padding: 8px 0 0 14px;
               float: left;
               width: 480px;
               
@@ -40,6 +40,11 @@
                 font-size: 18px;
                 font-weight: 700;
                 color: rgb(49, 49, 49);
+                // 省略号
+                width: 480px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
               }
               p {
                 margin-top: 12px;
