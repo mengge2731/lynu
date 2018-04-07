@@ -101,7 +101,7 @@
       <div class="desc-right">{{data.applyDesc}}</div>
     </div>
     <div class="other-desc clearfix">
-      <div class="desc-left">状态:</div>
+      <div class="desc-left" v-if="data.status != '0'">状态:</div>
       <div class="desc-right" v-if="data.status == '0'"></div>
       <div class="desc-right" v-else-if="data.status == '1'">您已经同意{{data.applyUserName}}的申请</div>
       <div class="desc-right" v-else>您已经拒绝{{data.applyUserName}}的申请</div>
