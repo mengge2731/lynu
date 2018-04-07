@@ -123,6 +123,13 @@
 .mt40{
   margin-top: 40px !important;
 }
+
+.el-button--danger:hover {
+    background: #f78989;
+    border-color: #f78989;
+    color: #fff;
+}
+
 </style>
 
 <template>

@@ -146,11 +146,10 @@
       </div>
       <div class="other-desc clearfix">
         <div class="desc-left">状态:</div>
-        <div class="desc-right" v-if="dataInfoVo.status == '0'">已提交，待审核。</div>
-        <div class="desc-right" v-else-if="dataInfoVo.status == '1'">{{dataInfoVo.pubUser}}已同意给您数据，请直接与他联系。</div>
-        <div class="desc-right" v-else="dataInfoVo.status == '2'">{{dataInfoVo.pubUser}}已拒绝给您数据。</div>
-        <!-- <div class="downLoad" v-if="dataInfoVo.status == '1'"> -->
-        <div class="downLoad" v-if="dataInfoVo.status == '1'" >
+        <div class="desc-right" v-if="applyInfoVo.status == '0'">已提交，待审核。</div>
+        <div class="desc-right" v-else-if="applyInfoVo.status == '1'">{{dataInfoVo.pubUser}}已同意给您数据，请直接与他联系。</div>
+        <div class="desc-right" v-else="applyInfoVo.status == '2'">{{dataInfoVo.pubUser}}已拒绝给您数据。</div>
+        <div class="downLoad" v-if="applyInfoVo.status == '1'" >
           <a :href="`//120.27.37.129:8080/lynu/function/upload/download?fileId= + ${dataInfoVo.fileId}`" target="_blank" >{{dataInfoVo.fileName}}</a>
         </div>
       </div>
@@ -160,10 +159,8 @@
     </div>
   </div>
 </template>
-
 <script>
 import { code } from '../../../util/util'
-
 export default {
   data(){
     return {

@@ -20,34 +20,38 @@
       <el-table-column
         prop="createTime"
         label="申请日期"
-        width="100">
+        width="160">
       </el-table-column>
       <el-table-column
         prop="applyUserName"
         label="申请人"
-        width="100">
+        >
       </el-table-column>
       <el-table-column
         prop="applyUserPhone"
         label="申请人电话"
-        width="140">
+        >
       </el-table-column>
 
-      <el-table-column label="操作"  width="80">
+      <el-table-column label="操作" >
         <template slot-scope="scope">
           <el-button
             size="mini"
             @click="check(scope.row.applyId)">查看</el-button>
+
+            <el-button
+            size="mini"
+            @click="delRow(scope.row.applyId)" type="danger" v-if="scope.row.status != '0'">删除</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作"  width="80">
+      <!-- <el-table-column label="操作"  width="80">
         <template slot-scope="scope">
           <el-button
             size="mini"
             @click="delRow(scope.row.applyId)" type="danger">删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
   </el-table>
 
   <!-- 分页功能 -->
@@ -135,7 +139,7 @@ export default {
     goBack(){
       this.$router.go(-1)
     },
-    delRow(){ //需要测试
+    delRow(applyId){ //需要测试
       let that = this;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -144,27 +148,24 @@ export default {
         }).then(() => {
           // 发送删除请求操作
           let data = {
-            dataId: dataId
+            applyId: applyId
           }
           let params = 'body=' + JSON.stringify(data);
           this.$axios.post('/login/isLogin')
           .then( res => {
             if(res.data.code == code.login){
-              this.$axios.post('/data/',params)
+              this.$axios.post('/apply/delApplyInfoById',params)
               .then( res => {
                 if(res.data.code == code.success){
                      this.$message({
                         type: 'success',
                         message: '删除成功!'
                       });
-
                     setTimeout( function(){
                       that.dataList.shift(index,1);
                     },200)
-                  
                 }else {
                   //网络异常请重试
-
 
                 }
                   
