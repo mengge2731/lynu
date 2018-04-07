@@ -4,6 +4,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import java.awt.*;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,15 @@ public class AllTest {
 //        String sd2 = sdf2.format(new Date(Long.parseLong(String.valueOf(timeStamp2))));   // 时间戳转换成时间
 //        System.out.println(sd2);
 
-        jdkPBE();
+//        jdkPBE();
+
+        String str="fsjakhdsjkahfjkdshalfhdsahjfhdsalf.ds";
+        System.out.println(str.lastIndexOf("."));
+        String fileName = "";
+        fileName=str.substring(str.lastIndexOf("."),str.length());
+        //str=str.substring(0,str.lastIndexOf("f"));
+        System.out.println(str);
+
     }
 
     public static final String src = "laoyeye pbe";

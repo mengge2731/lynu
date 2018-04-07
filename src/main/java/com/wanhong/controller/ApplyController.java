@@ -2,11 +2,9 @@ package com.wanhong.controller;
 
 import com.wanhong.common.errorcode.BusinessCode;
 import com.wanhong.dao.DataInfoDao;
+import com.wanhong.dao.FileInfoDao;
 import com.wanhong.dao.UserInfoDao;
-import com.wanhong.domain.ApplyInfo;
-import com.wanhong.domain.DataInfo;
-import com.wanhong.domain.ResultJson;
-import com.wanhong.domain.UserInfo;
+import com.wanhong.domain.*;
 import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.domain.param.DataParam;
@@ -29,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.xml.crypto.Data;
 import javax.xml.ws.Action;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangmeng247
@@ -47,6 +47,8 @@ public class ApplyController extends BaseController {
     UserInfoDao userInfoDao;
     @Autowired
     DataInfoDao dataInfoDao;
+    @Autowired
+    FileInfoDao fileInfoDao;
 
 
     @RequestMapping("/getMyApplyInfoByPage")
@@ -195,8 +197,9 @@ public class ApplyController extends BaseController {
 
     @RequestMapping("/applyResult")
     @ResponseBody
-    public ResultJson<ApplyInfoVo> applyResult(String body){
-        ResultJson<ApplyInfoVo> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
+    public ResultJson<Map<String,Object>> applyResult(String body){
+        Map<String,Object> mapRes = new HashMap<>();
+        ResultJson<Map<String,Object>> resultJson = new ResultJson<>(BusinessCode.UNKNOWN_ERROR);
         try{
             ApplyParam applyParam = BusinessBodyConvertUtil.buildBusinessParam(body,ApplyParam.class);
             ApplyInfo applyInfo = new ApplyInfo();
@@ -215,17 +218,29 @@ public class ApplyController extends BaseController {
             DataInfo dataInfoQuery = new DataInfo();
             dataInfoQuery.setDataId(applyInfoResult.getDataId());
             DataInfo dataInfo = dataInfoDao.getDataInfoOnlyById(dataInfoQuery);
+
             applyInfoVo.setPubUserName(userInfo1.getUserName());
             applyInfoVo.setDataTitle(dataInfo.getDataTitle());
             if ("1".equals(applyInfoVo.getStatus())){//如果回复了则将电话展示给申请者 。
                 applyInfoVo.setPubUserPhone(userInfo1.getPhone());
+            }else{
+                dataInfo.setFileId(null);
             }
-            resultJson = new ResultJson<>(BusinessCode.SUCCESS,applyInfoVo);
+            DataInfoVo dataInfoVo = new DataInfoVo();
+            BeanUtil.copyProperties(dataInfo,dataInfoVo);
+            if (dataInfoVo.getFileId()!= null){
+                FileInfo fileInfoQuery = new FileInfo();
+                fileInfoQuery.setFileId(dataInfo.getFileId());
+                FileInfo fileInfo = fileInfoDao.getFileInfoById(fileInfoQuery);
+                dataInfoVo.setFileName(fileInfo.getFileRealName());
+            }
+            mapRes.put("applyInfoVo",applyInfoVo);
+            mapRes.put("dataInfoVo",dataInfoVo);
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,mapRes);
             logger.info("saveApplyInfo - resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return resultJson;
     }
 

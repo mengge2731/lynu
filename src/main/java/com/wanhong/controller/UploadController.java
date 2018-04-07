@@ -31,10 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author wangmeng247
@@ -65,15 +63,26 @@ public class UploadController {
             } else if (fileSize > 1024 * 1024 * 1024) {
                 resultJson = new ResultJson<>(BusinessCode.FILE_SIZE_ERROR);
             } else {
-                String realPath = request.getSession().getServletContext().getRealPath("/upload");
+//                String realPath = request.getSession().getServletContext().getRealPath("/upload");
+                String realPath = "";
+                ResourceBundle resource = ResourceBundle.getBundle("common");//
+                realPath = resource.getString("uploadFilePath");
+                logger.info("uploadFilePath = " + realPath);
+                realPath = createPath(realPath);
                 String uuid = UUID.randomUUID().toString();
-                File picFile =new File(realPath,originalFilename);
+                String fileName = "";
+                if (originalFilename.lastIndexOf(".")>=0){
+                    fileName = originalFilename.substring(originalFilename.lastIndexOf("."),originalFilename.length());
+                }
+                fileName = uuid+fileName;
+                File picFile =new File(realPath,fileName);
+
                 FileUtils.copyInputStreamToFile(uploadFile.getInputStream(),picFile);
                 ret.put("desc", "成功了。");
                 FileInfo fileInfo = new FileInfo();
                 fileInfo.setFileRealName(originalFilename);
                 fileInfo.setFilePath(picFile.getAbsolutePath());
-                fileInfo.setFileName(uuid);
+                fileInfo.setFileName(fileName);
                 fileInfo.setFileType(fileContentType);
                 fileInfo.setFileSize(fileSize);
                 Integer res = fileService.saveFileInfo(fileInfo);
@@ -92,6 +101,31 @@ public class UploadController {
         return resultJson;
     }
 
+    //根据年月日 创建上传文件目录
+    private String createPath(String basePath){
+        Calendar date=Calendar.getInstance();
+        SimpleDateFormat format1=new SimpleDateFormat( "yyyy ");
+        SimpleDateFormat format2=new SimpleDateFormat( "MM ");
+        SimpleDateFormat format3=new SimpleDateFormat( "dd ");
+        String name1=format1.format(date.getTime());
+        String name2=format2.format(date.getTime());
+        String name3=format3.format(date.getTime());
+        File file1=new File( basePath+"/"+name1);
+        File file2=new File( basePath+"/"+name1+"/"+name2);
+        File file3=new File( basePath+"/"+name1+"/"+name2+"/"+name3);
+        if (!file1.exists()){
+            file1.mkdir();
+        }
+        if (!file2.exists()){
+            file2.mkdir();
+        }
+        if (!file3.exists()){
+            file3.mkdir();
+        }
+        basePath = basePath+"/"+name1+"/"+name2+"/"+name3;
+        return basePath;
+    }
+
     @ExceptionHandler(Exception.class)
     public @ResponseBody String ExceptionHandler(Exception exceededException) {
         Map<String, Object> jsonResult = new HashMap<>();
@@ -106,25 +140,25 @@ public class UploadController {
     }
 
 
-    @RequestMapping(value="/download")
-    public ResponseEntity<byte[]> download(HttpServletRequest request,
-                                           @RequestParam("fileId") Long fileId)throws Exception {
-        FileInfo fileInfoQuery = new FileInfo();
-        fileInfoQuery.setFileId(fileId);
-        FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
-        //下载文件路径
-        String realPath = request.getSession().getServletContext().getRealPath("/upload");
-        File file = new File(realPath + File.separator + fileInfo.getFileRealName());
-        HttpHeaders headers = new HttpHeaders();
-        //下载显示的文件名，解决中文名称乱码问题
-        String downloadFielName = new String(fileInfo.getFileRealName().getBytes("UTF-8"),"iso-8859-1");
-        //通知浏览器以attachment（下载方式）打开图片
-        headers.setContentDispositionFormData("attachment", downloadFielName);
-        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
-                headers, HttpStatus.CREATED);
-    }
+//    @RequestMapping(value="/download")
+//    public ResponseEntity<byte[]> download(HttpServletRequest request,
+//                                           @RequestParam("fileId") Long fileId)throws Exception {
+//        FileInfo fileInfoQuery = new FileInfo();
+//        fileInfoQuery.setFileId(fileId);
+//        FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
+//        //下载文件路径
+//        String realPath = request.getSession().getServletContext().getRealPath("/upload");
+//        File file = new File(realPath + File.separator + fileInfo.getFileRealName());
+//        HttpHeaders headers = new HttpHeaders();
+//        //下载显示的文件名，解决中文名称乱码问题
+//        String downloadFielName = new String(fileInfo.getFileRealName().getBytes("UTF-8"),"iso-8859-1");
+//        //通知浏览器以attachment（下载方式）打开图片
+//        headers.setContentDispositionFormData("attachment", downloadFielName);
+//        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+//                headers, HttpStatus.CREATED);
+//    }
 
 
     @RequestMapping("/downLoadFile")
@@ -133,7 +167,7 @@ public class UploadController {
         FileInfo fileInfoQuery = new FileInfo();
         fileInfoQuery.setFileId(fileId);
         FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
-        String fileName = fileInfo.getFileName();
+        String fileName = fileInfo.getFileRealName();
         String filePath = fileInfo.getFilePath();
         if(logger.isDebugEnabled()){
             logger.debug("待下载文件的名称："+fileName);

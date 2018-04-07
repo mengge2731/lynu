@@ -11,6 +11,7 @@ public class DataInfoVo {
     private Long dataId;
     private Long userId;
     private Long fileId;
+    private String fileName;
     //数据title
     private String dataTitle;
     //数据量
@@ -59,6 +60,14 @@ public class DataInfoVo {
 
     public void setFileId(Long fileId) {
         this.fileId = fileId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getDataTitle() {
