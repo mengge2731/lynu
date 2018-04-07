@@ -140,90 +140,91 @@ public class UploadController {
     }
 
 
-//    @RequestMapping(value="/download")
-//    public ResponseEntity<byte[]> download(HttpServletRequest request,
-//                                           @RequestParam("fileId") Long fileId)throws Exception {
-//        FileInfo fileInfoQuery = new FileInfo();
-//        fileInfoQuery.setFileId(fileId);
-//        FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
-//        //下载文件路径
-//        String realPath = request.getSession().getServletContext().getRealPath("/upload");
-//        File file = new File(realPath + File.separator + fileInfo.getFileRealName());
-//        HttpHeaders headers = new HttpHeaders();
-//        //下载显示的文件名，解决中文名称乱码问题
-//        String downloadFielName = new String(fileInfo.getFileRealName().getBytes("UTF-8"),"iso-8859-1");
-//        //通知浏览器以attachment（下载方式）打开图片
-//        headers.setContentDispositionFormData("attachment", downloadFielName);
-//        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
-//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
-//                headers, HttpStatus.CREATED);
-//    }
-
-
-    @RequestMapping("/downLoadFile")
-    @ResponseBody
-    public void downLoadFile(Long fileId, HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value="/download")
+    public ResponseEntity<byte[]> download(HttpServletRequest request,
+                                           @RequestParam("fileId") Long fileId)throws Exception {
         FileInfo fileInfoQuery = new FileInfo();
         fileInfoQuery.setFileId(fileId);
         FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
         String fileName = fileInfo.getFileRealName();
         String filePath = fileInfo.getFilePath();
-        if(logger.isDebugEnabled()){
-            logger.debug("待下载文件的名称："+fileName);
-        }
-        BufferedInputStream bis = null;
-        BufferedOutputStream bos = null;
+        //下载文件路径
+//        String realPath = request.getSession().getServletContext().getRealPath("/upload");
+        File file = new File(filePath);
+        HttpHeaders headers = new HttpHeaders();
+        //下载显示的文件名，解决中文名称乱码问题
+        String downloadFielName = new String(fileName.getBytes("UTF-8"),"iso-8859-1");
+        //通知浏览器以attachment（下载方式）打开图片
+        headers.setContentDispositionFormData("attachment", downloadFielName);
+        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+                headers, HttpStatus.CREATED);
+    }
+
+
+    @RequestMapping("/downLoadFile")
+    @ResponseBody
+    public void downLoadFile(Long fileId, HttpServletRequest request, HttpServletResponse response){
         try{
-
+            FileInfo fileInfoQuery = new FileInfo();
+            fileInfoQuery.setFileId(fileId);
+            FileInfo fileInfo = fileService.getFileInfoById(fileInfoQuery);
+            String fileName = fileInfo.getFileRealName();
+            String filePath = fileInfo.getFilePath();
             if(logger.isDebugEnabled()){
-                logger.debug("创建输入流读取文件...");
+                logger.debug("待下载文件的名称："+fileName);
             }
-            //获取输入流
-            bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-            //获取输出流
-            if(logger.isDebugEnabled()){
-                logger.debug("创建输出流下载文件...");
-            }
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-disposition", "attachment; filename="+ new String(fileName.getBytes("utf-8"), "ISO8859-1"));
-            bos = new BufferedOutputStream(response.getOutputStream());
-
-            //定义缓冲池大小，开始读写
-            byte[] buff = new byte[2048];
-            int bytesRead;
-            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
-                bos.write(buff, 0, bytesRead);
-            }
-
-            //刷新缓冲，写出
-            bos.flush();
-            if(logger.isDebugEnabled()){
-                logger.debug("文件下载成功。");
-            }
-
-
-        }catch(Exception e){
-            logger.error("文件下载失败"+e.getMessage());
-        }finally{
-            //关闭流
-            if(bis != null){
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    logger.error("关闭输入流失败，"+e.getMessage());
-                    e.printStackTrace();
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            try{
+                if(logger.isDebugEnabled()){
+                    logger.debug("创建输入流读取文件...");
+                }
+                //获取输入流
+                bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+                //获取输出流
+                if(logger.isDebugEnabled()){
+                    logger.debug("创建输出流下载文件...");
+                }
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-disposition", "attachment; filename="+ new String(fileName.getBytes("utf-8"), "ISO8859-1"));
+                bos = new BufferedOutputStream(response.getOutputStream());
+                //定义缓冲池大小，开始读写
+                byte[] buff = new byte[2048];
+                int bytesRead;
+                while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                    bos.write(buff, 0, bytesRead);
+                }
+                //刷新缓冲，写出
+                bos.flush();
+                if(logger.isDebugEnabled()){
+                    logger.debug("文件下载成功。");
+                }
+            }catch(Exception e){
+                logger.error("文件下载失败"+e.getMessage());
+            }finally{
+                //关闭流
+                if(bis != null){
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        logger.error("关闭输入流失败，"+e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+                if(bis != null){
+                    try {
+                        bos.close();
+                    } catch (IOException e) {
+                        logger.error("关闭输出流失败，"+e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
             }
-            if(bis != null){
-                try {
-                    bos.close();
-                } catch (IOException e) {
-                    logger.error("关闭输出流失败，"+e.getMessage());
-                    e.printStackTrace();
-                }
-            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
