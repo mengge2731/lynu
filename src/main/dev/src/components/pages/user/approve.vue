@@ -100,6 +100,12 @@
       <div class="desc-left">附言:</div>
       <div class="desc-right">{{data.applyDesc}}</div>
     </div>
+    <div class="other-desc clearfix">
+      <div class="desc-left">状态:</div>
+      <div class="desc-right" v-if="data.status == '0'"></div>
+      <div class="desc-right" v-else-if="data.status == '1'">您已经同意{{data.applyUserName}}的申请</div>
+      <div class="desc-right" v-else>您已经拒绝{{data.applyUserName}}的申请</div>
+    </div>
     <div class="agree-submit clearfix">
       <el-button type="primary" class="submit-button" @click="agree">同意</el-button>
       <el-button  class="submit-button" @click="noAgree">不同意</el-button>
@@ -168,8 +174,8 @@ export default {
                 message: '已同意',
                 type: 'success'
             });
-
-            this.$router.go(-1);
+            location.reload();
+            // this.$router.go(-1);
 
             }
           })
@@ -204,8 +210,8 @@ export default {
                   message: '不同意',
                   type: 'info'
               });
-
-            this.$router.go(-1);
+            location.reload();
+            // this.$router.go(-1);
               
               
             }

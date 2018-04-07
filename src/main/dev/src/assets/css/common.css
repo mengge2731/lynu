@@ -43,7 +43,7 @@ select, input, textarea {
 /*防止拖动 影响布局*/
 textarea {
   resize: none;
-  font-family:"Microsoft Yahei", "Arial","Tahoma";
+  font-family:"Microsoft Yahei", "Arial","Tahoma" !important;
 }
 
 /*去掉行内替换元素空白缝隙*/

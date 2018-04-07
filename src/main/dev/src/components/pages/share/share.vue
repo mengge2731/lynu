@@ -232,7 +232,6 @@ export default {
       }],
       value:'',
       userInfo:{},
-
       // 上传文件
       fileList:[]
     }
