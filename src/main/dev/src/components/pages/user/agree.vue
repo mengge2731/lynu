@@ -41,17 +41,9 @@
 
             <el-button
             size="mini"
-            @click="delRow(scope.row.applyId)" type="danger" v-if="scope.row.status != '0'">删除</el-button>
+            @click="delRow(scope.row.applyId , scope.$index)" type="danger" v-if="scope.row.status != '0'">删除</el-button>
         </template>
       </el-table-column>
-
-      <!-- <el-table-column label="操作"  width="80">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="delRow(scope.row.applyId)" type="danger">删除</el-button>
-        </template>
-      </el-table-column> -->
   </el-table>
 
   <!-- 分页功能 -->
@@ -139,55 +131,56 @@ export default {
     goBack(){
       this.$router.go(-1)
     },
-    delRow(applyId){ //需要测试
+    delRow(applyId,index){ //需要测试
+      // console.log(applyId,index);
       let that = this;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 发送删除请求操作
-          let data = {
-            applyId: applyId
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送删除请求操作
+        let data = {
+          applyId: applyId
+        }
+        let params = 'body=' + JSON.stringify(data);
+        this.$axios.post('/login/isLogin')
+        .then( res => {
+          if(res.data.code == code.login){
+            this.$axios.post('/apply/delApplyInfoById',params)
+            .then( res => {
+              if(res.data.code == code.success){
+                    this.$message({
+                      type: 'success',
+                      message: '删除成功!'
+                    });
+                  setTimeout( function(){
+                    that.tableData.shift(index,1);
+                  },200)
+              }else {
+                //网络异常请重试
+
+              }
+                
+            })
+            .catch( err => console.log(err));
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+              message: '未登录',
+              type: 'info'
+            });
+
+            this.$router.push({ path: '/'});
           }
-          let params = 'body=' + JSON.stringify(data);
-          this.$axios.post('/login/isLogin')
-          .then( res => {
-            if(res.data.code == code.login){
-              this.$axios.post('/apply/delApplyInfoById',params)
-              .then( res => {
-                if(res.data.code == code.success){
-                     this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                      });
-                    setTimeout( function(){
-                      that.dataList.shift(index,1);
-                    },200)
-                }else {
-                  //网络异常请重试
-
-                }
-                  
-              })
-              .catch( err => console.log(err));
-
-            }else if(res.data.code == code.noLogin){
-              this.$message({
-                message: '未登录',
-                type: 'info'
-              });
-
-              this.$router.push({ path: '/'});
-            }
-          })
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+        })
+        
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
     },
     check(id){
       this.$router.push({
