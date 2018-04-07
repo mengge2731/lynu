@@ -73,6 +73,10 @@
     }
     .downLoad{
       margin-top: 10px;
+      
+      a {
+        text-decoration: underline;
+      }
     }
   }
   .agree-submit{
@@ -125,7 +129,7 @@
         </div>
         <div class="pub-phone">
           <div class="phone-left clearfix">注册电话:</div>
-          <div class="phone-right" v-if="dataInfoVo.status == '1'">{{applyInfoVo.pubUserPhone}}</div>
+          <div class="phone-right" v-if="applyInfoVo.status == '1'">{{applyInfoVo.pubUserPhone}}</div>
           <div class="phone-right" v-else>审核通过后显示发布人联系方式</div>
         </div>
       </div>
