@@ -5,7 +5,7 @@ html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, l
 
 html, body{
   height: 100%;
-  font-family:"Microsoft Yahei", "Arial","Tahoma", "宋体";
+  font-family:"Microsoft Yahei", "Arial","Tahoma";
 }
 
 /*各浏览器显示不同，去掉蓝色边框*/
@@ -14,10 +14,13 @@ fieldset, img, input, button {
   padding: 0;
   margin: 0;
   outline-style: none;/*设置轮廓样式*/
+
+  font-family:"Microsoft Yahei", "Arial","Tahoma";
 }
 
 ul, ol {
   list-style: none;
+  font-family:"Microsoft Yahei", "Arial","Tahoma";
 }
 
 input {
@@ -34,11 +37,13 @@ select, input {
 select, input, textarea {
   font-size: 12px;
   margin: 0;
+  font-family:"Microsoft Yahei", "Arial","Tahoma";
 }
 
 /*防止拖动 影响布局*/
 textarea {
   resize: none;
+  font-family:"Microsoft Yahei", "Arial","Tahoma";
 }
 
 /*去掉行内替换元素空白缝隙*/
