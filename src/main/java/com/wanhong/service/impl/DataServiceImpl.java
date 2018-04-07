@@ -32,6 +32,7 @@ public class DataServiceImpl implements DataService {
         dataQuery.setIndex(dataParam.getIndex());
         dataQuery.setPageSize(dataParam.getPageSize());
         List<DataInfo> dataInfoList = dataInfoDao.findDataByPage(dataQuery);
+        handleDataInfo(dataInfoList);
         Integer totalCount = dataInfoDao.getDataInfoCount();
         Page page = new Page<>(dataInfoList);
         page.setTotalItem(totalCount);
@@ -47,6 +48,7 @@ public class DataServiceImpl implements DataService {
         dataQuery.setPageSize(dataParam.getPageSize());
         dataQuery.setDataType(dataParam.getDataType());
         List<DataInfo> dataInfoList = dataInfoDao.findDataByDataTypeAndPage(dataQuery);
+        handleDataInfo(dataInfoList);
         Integer totalCount = dataInfoDao.getDataInfoTypeCount(dataQuery);
         Page page = new Page<>(dataInfoList);
         page.setTotalItem(totalCount);
@@ -82,6 +84,7 @@ public class DataServiceImpl implements DataService {
         dataQuery.setPageSize(dataParam.getPageSize());
         dataQuery.setUserId(dataParam.getUserId());
         List<DataInfo> dataInfoListPage = dataInfoDao.findMyData(dataQuery);
+        handleDataInfo(dataInfoListPage);
 //        List<DataInfo> dataInfoList = new ArrayList<>();
 //        //是否有人申请这条数据
 //        if (dataInfoListPage != null){
@@ -101,5 +104,22 @@ public class DataServiceImpl implements DataService {
         page.setIndex(dataParam.getIndex());
         page.setPageSize(dataParam.getPageSize());
         return page;
+    }
+
+    private void handleDataInfo(List<DataInfo> dataInfoList){
+        if (dataInfoList != null && dataInfoList.size()>0){
+            for (DataInfo dataInfo:dataInfoList){
+                if ("1".equals(dataInfo.getDataType())){
+                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/lvyou.jpg");
+                }else if ("2".equals(dataInfo.getDataType())){
+                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/wenhua.jpg");
+                }else if ("3".equals(dataInfo.getDataType())){
+                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/yidali.jpg");
+                }else{
+                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.jpg");
+                }
+
+            }
+        }
     }
 }
