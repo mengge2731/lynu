@@ -255,7 +255,7 @@ export default {
           }else {
             // 数据获取失败
             this.$message({
-                message: '申请数据失败，请重试',
+                message: '网络异常请刷新',
                 type: 'info'
             });
           }

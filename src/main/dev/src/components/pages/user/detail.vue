@@ -2,7 +2,7 @@
 .approve-con{
     width: 544px;
     font-size: 14px;
-    padding: 60px 0 0 160px;
+    padding: 60px 0 60px 160px;
     // border: 1px solid red;
   .approve-pub {
       font-size: 16px;
@@ -58,6 +58,12 @@
       overflow: hidden;
       white-space: nowrap;
     }
+
+    .desc-right{
+      // 省略号
+      width: 450px;
+      
+    }
   }
   .other-desc{
     margin-top: 10px;
@@ -107,7 +113,7 @@
       </div>
       <div class="approve-title clearfix">
         <div class="title-left">数据内容:</div>
-        <div class="title-right">{{dataInfoVo.pubDesc}}</div>
+        <div class="desc-right">{{dataInfoVo.pubDesc}}</div>
       </div>
       <div class="approve-info clearfix" >
         <div class="approve-user clearfix">
@@ -146,7 +152,7 @@
       </div>
       <div class="approve-title clearfix">
         <div class="title-left">申请描述:</div>
-        <div class="title-right">{{applyInfoVo.applyDesc}}</div>
+        <div class="desc-right">{{applyInfoVo.applyDesc}}</div>
       </div>
       <div class="other-desc clearfix">
         <div class="desc-left">状态:</div>

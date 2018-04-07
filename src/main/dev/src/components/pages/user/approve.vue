@@ -2,7 +2,7 @@
 .approve-con{
     width: 530px;
     font-size: 14px;
-    padding: 60px 0 0 180px;
+    padding: 60px 0 60px 180px;
     // border: 1px solid red;
   .approve-pub {
       font-size: 16px;

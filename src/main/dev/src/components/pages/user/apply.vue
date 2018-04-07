@@ -102,7 +102,7 @@
               <div class="info-content">
               <div class="info-content-left" >
                 <div class="info-img" >
-                  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517767818040&di=ad8e9ca4c1b4ec96be5b13a9665795ec&imgtype=0&src=http%3A%2F%2Fk2.jsqq.net%2Fuploads%2Fallimg%2F1703%2F7_170331144403_4.jpg" alt="">
+                  <img :src="item.imgUrl" alt="">
                 </div> 
                 <div class="info-text">
                   <h3>{{item.dataTitle}}</h3>
