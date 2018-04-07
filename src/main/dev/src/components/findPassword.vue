@@ -267,55 +267,41 @@ export default {
           }
 
           let params = 'body=' + JSON.stringify(data);
-
-          this.$axios.post('/login/isLogin')
+         
+          this.$axios.post('/login/changePassword',params)
           .then( res => {
-
-            if(res.data.code == code.login){
-              this.$axios.post('/login/changePassword',params)
-              .then( res => {
-                if(res.data.code == code.success){
-      
-                  that.$message({
-                    message: '密码修改成功,请登录',
-                    type: 'success'
-                  });
-
-                  this.$router.push('/');
-
-                }else if(res.data.code == '0009'){
-                  that.$message({
-                    message: '验证码超时，请重新获取',
-                    type: 'info'
-                  });
-                }else if(res.data.code == '0008'){
-                  that.$message({
-                    message: '验证码错误，请重新输入',
-                    type: 'info'
-                  });
-                }else if(res.data.code == '0021'){
-                  that.$message({
-                    message: '无权访问',
-                    type: 'info'
-                  });
-                }else if(res.data.code == '0003'){
-                  that.$message({
-                    message: '输入信息有误，请重新输入',
-                    type: 'info'
-                  });
-                }
-
-              })
-              .catch( err => console.log(err ));
-
-            }else if(res.data.code == code.noLogin){
-              this.$message({
-                  message: '未登录',
-                  type: 'info'
+            if(res.data.code == code.success){
+  
+              that.$message({
+                message: '密码修改成功,请登录',
+                type: 'success'
               });
-              this.$router.push({ path: '/'});
+              this.$router.push('/');
+
+            }else if(res.data.code == '0009'){
+              that.$message({
+                message: '验证码超时，请重新获取',
+                type: 'info'
+              });
+            }else if(res.data.code == '0008'){
+              that.$message({
+                message: '验证码错误，请重新输入',
+                type: 'info'
+              });
+            }else if(res.data.code == '0021'){
+              that.$message({
+                message: '无权访问',
+                type: 'info'
+              });
+            }else if(res.data.code == '0003'){
+              that.$message({
+                message: '输入信息有误，请重新输入',
+                type: 'info'
+              });
             }
+
           })
+          .catch( err => console.log(err ));
 
       }else {
 

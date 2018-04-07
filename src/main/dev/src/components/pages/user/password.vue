@@ -181,6 +181,10 @@ export default {
               
             }else {
               //网络异常请重试
+              this.$message({
+                type: 'info',
+                message: '密码修改失败，请重试！'
+              });
             }
               
           })
