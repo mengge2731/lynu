@@ -8,8 +8,11 @@
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 20px;
+      margin-top:20px;
   }
   .approve-info{
+    margin-top: 10px;
+
       .approve-user{
         float: left;
         width: 260px;
@@ -68,10 +71,8 @@
     .desc-right{
       width: 480px;
     }
-
     .downLoad{
       margin-top: 10px;
-
     }
   }
   .agree-submit{
@@ -81,7 +82,7 @@
   }
   .approve-dataInfo{
     padding-bottom: 20px;
-    border: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
   }
 }
 
@@ -104,13 +105,18 @@
         <div class="title-left">数据内容:</div>
         <div class="title-right">{{dataInfoVo.pubDesc}}</div>
       </div>
-      <div class="approve-title clearfix">
-        <div class="title-left">数据量:</div>
-        <div class="title-right">{{dataInfoVo.dataNum}}</div>
-      </div>
-      <div class="approve-title clearfix">
-        <div class="title-left">数据类型:</div>
-        <div class="title-right">{dataInfoVo.dataType == '1'? '旅游相关':  dataInfoVo.dataType == '2'? '文化相关': dataInfoVo.dataType == '3'? '意大利相关': dataInfoVo.dataType == '4'? '其他'}</div>
+      <div class="approve-info clearfix" >
+        <div class="approve-user clearfix">
+          <div class="uesr-left">数据量:</div>
+          <div class="uesr-right">{{dataInfoVo.dataNum}}</div>
+        </div>
+        <div class="pub-phone">
+          <div class="phone-left clearfix">数据类型:</div>
+          <div class="phone-right" v-if="dataInfoVo.dataType == '1'">旅游相关</div>
+          <div class="phone-right" v-else-if="dataInfoVo.dataType == '2'">文化相关</div>
+          <div class="phone-right" v-else-if="dataInfoVo.dataType == '3'">意大利相关</div>
+          <div class="phone-right" v-else>其他</div>
+        </div>
       </div>
       <div class="approve-info clearfix" >
         <div class="approve-user clearfix">
@@ -123,9 +129,7 @@
           <div class="phone-right" v-else>审核通过后显示发布人联系方式</div>
         </div>
       </div>
-      
     </div>
-    
     <div class="apply-info">
       <div class="approve-pub">
         申请信息:
@@ -134,10 +138,6 @@
         <div class="approve-user clearfix">
           <div class="uesr-left">申请人:</div>
           <div class="uesr-right">{{applyInfoVo.applyUserName}}</div>
-        </div>
-        <div class="pub-phone">
-          <div class="phone-left clearfix">注册电话:</div>
-          <div class="phone-right">{{applyInfoVo.applyUserPhone}}</div>
         </div>
       </div>
       <div class="approve-title clearfix">
@@ -150,17 +150,14 @@
         <div class="desc-right" v-else-if="dataInfoVo.status == '1'">{{dataInfoVo.pubUser}}已同意给您数据，请直接与他联系。</div>
         <div class="desc-right" v-else="dataInfoVo.status == '2'">{{dataInfoVo.pubUser}}已拒绝给您数据。</div>
         <!-- <div class="downLoad" v-if="dataInfoVo.status == '1'"> -->
-        <div class="downLoad" >
-          
-          这是数据下载的连接
-          <a href="javascript:void(0);">{{dataInfoVo.fileName}}</a>
+        <div class="downLoad" v-if="dataInfoVo.status == '1'" >
+          <a :href="`//120.27.37.129:8080/lynu/function/upload/download?fileId= + ${dataInfoVo.fileId}`" target="_blank" >{{dataInfoVo.fileName}}</a>
         </div>
       </div>
       <div class="agree-submit clearfix">
         <el-button  class="submit-button" @click="goBack">返回</el-button>
       </div>
     </div>
-    
   </div>
 </template>
 
