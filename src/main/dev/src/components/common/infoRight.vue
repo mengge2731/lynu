@@ -1,10 +1,12 @@
 <style lang="less" scoped>
 .info-right {
-  flex: 1;
   padding-left: 10px;
   padding-right: 10px;
 
-  margin-top: 10px;
+  width: 180px;
+  position: absolute;
+  top:0;
+  right: 0;
 
   .info-right-top,
   .info-right-bot {
@@ -19,11 +21,40 @@
       line-height: 50px;
     }
     ul{
+      padding-left: 40px;
       li{
+        padding-left: 34px;
+        text-align: left;
         font-size: 14px;
         height: 40px;
         line-height: 40px;
+        color: #0c6e3d;
+        background: url('../../assets/img/1.png') no-repeat center left;
       }
+      
+      
+      .regiter{
+        background-image: url('../../assets/img/8.png');
+      }
+      .apply{
+        background-image: url('../../assets/img/7.png');
+      }
+      .agree{
+        background-image: url('../../assets/img/6.png');
+      }
+      .get{
+        background-image: url('../../assets/img/5.png');
+      }
+      .login{
+        background-image: url('../../assets/img/4.png');
+      }
+      .desc{
+        background-image: url('../../assets/img/3.png');
+      }
+      .public{
+        background-image: url('../../assets/img/2.png');
+      }
+      
     }
 
   }
@@ -35,7 +66,14 @@
     
   }
 }
-
+.line{
+  // width:1px;
+  // height: 200px;
+  // border:1px dashed #0c6e3d;
+  // position:absolute;
+  // top:0;
+  // left:60px;
+}
 .el-steps--vertical{
   height:180px;
   padding-left:20px;
@@ -49,35 +87,24 @@
   <div class="info-right">
     <div class="info-right-top">
       <h3>数据获取流程</h3>
-      <!-- <ul>
-        <li @click="register">注册</li>
-        <li>申请</li>
-        <li>批准</li>
-        <li>获取</li>
-      </ul> -->
-
-      <el-steps direction="vertical" :active="4" :space="50">
-        <el-step title="注册"></el-step>
-        <el-step title="申请"></el-step>
-        <el-step title="批准"></el-step>
-        <el-step title="获取"></el-step>
-      </el-steps>
+      <ul>
+        <li class="regiter">注册账号</li>
+        <li class="apply">申请数据</li>
+        <li class="agree">等待批准</li>
+        <li class="get">获取数据</li>
+      </ul>
+      <div class="line"></div>
     </div>
     <div class="info-right-bot">
       <h3>数据共享流程</h3>
-      <!-- <ul>
-        <li @click="login">登录</li>
-        <li>描述</li>
-        <li>发布</li>
-        <li>等待获取申请</li>
-      </ul> -->
+      <ul>
+        <li class="login" >登录账号</li>
+        <li class="desc">描述数据</li>
+        <li class="public">发布数据</li>
+        <li class="hold">等待申请</li>
+      </ul>
+      <div class="line"></div>
 
-      <el-steps direction="vertical" :active="4" :space="50">
-        <el-step title="登录"></el-step>
-        <el-step title="描述"></el-step>
-        <el-step title="发布"></el-step>
-        <el-step title="等待获取申请"></el-step>
-      </el-steps>
     </div>
     
     <login-box :loginbox="loginbox"></login-box>

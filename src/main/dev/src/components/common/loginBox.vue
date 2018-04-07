@@ -45,6 +45,7 @@
       margin: 0 auto;
       transform: translateY(50%);
       box-shadow: 0px 15px 30px rgba(0,0,0,.1);
+
       
       .login-title{
         text-align: center;
