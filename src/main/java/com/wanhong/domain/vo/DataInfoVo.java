@@ -27,6 +27,7 @@ public class DataInfoVo {
     private boolean isHaveApply;
     //0--正常  1--删除
     private String status;
+    private String imgUrl;
     private Date createTime;
     private Date updateTime;
 
@@ -132,6 +133,14 @@ public class DataInfoVo {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public Date getCreateTime() {
