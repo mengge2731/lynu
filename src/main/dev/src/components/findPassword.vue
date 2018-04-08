@@ -1,7 +1,6 @@
 <style lang="less" scoped>
   .data-share-con{
-    // width: 600px;
-
+    width: 430px;
     font-size: 14px;
     padding: 80px 0 0 300px;
     .find-pub,
@@ -104,7 +103,7 @@
 </style>
 
 <template>
-  <div class="data-share-con">
+  <div class="data-share-con clearfix">
 
     <div class="find-pub">找回密码:</div>
 

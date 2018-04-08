@@ -1,19 +1,18 @@
 <style lang="less" scoped>
 .content {
     width: 100%;
-    display: flex;
-    flex: 1;
-    
     margin-top:10px;
     min-height: 500px;
     overflow: auto;
     overflow-y: auto;
-    .info-left {
-      margin-top: 10px;
-      margin-left: 10px; 
 
-      flex: 4;
-      // background-color: red;
+    position: relative;
+
+    .info-left {
+
+      padding-right: 200px;
+      margin-left: 10px; 
+      margin-bottom: 60px;
 
       .info-list {
         padding-bottom: 20px;
@@ -43,6 +42,7 @@
 
               h3 {
                 font-size: 18px;
+                height: 20px;
                 font-weight: 700;
                 color: rgb(49, 49, 49);
 
@@ -95,7 +95,7 @@
 <template>
   <div class="content">
      <!-- 这是要做成 路由的区域 -->
-      <div class="info-left">
+      <div class="info-left" v-if="dataList.length != 0">
         <ul class="info-list">
           <li class="info-list-item clearfix" @click="goDetail(item.dataId)" v-for="(item,index) in dataList" :key="index">
             <a href="javascript:void(0)">
