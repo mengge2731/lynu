@@ -101,3 +101,33 @@
   border-color: #f78989;
   color: #fff;
 }
+
+.el-button--danger.is-plain:hover {
+  background: #f56c6c;
+  border-color: #f56c6c;
+  color: #fff;
+}
+
+.el-button--primary.is-plain {
+  color: #0c6e3d;
+    border-color: #0c6e3d;
+    background-color: #dceae3;
+}
+
+.el-button--primary.is-plain:hover {
+  background: #0c6e3d;
+  border-color: #0c6e3d;
+  color: #fff;
+}
+
+.el-button--primary.is-plain.is-disabled{
+  color: #9cff8c;
+  background-color: #edffec;
+  border-color: #d9ffdb;
+}
+
+.el-button--primary.is-plain.is-disabled:hover {
+  color: #9cff8c;
+  background-color: #edffec;
+  border-color: #d9ffdb;
+}
