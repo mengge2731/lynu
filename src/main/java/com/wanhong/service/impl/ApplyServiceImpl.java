@@ -58,13 +58,13 @@ public class ApplyServiceImpl implements ApplyService {
         if (dataInfoList != null && dataInfoList.size()>0){
             for (DataInfoVo dataInfoVo: dataInfoList){
                 if ("1".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/lvyou.jpg");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/lvyou.png");
                 }else if ("2".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/wenhua.jpg");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/wenhua.png");
                 }else if ("3".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/yidali.jpg");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/yidali.png");
                 }else{
-                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.jpg");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.png");
                 }
             }
         }
