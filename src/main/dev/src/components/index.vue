@@ -1,15 +1,13 @@
 <style lang="less" scoped>
 .content {
     width: 100%;
-    margin-top:10px;
+    margin-top: 10px;
     min-height: 500px;
     overflow: auto;
     overflow-y: auto;
-
     position: relative;
 
     .info-left {
-
       padding-right: 200px;
       margin-left: 10px; 
       margin-bottom: 60px;
@@ -25,8 +23,9 @@
           border-bottom: 1px dashed #ccc;
           .info-content-left {
             .info-img {
-              width: 60px;
+              width: 40px;
               float: left;
+              // padding: 10px 0;
 
               // img {
               //   width: 100%;
@@ -35,15 +34,15 @@
             }
 
             .info-text {
-              padding: 8px 14px;
+              padding: 0 14px;
               float: left;
-              width: 466px;
+              width: 480px;
               
 
               h3 {
-                font-size: 18px;
+                font-size: 16px;
                 height: 20px;
-                font-weight: 700;
+                // font-weight: 700;
                 color: rgb(49, 49, 49);
 
                 width: 460px;
@@ -52,7 +51,7 @@
               white-space: nowrap;
               }
               p {
-                margin-top: 12px;
+                margin-top: 6px;
                 font-size: 14px;
                 color: rgb(151, 151, 151);
                 // 省略号
@@ -65,14 +64,14 @@
           }
           .info-content-right {
             float: left;
-            padding: 10px 30px;
+            padding: 0 30px;
 
             border-left: 1px dashed rgb(161, 161, 161);
             p {
               font-size: 12px;
             }
             p + p {
-              margin-top: 10px;
+              margin-top: 8px;
             }
           }
         }

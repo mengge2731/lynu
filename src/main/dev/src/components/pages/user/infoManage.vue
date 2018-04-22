@@ -19,7 +19,7 @@
 
         .info-content-left {
           .info-img {
-            width: 60px;
+            width: 40px;
             float: left;
             img {
               width: 100%;
@@ -27,13 +27,13 @@
           }
 
           .info-text {
-            padding: 8px 0 0 14px;
+            padding: 0 0 0 14px;
             float: left;
             width: 480px;
 
             h3 {
-              font-size: 18px;
-              font-weight: 700;
+              font-size: 16px;
+              // font-weight: 700;
               color: rgb(49, 49, 49);
 
               // 省略号
@@ -43,7 +43,7 @@
               white-space: nowrap;
             }
             p {
-              margin-top: 12px;
+              margin-top: 6px;
               font-size: 14px;
               color: rgb(151, 151, 151);
               // 省略号
@@ -57,21 +57,21 @@
 
         .info-content-right {
           float: left;
-          padding: 10px 0 10px 20px;
+          padding: 0 0 0 20px;
 
           border-left: 1px dashed rgb(161, 161, 161);
           p {
             font-size: 12px;
           }
           p + p {
-            margin-top: 10px;
+            margin-top: 8px;
           }
         }
       }
       // 按钮
       .item-right {
         float: right;
-        padding-top: 20px;
+        padding-top: 6px;
         padding-right: 20px;
       }
     }
