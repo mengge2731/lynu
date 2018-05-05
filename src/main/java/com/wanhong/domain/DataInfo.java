@@ -22,7 +22,8 @@ public class DataInfo {
     private String pubUser;
     //发布人简介
     private String pubDesc;
-    private boolean isHaveApply;
+    private boolean isHaveApply;//是否有人申请
+    private boolean isNormal;//是否包含未审批数据(正常数据)
     //0--正常  1--删除
     private String status;
     private String imgUrl;
@@ -107,6 +108,14 @@ public class DataInfo {
 
     public void setHaveApply(boolean haveApply) {
         isHaveApply = haveApply;
+    }
+
+    public boolean isNormal() {
+        return isNormal;
+    }
+
+    public void setNormal(boolean normal) {
+        isNormal = normal;
     }
 
     public String getStatus() {

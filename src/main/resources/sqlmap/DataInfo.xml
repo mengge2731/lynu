@@ -36,6 +36,7 @@
 			,create_time AS createTime
 			,update_time AS updateTime
 			,isHaveApply AS isHaveApply
+			,isNormal as isNormal
 		]]>
 	</sql>
 
@@ -126,23 +127,12 @@
 	</select>
 
 
-	<!--<select id="findMyData" parameterType="dataQuery" resultType="dataInfo">-->
-	<!--SELECT-->
-	<!--<include refid="QUERY_COLUMN_LIST"/>-->
-	<!--FROM-->
-	<!--data_info u-->
-	<!--WHERE-->
-	<!--status = 0-->
-	<!--AND-->
-	<!--user_id = #{userId}-->
-	<!--ORDER BY u.create_time DESC-->
-	<!--<include refid="QUERY_LIMIT_CONDTION"/>-->
-	<!--</select>-->
 	<select id="findMyData" parameterType="dataQuery" resultType="dataInfo">
 		SELECT
 		<include refid="QUERY_SPECIAL_COLUMN_LIST"/>
 		FROM
-		(select a.*,if((select count(1) from apply_info b where b.status!=3 and b.data_id = a.data_id)>0,true,false ) as isHaveApply
+		(select a.*,if((select count(1) from apply_info b where b.status!=3 and b.data_id = a.data_id)>0,true,false) as isHaveApply,
+		if((select count(1) FROM apply_info b WHERE b.STATUS=0 AND b.data_id = a.data_id)>0,true,false) AS isNormal
 		from  data_info a where a.status = 0 and a.user_id = #{userId})
 		c order by isHaveApply DESC ,create_time DESC
 		<include refid="QUERY_LIMIT_CONDTION"/>
