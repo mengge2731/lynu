@@ -95,18 +95,24 @@ public class DataController extends BaseController{
     @RequestMapping("/getDataInfo")
     @ResponseBody
     public ResultJson<DataInfo> getDataInfo(String body){
-        DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
-        DataInfo dataInfo = new DataInfo();
-        BeanUtil.copyProperties(dataParam,dataInfo);
-        dataInfo.setDataId(dataParam.getDataId());
-        DataInfo dataInfoResult =dataService.findDataInfoByDataId(dataInfo);
-        UserInfo userInfoQuery = new UserInfo();
-        userInfoQuery.setUserId(dataInfoResult.getUserId());
-        UserInfo userInfo = userService.getUserInfoById(userInfoQuery);
-        dataInfoResult.setPubUser(userInfo.getUserName());
-        dataInfoResult.setPubDesc(userInfo.getUserDesc());
-        ResultJson<DataInfo> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoResult);
-        logger.info("DataController--getDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        ResultJson<DataInfo> resultJson = new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR);
+        try{
+            DataParam dataParam = BusinessBodyConvertUtil.buildBusinessParam(body,DataParam.class);
+            DataInfo dataInfo = new DataInfo();
+            BeanUtil.copyProperties(dataParam,dataInfo);
+            dataInfo.setDataId(dataParam.getDataId());
+            DataInfo dataInfoResult =dataService.findDataInfoByDataId(dataInfo);
+            UserInfo userInfoQuery = new UserInfo();
+            userInfoQuery.setUserId(dataInfoResult.getUserId());
+            UserInfo userInfo = userService.getUserInfoById(userInfoQuery);
+            dataInfoResult.setPubUser(userInfo.getUserName());
+            dataInfoResult.setPubDesc(userInfo.getUserDesc());
+            resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoResult);
+            logger.info("DataController--getDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         return resultJson;
     }
 

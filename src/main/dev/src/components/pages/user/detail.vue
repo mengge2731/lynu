@@ -62,7 +62,7 @@
     .desc-right{
       // 省略号
       width: 450px;
-      
+
     }
   }
   .other-desc{
@@ -79,7 +79,7 @@
     }
     .downLoad{
       margin-top: 10px;
-      
+
       a {
         text-decoration: underline;
       }
@@ -160,7 +160,7 @@
         <div class="desc-right" v-else-if="applyInfoVo.status == '1'">{{dataInfoVo.pubUser}}已同意给您数据，请直接与他联系。</div>
         <div class="desc-right" v-else="applyInfoVo.status == '2'">{{dataInfoVo.pubUser}}已拒绝给您数据。</div>
         <div class="downLoad" v-if="applyInfoVo.status == '1'" >
-          <a :href="`//120.27.37.129:8080/lynu/function/upload/download?fileId= + ${dataInfoVo.fileId}`" target="_blank" >{{dataInfoVo.fileName}}</a>
+          <a :href="`//222.88.73.6:8001/lynu/function/upload/download?fileId= + ${dataInfoVo.fileId}`" target="_blank" >{{dataInfoVo.fileName}}</a>
         </div>
       </div>
       <div class="agree-submit clearfix">

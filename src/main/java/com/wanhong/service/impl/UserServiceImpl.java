@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfo getUserInfoById(UserInfo userInfo) {
-        return null;
+        return userInfoDao.getUserInfoById(userInfo);
     }
 
     @Override

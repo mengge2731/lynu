@@ -110,13 +110,13 @@ public class DataServiceImpl implements DataService {
         if (dataInfoList != null && dataInfoList.size()>0){
             for (DataInfo dataInfo:dataInfoList){
                 if ("1".equals(dataInfo.getDataType())){
-                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/lvyou.png");
+                    dataInfo.setImgUrl("//222.88.73.6:8001/lynu/img/lvyou.png");
                 }else if ("2".equals(dataInfo.getDataType())){
-                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/wenhua.png");
+                    dataInfo.setImgUrl("//222.88.73.6:8001/lynu/img/wenhua.png");
                 }else if ("3".equals(dataInfo.getDataType())){
-                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/yidali.png");
+                    dataInfo.setImgUrl("//222.88.73.6:8001/lynu/img/yidali.png");
                 }else{
-                    dataInfo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.png");
+                    dataInfo.setImgUrl("//222.88.73.6:8001/lynu/img/qita.png");
                 }
 
             }

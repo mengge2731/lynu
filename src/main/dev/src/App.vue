@@ -19,7 +19,7 @@ export default {
   }
   ,
   mounted(){
-    
+
   }
 };
 </script>
@@ -34,7 +34,7 @@ export default {
   min-width: 1000px;
   height: 100%;
   min-height: 720px;
-  background: url('//120.27.37.129:8080/lynu/img/bg-1.jpg') no-repeat center top;
+  background: url('//222.88.73.6:8001/lynu/img/bg-1.jpg') no-repeat center top;
 }
 
 </style>

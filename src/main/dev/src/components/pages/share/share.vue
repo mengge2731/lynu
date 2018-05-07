@@ -177,7 +177,7 @@
           <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
         </el-upload>
       </div>
-      
+
     </div>
 
     <div class=" user-info">
@@ -189,7 +189,7 @@
         <div class="name-right">
           {{userInfo.userName}}
         </div>
-        
+
       </div>
       <div class="user-desc clearfix">
         <div class="desc-left">发布人简介:</div>
@@ -320,7 +320,7 @@ export default {
     },
     // 上传文件
     handleRemove(file, fileList) {
-      // console.log(file);  
+      // console.log(file);
       //可以获取文件id 将服务器文件删除，这里暂时没有删除服务器文件
       // console.log('我是删除文件执行的代码');
       this.fileId = '';
@@ -335,8 +335,8 @@ export default {
       return this.$confirm(`确定移除 ${ file.name }？`);
     },
     uploadUrl(){
-      var url = 'http://120.27.37.129:8080/lynu/function' + "/upload/uploadFile";  
-      return url; 
+      var url = 'http://222.88.73.6:8001/lynu/function' + "/upload/uploadFile";
+      return url;
     },
     handleSuccess(file, fileList){
       // 获取到上传的文件信息，将fileId赋值给变量
