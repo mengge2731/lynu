@@ -240,15 +240,15 @@ public class LoginController {
         }
     }
 
-
-    @RequestMapping("/logout")
-    @ResponseBody
-    public ResultJson<Boolean> logout(HttpServletRequest request){
-
-        UserInfoVo userInfo = (UserInfoVo) request.getSession().getAttribute("userInfo");
-        if (userInfo != null){
-            request.getSession().removeAttribute("userInfo");
-        }
-        return new ResultJson<>(BusinessCode.SUCCESS,true);
-    }
+//
+//    @RequestMapping("/logout")
+//    @ResponseBody
+//    public ResultJson<Boolean> logout(HttpServletRequest request){
+//
+//        UserInfoVo userInfo = (UserInfoVo) request.getSession().getAttribute("userInfo");
+//        if (userInfo != null){
+//            request.getSession().removeAttribute("userInfo");
+//        }
+//        return new ResultJson<>(BusinessCode.SUCCESS,true);
+//    }
 }
