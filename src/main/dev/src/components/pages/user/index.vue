@@ -75,6 +75,10 @@
         <li v-if="admin" @click="checkNav(6)">
           <router-link :to="{name:'manage'}" :class="{active: selectNav == 6 }" >用户管理</router-link>
         </li>
+
+        <li  @click="loginOut">
+          <a href="javascript:void(0);">退出登录</a>
+        </li>
       </ul>
     </div>
 
@@ -99,6 +103,53 @@ export default {
     checkNav(key){
       console.log(key)
       this.selectNav = key;
+    },
+    loginOut(){
+      this.$confirm('确定要退出当前账号吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+          }).then(() => {
+            this.$axios.post('/login/isLogin')
+        .then( res => {
+          // 如果成功就去获取 用户权限 0000
+          if(res.data.code == code.login){
+            // 请求退出登陆接口
+            this.$axios.post('/login/logout')
+            .then( res => {
+              if( res.data.code == '0000'){
+                this.$message({
+                  type: 'success',
+                  message: '退出成功!'
+                });
+                this.$router.push({ path: '/'});
+              }else {
+                // 如果请求失败，提示
+                this.$message({
+                    message: '网络错误，请重试',
+                    type: 'info'
+                });
+              }
+            })
+
+          }else if(res.data.code == code.noLogin){
+            this.$message({
+                message: '未登录',
+                type: 'info'
+            });
+            this.$router.push({ path: '/'});
+          }
+        })
+
+
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出'
+          });          
+        });
+      
     }
   },
   created(){
