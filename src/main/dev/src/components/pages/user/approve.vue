@@ -78,7 +78,7 @@
 </style>
 
 <template>
-  <div class="approve-con clearfix">
+  <div class="approve-con clearfix" v-show="pageShow">
     <div class="approve-pub">
       数据获取申请:
     </div>
@@ -107,8 +107,9 @@
       <div class="desc-right" v-else>您已经拒绝{{data.applyUserName}}的申请</div>
     </div>
     <div class="agree-submit clearfix">
-      <el-button type="primary" class="submit-button" @click="agree">同意</el-button>
-      <el-button  class="submit-button" @click="noAgree">不同意</el-button>
+      <el-button  class="submit-button" @click="gobackPre" v-if="goback">返回</el-button>
+      <el-button type="primary" class="submit-button" @click="agree" v-if="agreeShow">同意</el-button>
+      <el-button type="primary" class="submit-button" @click="noAgree" v-if="noagreeShow">不同意</el-button>
     </div>
   </div>
 </template>
@@ -119,8 +120,12 @@ import { code } from '../../../util/util'
 export default {
   data(){
     return {
+      pageShow: false,
       applyId:'',
       data:{},
+      agreeShow:true,
+      noagreeShow:true,
+      goback:false
     }
   },
   created(){
@@ -140,6 +145,17 @@ export default {
         .then( res => {
           // 数据列表
           this.data = res.data.data;
+          this.pageShow = true;
+
+          if(res.data.data == 1){
+            this.noagreeShow = true;
+            this.agreeShow = false;
+            this.goback = true;
+          }else {
+            this.noagreeShow = false;
+            this.agreeShow = true;
+            this.goback = true;
+          }
         })
         .catch( err => console.log(err));
 
@@ -156,6 +172,10 @@ export default {
   },
   methods:{
     agree(){
+      this.noagreeShow = true;
+      this.agreeShow = false;
+      this.goback = true;
+
       let data = {
         applyId: this.applyId
       }
@@ -192,6 +212,10 @@ export default {
       })
     },
     noAgree(){
+      this.noagreeShow = false;
+      this.agreeShow = true;
+      this.goback = true;
+
       let data = {
         applyId: this.applyId
       }
@@ -212,8 +236,6 @@ export default {
               });
             location.reload();
             // this.$router.go(-1);
-              
-              
             }
           })
           .catch( err => console.log(err));
@@ -228,6 +250,9 @@ export default {
         }
       })
 
+    },
+    gobackPre(){
+      this.$router.go(-1);
     }
   }
 }
