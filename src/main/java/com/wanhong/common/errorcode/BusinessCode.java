@@ -32,6 +32,7 @@ public enum BusinessCode implements ErrorCode{
     FORBIDDEN("0021", "无权访问."),
     USER_STATUS_ERROR("0022", "用户状态异常，请联系系统管理员."),
     APPLY_DELETE_ERROR("0023", "请先同意或者拒绝后再删除该条数据."),
+    LOG_OUT("0024", "退出登录."),
     ;
     private final String code;
     private final String description;

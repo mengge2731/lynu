@@ -12,6 +12,7 @@ import com.wanhong.domain.common.Page;
 import com.wanhong.domain.param.ApplyParam;
 import com.wanhong.domain.vo.DataInfoVo;
 import com.wanhong.service.ApplyService;
+import com.wanhong.service.UserService;
 import com.wanhong.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,9 @@ public class ApplyServiceImpl implements ApplyService {
     ApplyInfoDao applyInfoDao;
     @Autowired
     DataInfoDao dataInfoDao;
+    @Autowired
+    UserService userService;
+
     @Override
     public Page<List<DataInfoVo>> getMyApplyInfoByPage(ApplyParam applyParam) {
         ApplyQuery applyQuery = new ApplyQuery();
@@ -66,6 +70,11 @@ public class ApplyServiceImpl implements ApplyService {
                 }else{
                     dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.png");
                 }
+                UserInfo userInfoQuery = new UserInfo();
+                userInfoQuery.setUserId(dataInfoVo.getUserId());
+                UserInfo userInfo = userService.getUserInfoById(userInfoQuery);
+                dataInfoVo.setPubUser(userInfo.getUserName());
+                dataInfoVo.setPubDesc(userInfo.getUserDesc());
             }
         }
         Page page = new Page<>(dataInfoList);

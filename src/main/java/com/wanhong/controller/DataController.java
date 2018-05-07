@@ -32,6 +32,8 @@ public class DataController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(DataController.class);
     @Autowired
     private DataService dataService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/getDataByPage")
     @ResponseBody
@@ -98,6 +100,11 @@ public class DataController extends BaseController{
         BeanUtil.copyProperties(dataParam,dataInfo);
         dataInfo.setDataId(dataParam.getDataId());
         DataInfo dataInfoResult =dataService.findDataInfoByDataId(dataInfo);
+        UserInfo userInfoQuery = new UserInfo();
+        userInfoQuery.setUserId(dataInfoResult.getUserId());
+        UserInfo userInfo = userService.getUserInfoById(userInfoQuery);
+        dataInfoResult.setPubUser(userInfo.getUserName());
+        dataInfoResult.setPubDesc(userInfo.getUserDesc());
         ResultJson<DataInfo> resultJson = new ResultJson<>(BusinessCode.SUCCESS,dataInfoResult);
         logger.info("DataController--getDataInfo--resultJson:{}", FastjsonUtil.objectToJson(resultJson));
         return resultJson;

@@ -59,7 +59,8 @@ public class SendMessageUtil {
             code+=random.nextInt(9)+1;
         }
 //        String text = "【万宏科技】您的验证码是："+code+"，该验证码20分钟内有效。";
-        String text = "【万宏科技】您的验证码是："+code;
+//        String text = "【万宏科技】您的验证码是："+code;
+        String text = "【洛阳师范数据交互】您的验证码是"+code;
         String result="";
         try {
             result = this.sendSms(apikey, text, mobile);
