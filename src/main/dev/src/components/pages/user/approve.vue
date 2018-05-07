@@ -145,17 +145,21 @@ export default {
         .then( res => {
           // 数据列表
           this.data = res.data.data;
-          this.pageShow = true;
 
-          if(res.data.data == 1){
+          if(res.data.data.status == '1'){
             this.noagreeShow = true;
             this.agreeShow = false;
             this.goback = true;
-          }else {
+          }else if(res.data.data.status == '2') {
             this.noagreeShow = false;
             this.agreeShow = true;
             this.goback = true;
           }
+
+          
+          this.pageShow = true;
+
+          
         })
         .catch( err => console.log(err));
 
