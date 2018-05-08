@@ -249,6 +249,7 @@ export default {
       })
     },
     saveInfo(){
+      var that = this;
       if(this.phone != '' && this.codePhone != '' && this.newPw != '' && this.newPwRe != '' ){
         
         if(this.newPw != this.newPwRe){
