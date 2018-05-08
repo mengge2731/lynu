@@ -113,7 +113,7 @@
       </div>
       <div class="approve-title clearfix">
         <div class="title-left">数据内容:</div>
-        <div class="desc-right">{{dataInfoVo.pubDesc}}</div>
+        <div class="desc-right">{{dataInfoVo.dataDesc}}</div>
       </div>
       <div class="approve-info clearfix" >
         <div class="approve-user clearfix">
@@ -131,7 +131,7 @@
       <div class="approve-info clearfix" >
         <div class="approve-user clearfix">
           <div class="uesr-left">发布人:</div>
-          <div class="uesr-right">{{dataInfoVo.pubUser}}</div>
+          <div class="uesr-right">{{applyInfoVo.pubUserName}}</div>
         </div>
         <div class="pub-phone">
           <div class="phone-left clearfix">注册电话:</div>
