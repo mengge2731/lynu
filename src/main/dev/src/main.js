@@ -15,7 +15,7 @@ import 'babel-polyfill'
 import Axios from 'axios'
 // Axios.defaults.baseURL = 'http://rapapi.org/mockjsdata/31586'
 
-Axios.defaults.baseURL = 'http://222.88.73.6:8001/lynu/function';
+Axios.defaults.baseURL = 'http://120.27.37.129:8080/lynu/function';
 // Axios.defaults.baseURL = 'http://localhost:8080/function';
 
 // 请求拦截器  只要解除注释就能显示/*  */

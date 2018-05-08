@@ -13,7 +13,7 @@
 <body>
 
 <script>
-    window.location.href = 'http://222.88.73.6:8001/lynu/index';
+    window.location.href = 'http://120.27.37.129:8080/lynu/index';
 </script>>
 </body>
 </html>

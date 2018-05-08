@@ -62,13 +62,13 @@ public class ApplyServiceImpl implements ApplyService {
         if (dataInfoList != null && dataInfoList.size()>0){
             for (DataInfoVo dataInfoVo: dataInfoList){
                 if ("1".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//222.88.73.6:8001/lynu/img/lvyou.png");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/lvyou.png");
                 }else if ("2".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//222.88.73.6:8001/lynu/img/wenhua.png");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/wenhua.png");
                 }else if ("3".equals(dataInfoVo.getDataType())){
-                    dataInfoVo.setImgUrl("//222.88.73.6:8001/lynu/img/yidali.png");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/yidali.png");
                 }else{
-                    dataInfoVo.setImgUrl("//222.88.73.6:8001/lynu/img/qita.png");
+                    dataInfoVo.setImgUrl("//120.27.37.129:8080/lynu/img/qita.png");
                 }
                 UserInfo userInfoQuery = new UserInfo();
                 userInfoQuery.setUserId(dataInfoVo.getUserId());
@@ -93,6 +93,15 @@ public class ApplyServiceImpl implements ApplyService {
         applyQuery.setDataId(applyParam.getDataId());
         List<ApplyInfo> applyInfoList = applyInfoDao.getThireApplyInfoByPage(applyQuery);
         Integer totalCount = applyInfoDao.getThireApplyInfoCount(applyQuery);
+        if (applyInfoList!=null && applyInfoList.size()>0){
+            for(ApplyInfo applyInfo:applyInfoList){
+                Long userId = applyInfo.getApplyUserId();
+                UserInfo userInfoQuery = new UserInfo();
+                userInfoQuery.setUserId(userId);
+                UserInfo userInfo = userService.getUserInfoById(userInfoQuery);
+                applyInfo.setApplyUserName(userInfo.getUserName());
+            }
+        }
         Page page = new Page<>(applyInfoList);
         page.setTotalItem(totalCount);
         page.setIndex(applyParam.getIndex());

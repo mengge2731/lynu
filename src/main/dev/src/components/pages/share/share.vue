@@ -335,7 +335,7 @@ export default {
       return this.$confirm(`确定移除 ${ file.name }？`);
     },
     uploadUrl(){
-      var url = 'http://222.88.73.6:8001/lynu/function' + "/upload/uploadFile";
+      var url = 'http://120.27.37.129:8080/lynu/function' + "/upload/uploadFile";
       return url;
     },
     handleSuccess(file, fileList){

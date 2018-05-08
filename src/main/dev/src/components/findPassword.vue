@@ -11,7 +11,7 @@
       margin-top: 10px;
     }
 
-    
+
     // 单独样式
     .find-pub{
       font-size: 16px;
@@ -35,7 +35,7 @@
         width: 300px;
       }
     }
-    
+
     .send-msg{
       display: flex;
       .msg-title{
@@ -88,13 +88,13 @@
         // margin-right: 8px;
       }
     }
-    
-    
+
+
     .pwd-submit{
       float: right;
       margin-top: 20px;
     }
-  
+
   }
 
   .el-select{
@@ -125,7 +125,7 @@
         </div>
         <el-button @click="phoneCode" :disabled="disabled" v-text="sendMsg" size="mini"></el-button>
     </div>
-    
+
     <div class="pwd-new clearfix">
       <div class="pwd-text">新的登录密码:</div>
       <div class="pwd-input">
@@ -175,7 +175,7 @@ export default {
   },
   methods:{
     // 获取验证码
-    phoneCode(){ 
+    phoneCode(){
 
       if(this.phone == ''){
         this.$message({
@@ -190,7 +190,7 @@ export default {
         });
         return false;
       }
-      
+
       this.disabled = true;
 
       let that =this;
@@ -251,7 +251,7 @@ export default {
     saveInfo(){
       var that = this;
       if(this.phone != '' && this.codePhone != '' && this.newPw != '' && this.newPwRe != '' ){
-        
+
         if(this.newPw != this.newPwRe){
           this.$message({
             message: '两次密码输入不一致，请重新输入',
@@ -267,11 +267,11 @@ export default {
           }
 
           let params = 'body=' + JSON.stringify(data);
-         
-          this.$axios.post('/login/changePassword',params)
+
+          this.$axios.post('/login/findMyPassword',params)
           .then( res => {
             if(res.data.code == code.success){
-  
+
               that.$message({
                 message: '密码修改成功,请登录',
                 type: 'success'

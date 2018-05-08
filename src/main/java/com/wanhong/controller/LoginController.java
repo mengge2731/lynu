@@ -251,4 +251,34 @@ public class LoginController {
 //        }
 //        return new ResultJson<>(BusinessCode.SUCCESS,true);
 //    }
+
+    @RequestMapping("/findMyPassword")
+    @ResponseBody
+    public ResultJson<Boolean> findMyPassword(String body){
+        UserParam userParam = BusinessBodyConvertUtil.buildBusinessParam(body,UserParam.class);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(userParam.getPhone());
+        userInfo.setMsg(userParam.getMessage());
+        userInfo.setPassword(userParam.getNewPassword());
+
+        if (StringUtil.hasBlank(userInfo.getPhone(),userParam.getNewPassword(),userInfo.getMsg())){
+            return new ResultJson<>(BusinessCode.ILLEGAL_ARG_ERROR,false);
+        }
+        UserInfo oldUserInfo = userService.getFindPassUserInfoByPhone(userInfo);
+        ResultJson<Boolean> resultJson = new ResultJson<>(BusinessCode.UPDATE_ERROR, false);
+        if (oldUserInfo == null){
+            return new ResultJson<>(BusinessCode.UPDATE_ERROR,false);
+        }else{
+            if (userInfo.getMsg().equals(oldUserInfo.getMsg())){
+                userInfo.setUserId(oldUserInfo.getUserId());
+                if (userService.updateUserPassword(userInfo)>0){
+                    resultJson =  new ResultJson<>(BusinessCode.SUCCESS,true);
+                }
+                logger.info("resultJson:{}", FastjsonUtil.objectToJson(resultJson));
+            }
+        }
+
+        return resultJson;
+    }
+
 }
